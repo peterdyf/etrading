@@ -8,160 +8,182 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+    <link rel="stylesheet" href="/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/select/select.min.css">
+    <link rel="stylesheet" href="/lib/datepicker/ng-bs3-datepicker.css">
     <link rel="stylesheet" href="/common.css">
-    <link rel="stylesheet" href="/select/select.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/lib/jquery.min.js"></script>
+    <script src="/lib/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://code.angularjs.org/1.6.1/angular.min.js"></script>
-    <script src="https://code.angularjs.org/1.6.1/angular-sanitize.js"></script>
+    <script src="/lib/angular.min.js"></script>
+    <script src="/lib/angular-sanitize.min.js"></script>
+    <script src="/lib/select/select.min.js"></script>
+    <script src="/lib/datepicker/ng-bs3-datepicker.js"></script>
+    <script src="/lib/numberpicker/angular-number-picker.min.js"></script>
     <script src="/common.js"></script>
-    <script src="/select/select.js"></script>
     <script src="order.js"></script>
-    <style>
-        body {
-            padding: 15px;
-        }
-
-        .select2 > .select2-choice.ui-select-match {
-            /* Because of the inclusion of Bootstrap */
-            height: 29px;
-        }
-
-        .selectize-control > .selectize-dropdown {
-            top: 36px;
-        }
-        /* Some additional styling to demonstrate that append-to-body helps achieve the proper z-index layering. */
-        .select-box {
-          background: #fff;
-          position: relative;
-          z-index: 1;
-        }
-        .alert-info.positioned {
-          margin-top: 1em;
-          position: relative;
-          z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
-        }
-    </style>
 </head>
 <body>
-<div ng-controller="orderCtrl" ng-init="refresh()">
-    <div class="widget-content">
-        <div class="form-horizontal row-border">
-            <h2>Order</h2>
-            <div id="message" class="alert alert-success">{{message}}</div>
-            <div id="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
-            <div class="form-group">
-                <div class="col-md-0">
-                    <label class="col-md-1 control-label"> Basic: </label>
-                </div>
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" id="id" ng-model="entity.id" readonly/>
-                            <span class="help-block">ID</span>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="createTime" ng-model="entity.createTime" readonly/>
-                            <span class="help-block">Create Time</span>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="updateTime" placeholder="" ng-model="entity.updateTime" readonly/>
-                            <span class="help-block">Update Time</span>
-                        </div>
+<div ng-controller="orderCtrl as c" ng-init="refresh()">
+    <div>
+        <h2>Order</h2>
+        <div id="message" class="alert alert-success">{{message}}</div>
+        <div id="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+        <div>
+            <div class="col-md-1 col-xs-7">
+                <label class="control-label"> Basic: </label>
+            </div>
+            <div class="col-md-10 col-xs-7">
+                <div class="form-group row">
+                    <div class="col-md-4 col-xs-7 form-group">
+                        <input type="text" class="form-control" ng-model="entity.id" readonly/>
+                        <span class="help-block">ID</span>
+                    </div>
+                    <div class="col-md-3 col-xs-7 form-group">
+                        <input type="text" class="form-control" ng-model="entity.createTime" readonly/>
+                        <span class="help-block">Create Time</span>
+                    </div>
+                    <div class="col-md-3 col-xs-7 form-group">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.updateTime" readonly/>
+                        <span class="help-block">Update Time</span>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-8 col-md-offset-1">
-                    <textarea rows="5" class="auto form-control" id="content" placeholder="" ng-model="entity.content"></textarea>
-                    <span class="help-block">Content</span>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary" ng-click="parse()">Parse</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <input type="text" class="form-control" id="customer" ng-model="entity.customer"/>
-                            <span class="help-block">Customer</span>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control" id="tel" ng-model="entity.tel"/>
-                            <span class="help-block">Telephone</span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="address" placeholder="" ng-model="entity.address"/>
-                            <span class="help-block">Address</span>
-                        </div>
+        </div>
+        <div>
+            <div class="col-md-10 col-xs-7 col-md-offset-1">
+                <div class="form-group row">
+                    <div class="col-md-8 col-xs-7 form-group">
+                        <textarea rows="3" class="auto form-control" placeholder="" ng-model="entity.content"></textarea>
+                        <span class="help-block">Content</span>
+                    </div>
+                    <div class="col-md-2 col-xs-7">
+                        <button class="btn btn-primary" ng-click="parse()">Parse</button>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-1">
-                    <label class="col-md-1 control-label"><button class="btn btn-success" ng-click="newItem()">Add Item</button> </label>
+        </div>
+        <div>
+            <div class="col-md-10 col-xs-7 col-md-offset-1">
+                <div class="form-group row">
+                    <div class="col-md-2 col-xs-7 form-group">
+                        <input type="text" class="form-control" ng-model="entity.customer"/>
+                        <span class="help-block">Customer</span>
+                    </div>
+                    <div class="col-md-2 col-xs-7 form-group">
+                        <input type="text" class="form-control" ng-model="entity.tel"/>
+                        <span class="help-block">Telephone</span>
+                    </div>
+                    <div class="col-md-6 col-xs-7 form-group">
+                        <input type="text" class="form-control" ng-model="entity.address"/>
+                        <span class="help-block">Address</span>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div>
+            <div class="col-md-10 col-xs-7 col-md-offset-1">
+                <div class="form-group row">
+                    <div class="col-md-2 col-xs-7 form-group">
+                        <ui-select ng-model="entity.source" theme="selectize">
+                            <ui-select-match placeholder="Select...">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="source in sources | filter: $select.search">
+                                <div ng-bind-html="source | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="help-block">Source</span>
+                    </div>
+                    <div class="col-md-2 col-xs-7 form-group">
+                        <ui-select ng-model="entity.paymentMethod" theme="selectize">
+                            <ui-select-match placeholder="Select...">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="methods in paymentMethods | filter: $select.search">
+                                <div ng-bind-html="methods | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="help-block">Payment Method</span>
+                    </div>
+                    <div class="col-md-2 col-xs-7 form-group">
+                        <div>
+                            <ng-bs3-datepicker ng-model="entity.paymentDate" language="en" date-format="YYYY-MM-DD"/>
+                        </div>
+                        <span class="help-block">Payment Date</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-7">
+            <div class="form-group row">
+                <div class="col-md-1 col-xs-2 col-md-offset-1 form-group">
+                    <input type="number" class="form-control" ng-model="entity.discount"/>
+                    <span class="help-block">Discount</span>
+                </div>
+                <div class="col-md-1 col-xs-2 form-group">
+                    <input type="text" class="form-control" ng-model="entity.totalBilling" readonly/>
+                    <span class="help-block">Total</span>
+                </div>
+                <div class="col-md-4 col-xs-9 form-group">
+                    <input type="text" class="form-control" ng-model="entity.calculator" readonly/>
+                    <span class="help-block">Calculator</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-md-12 col-xs-10 form-group row col-xs-offset-0">
+                <button class="btn btn-success" ng-click="newItem()">New Item</button>
+            </div>
+        </div>
 
-            <div class="form-group" ng-repeat="item in entity.items | orderBy:'createTime'" number-spinner-post-repeat-directive>
-                <div class="col-md-4 col-md-offset-1">
+        <div class="form-group" ng-repeat="item in entity.items | orderBy:'createTime'">
+            <div class="form-group row col-xs-10">
+                <div class="col-md-4 col-xs-4 col-md-offset-1 col-xs-offset-0">
                     <ui-select ng-model="item.inventoryId" theme="selectize">
-                        <ui-select-match placeholder="Select or search an inventory in the list...">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match placeholder="Select or search an inventory...">{{displayInventory($select.selected)}}</ui-select-match>
                         <ui-select-choices repeat="inventory.id as inventory in inventories | filter: $select.search">
                             <div ng-bind-html="inventory.name | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
-                <div class="col-md-2">
-                    <div class="input-group number-spinner">
-                                <span class="input-group-btn data-dwn">
-                                    <button class="btn btn-default btn-info" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-                                </span>
-                        <input type="text" class="form-control text-center" min="0" max="99" ng-model="item.volume">
-                        <span class="input-group-btn data-up">
-                                    <button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
-                        </span>
-                    </div>
+                <div class="col-md-1 col-xs-2">
+                    <h-number value="item.volume" min="0" max="99" step="1" change="onChanged()"/>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-1 col-xs-1">
                     <button class="btn btn-danger" ng-click="removeItem(item)">Delete</button>
                 </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <div class="col-md-1">
-                    <label class="col-md-1 control-label"> </label>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <button class="btn btn-primary" ng-click="new()">New</button>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-success" ng-click="save(entity.id)">Save</button>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-danger" ng-click="remove(entity.id)">Delete</button>
-                        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-xs-offset-0">
+                <div class="form-group row col-md-12 col-xs-6">
+                    <div class="col-md-1 col-xs-1">
+                        <button class="btn btn-primary" ng-click="new()">New</button>
+                    </div>
+                    <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
+                        <button class="btn btn-warning" ng-click="calculate()">Cal.</button>
+                    </div>
+                    <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
+                        <button class="btn btn-success" ng-click="validateAndSave()">Save</button>
+                    </div>
+                    <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
+                        <button class="btn btn-danger" ng-click="remove()">Delete</button>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-1">
-                    <label class="col-md-1 control-label"> Existing:</label>
+        </div>
+        <div class="form-group">
+            <div class="form-group row">
+                <div class="col-md-1 col-xs-12">
+                    <label class="col-md-1 col-xs-1 control-label"> Existing:</label>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-10 col-xs-4">
                     <table class="table table-striped">
                         <tr ng-repeat="entity in entities" ng-click="select(entity.id)">
-                            <td>{{entity.createTime}}</td>
-                            <td>{{entity.customer}}</td>
-                            <td>{{entity.tel}}</td>
-                            <td>{{entity.address}}</td>
+                            <td class="col-md-1 col-xs-1">{{entity.createTime}} - {{entity.customer}}</td>
                         </tr>
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

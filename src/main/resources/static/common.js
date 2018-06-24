@@ -42,14 +42,25 @@ var controllerTemplate = function ($scope, service) {
     }
 
     $scope.remove = function () {
-        service.remove($scope.entity.id).then (function success(response){
-            $scope.entity = null;
-            $scope.setMessage('Deleted!');
-            $scope.refresh();
-        },
-        function error(response) {
-            $scope.setErrorMessage('Error deleting!');
-        });
+        if ($scope.entity != null) {
+            if($scope.entity.id == null){
+                 $scope.setErrorMessage('Unsaved Form!');
+            }
+            else{
+                service.remove($scope.entity.id).then (function success(response){
+                    $scope.entity = null;
+                    $scope.setMessage('Deleted!');
+                    $scope.refresh();
+                },
+                function error(response) {
+                    $scope.setErrorMessage('Error deleting!');
+                });
+            }
+
+        }
+        else {
+            $scope.setErrorMessage('Empty form!');
+        }
     }
 
     $scope.refresh = function (id) {
@@ -78,6 +89,7 @@ var controllerTemplate = function ($scope, service) {
             $scope.message = message;
             $('#message').show();
         }
+        window.scrollTo(0, 0);
     }
 
     $scope.setErrorMessage = function (errorMessage){

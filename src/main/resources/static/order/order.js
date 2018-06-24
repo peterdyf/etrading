@@ -1,6 +1,7 @@
 'use strict';
 
-var app = angular.module('order', ['ngSanitize', 'ui.select']);
+var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker']);
+
 
 app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
@@ -13,15 +14,32 @@ app.controller('orderCtrl',
     $scope.parse = function () {
         if ($scope.entity != null && $scope.entity.content != null) {
             var content = $scope.entity.content;
-
-            var tel = parsePhone(content);
-            if(tel!=null){
-                $scope.entity.tel = tel;
+            if((content.match(/\n/g) || []).length == 2){
+                var lines = content.split("\n");
+                $scope.entity.customer = lines[0];
+                $scope.entity.tel = lines[1];
+                $scope.entity.address = lines[2];
+            }
+            else{
+                var tel = parsePhone(content);
+                if(tel!=null){
+                    $scope.entity.tel = tel;
+                }
             }
         }
         else {
             $scope.setErrorMessage('Empty content!');
         }
+    }
+
+    $scope.validateAndSave = function () {
+        if ($scope.entity != null && $scope.entity.calculator != null) {
+            if($scope.entity.calculator != $scope.getCaculator()){
+                $scope.setErrorMessage('Calculator Unmatched!');
+                return;
+            }
+        }
+        $scope.save();
     }
 
     $scope.newItem = function () {
@@ -41,75 +59,83 @@ app.controller('orderCtrl',
         $scope.entity.items.splice(index, 1);
     }
 
-    //number-spinner
-    $scope.$watch('entity.items', function() {
-         var action;
-         $(".number-spinner button").mousedown(function () {
-             btn = $(this);
-             input = btn.closest('.number-spinner').find('input');
-             btn.closest('.number-spinner').find('button').prop("disabled", false);
+    $scope.calculate = function (){
+        $scope.entity.totalBilling = $scope.getTotal();
+        $scope.entity.calculator = $scope.getCaculator();
+    }
 
-          if (btn.attr('data-dir') == 'up') {
-                 action = setInterval(function(){
-                     if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
-                         input.val(parseInt(input.val())+1);
-                     }else{
-                         btn.prop("disabled", true);
-                         clearInterval(action);
-                     }
-                 }, 50);
-          } else {
-                 action = setInterval(function(){
-                     if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
-                         input.val(parseInt(input.val())-1);
-                     }else{
-                         btn.prop("disabled", true);
-                         clearInterval(action);
-                     }
-                 }, 50);
-          }
-         }).mouseup(function(){
-             clearInterval(action);
-         });
-    });
+    $scope.getTotal = function (){
+        var total = 0;
+        if ($scope.entity != null && $scope.entity.items != null) {
+            for( var i in $scope.entity.items){
+                var item = $scope.entity.items[i];
+                if (item.inventoryId !=null){
+                    var inventory = $scope.inventories.filter(function( obj ) {
+                      return obj.id == item.inventoryId;
+                    })[0];
+                    total = total + item.volume * inventory.price;
+                }
+            }
+        }
+
+        var discount = $scope.entity.discount;
+
+        if(discount !=null && discount > 0){
+            total = total - discount;
+        }
+
+        if(total == 0) {
+            total = null;
+        }
+
+        return total;
+    }
+
+    $scope.getCaculator = function (){
+        var calculatorStr = "";
+        var total = 0;
+        if ($scope.entity != null && $scope.entity.items != null) {
+            for( var i in $scope.entity.items){
+                var item = $scope.entity.items[i];
+                if (item.inventoryId !=null){
+                    var inventory = $scope.inventories.filter(function( obj ) {
+                      return obj.id == item.inventoryId;
+                    })[0];
+                    total = total + item.volume * inventory.price;
+                    calculatorStr = calculatorStr + "("+inventory.name+") "+inventory.price + " * " + item.volume + " "
+                }
+            }
+        }
+
+        var discount = $scope.entity.discount;
+
+        if(discount !=null && discount > 0){
+            total = total - discount;
+            calculatorStr = calculatorStr + "- " + discount + " ";
+        }
+
+        if(total == 0) {
+            total = null;
+        }
+        else{
+            calculatorStr = calculatorStr + "= " + total;
+        }
+        return calculatorStr;
+    }
+
+    $scope.displayInventory = function (inventory) {
+        return inventory.name + " (" + inventory.price + "$) - " + inventory.quantity+ "";
+    }
+
+
+
+    $scope.sources = ['Facebook','Instagram','WhatsApp'];
+    $scope.paymentMethods = ['HSBC - Kiwi','BOC - Kiwi','Payme - Kiwi','Payme - Jessie'];
+    $scope.dateOptions = '{format: "YYYY-MM-DD"}';
+
 }]
 );
 
-app.directive('numberSpinnerPostRepeatDirective', function() {
-  return function(scope, element, attrs) {
-    if (scope.$last){
-        var action;
-        $(".number-spinner button").mousedown(function () {
-            var btn = $(this);
-            var input = btn.closest('.number-spinner').find('input');
-            btn.closest('.number-spinner').find('button').prop("disabled", false);
-
-            if (btn.attr('data-dir') == 'up') {
-                action = setInterval(function(){
-                    if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
-                        input.val(parseInt(input.val())+1);
-                    }else{
-                        btn.prop("disabled", true);
-                        clearInterval(action);
-                    }
-                }, 50);
-            } else {
-                action = setInterval(function(){
-                    if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
-                        input.val(parseInt(input.val())-1);
-                    }else{
-                        btn.prop("disabled", true);
-                        clearInterval(action);
-                    }
-                }, 50);
-            }
-        }).mouseup(function(){
-            clearInterval(action);
-        });
-
-    }
-  };
-})
 
 function parsePhone(content){
     var pattern = /.*(\d{4}).{0,2}(\d{4}).*/;

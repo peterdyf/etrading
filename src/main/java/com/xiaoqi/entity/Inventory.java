@@ -12,7 +12,17 @@ public class Inventory extends BaseEntity {
 
     private BigDecimal cost;
 
+    private int initQuantity;
+
     private int quantity;
+
+    public int getInitQuantity() {
+        return initQuantity;
+    }
+
+    public void setInitQuantity(int initQuantity) {
+        this.initQuantity = initQuantity;
+    }
 
     public int getQuantity() {
         return quantity;

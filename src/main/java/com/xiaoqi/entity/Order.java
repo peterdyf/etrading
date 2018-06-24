@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,18 @@ public class Order extends BaseEntity {
     private String address;
 
     private String tel;
+
+    private String source;
+
+    private String paymentMethod;
+
+    private LocalDate paymentDate;
+
+    private Integer totalBilling;
+
+    private Integer discount;
+
+    private String calculator;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "orderId")
@@ -54,6 +67,54 @@ public class Order extends BaseEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public LocalDate getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(LocalDate paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public Integer getTotalBilling() {
+        return totalBilling;
+    }
+
+    public void setTotalBilling(Integer totalBilling) {
+        this.totalBilling = totalBilling;
+    }
+
+    public String getCalculator() {
+        return calculator;
+    }
+
+    public void setCalculator(String calculator) {
+        this.calculator = calculator;
+    }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
     }
 
     public List<OrderItem> getItems() {
