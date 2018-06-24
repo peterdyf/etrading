@@ -6,10 +6,10 @@
     <title>Order</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
     <link rel="stylesheet" href="/lib/font-awesome.min.css">
     <link rel="stylesheet" href="/lib/select/select.min.css">
+    <link rel="stylesheet" href="/lib/select/selectize.default.css">
+    <link rel="stylesheet" href="/lib/select/select2.css">
     <link rel="stylesheet" href="/lib/datepicker/ng-bs3-datepicker.css">
     <link rel="stylesheet" href="/common.css">
     <script src="/lib/jquery.min.js"></script>
@@ -128,13 +128,18 @@
             </div>
         </div>
         <div>
-            <div class="col-md-12 col-xs-10 form-group row col-xs-offset-0">
-                <button class="btn btn-success" ng-click="newItem()">New Item</button>
+            <div class="row col-md-12 col-xs-10">
+                <div class="col-md-1 col-xs-2 form-group col-xs-offset-0">
+                    <button class="btn btn-success" ng-click="newItem()">New Item</button>
+                </div>
+                <div class="col-md-6 col-xs-4">
+                    <label class="control-label"> Items ({{entity.items.length}}): </label>
+                </div>
             </div>
         </div>
 
         <div class="form-group" ng-repeat="item in entity.items | orderBy:'createTime'">
-            <div class="form-group row col-xs-10">
+            <div class="form-group row col-md-12 col-xs-10">
                 <div class="col-md-4 col-xs-4 col-md-offset-1 col-xs-offset-0">
                     <ui-select ng-model="item.inventoryId" theme="selectize">
                         <ui-select-match placeholder="Select or search an inventory...">{{displayInventory($select.selected)}}</ui-select-match>
