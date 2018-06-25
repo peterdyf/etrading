@@ -1,5 +1,7 @@
 package com.xiaoqi.entity;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 
@@ -14,7 +16,8 @@ public class Inventory extends BaseEntity {
 
     private int initQuantity;
 
-    private int quantity;
+    @Formula("(select sum(o.volume) from order_item o where o.inventory_id = id)")
+    private Integer consumed;
 
     public int getInitQuantity() {
         return initQuantity;
@@ -24,12 +27,12 @@ public class Inventory extends BaseEntity {
         this.initQuantity = initQuantity;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public Integer getConsumed() {
+        return consumed;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setConsumed(Integer consumed) {
+        this.consumed = consumed;
     }
 
     public BigDecimal getPrice() {

@@ -1,7 +1,7 @@
-INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory1', 25, 100, 20 , 20, 'i1' );
-INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory2', 2.5, 10, 100, 100, 'i2' );
-INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory3', 3, 3, 10,  3, 'i3' );
-INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory4', 3, 3, 10, 3, 'i4' );
+INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory1', 25, 100, 20 , 'i1' );
+INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory2', 2.5, 10, 100, 'i2' );
+INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory3', 3, 3, 10, 'i3' );
+INSERT INTO inventory (create_time, update_time, name, cost, price, init_quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory4', 3, 3, 10, 'i4' );
 
 
 INSERT INTO orders (create_time, update_time, customer, address, tel, content, source, payment_method, payment_date, discount, total_billing, calculator, id) values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'customer1', 'address 1', '51110000',STRINGDECODE('customer1\n5111 0000\naddress 1'),'Facebook','BOC - Kiwi', null, 12, 118, '(Inventory1) 100 * 1 (Inventory2) 10 * 3 - 12 = 118', 'o1' );

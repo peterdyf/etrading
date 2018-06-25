@@ -20,6 +20,7 @@
     <script src="/lib/select/select.min.js"></script>
     <script src="/lib/datepicker/ng-bs3-datepicker.js"></script>
     <script src="/lib/numberpicker/angular-number-picker.min.js"></script>
+    <script src="/lib/confirmation/bootstrap-confirmation.min.js"></script>
     <script src="/common.js"></script>
     <script src="order.js"></script>
 </head>
@@ -142,9 +143,9 @@
             <div class="form-group row col-md-12 col-xs-10">
                 <div class="col-md-4 col-xs-4 col-md-offset-1 col-xs-offset-0">
                     <ui-select ng-model="item.inventoryId" theme="selectize">
-                        <ui-select-match placeholder="Select or search an inventory...">{{displayInventory($select.selected)}}</ui-select-match>
+                        <ui-select-match placeholder="Select or search an inventory...">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="inventory.id as inventory in inventories | filter: $select.search">
-                            <div ng-bind-html="inventory.name | highlight: $select.search"></div>
+                            <div ng-bind-html="displayInventory(inventory) | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
@@ -170,7 +171,7 @@
                         <button class="btn btn-success" ng-click="validateAndSave()">Save</button>
                     </div>
                     <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
-                        <button class="btn btn-danger" ng-click="remove()">Delete</button>
+                        <button class="btn btn-danger" data-toggle="confirmation" ng-click="remove()">Delete</button>
                     </div>
                 </div>
             </div>
@@ -188,9 +189,11 @@
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 </body>
 </html>
+<script>
+    $('[data-toggle=confirmation]').confirmation();
+</script>

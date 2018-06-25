@@ -6,56 +6,98 @@
     <title>Inventory</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/lib/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://code.angularjs.org/1.6.1/angular.min.js"></script>
+    <script src="/lib/angular.min.js"></script>
+    <script src="/lib/confirmation/bootstrap-confirmation.min.js"></script>
     <script src="/common.js"></script>
     <script src="inventory.js"></script>
 </head>
 <body>
-<div class="container">
+<div ng-controller="inventoryCtrl" ng-init="refresh()">
     <h2>Inventory</h2>
-    <div ng-controller="inventoryCtrl" ng-init="refresh()">
-        <div class="form-group">
-            <label for="id">ID:</label>
-            <input type="text" class="form-control" id="id" ng-model="entity.id" readonly/>
+    <div id="message" class="alert alert-success">{{message}}</div>
+    <div id="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+    <div>
+        <div class="col-md-10 col-xs-7">
+            <div class="form-group row">
+                <div class="col-md-4 col-xs-7 form-group">
+                    <input type="text" class="form-control" ng-model="entity.id" readonly/>
+                    <span class="help-block">ID</span>
+                </div>
+                <div class="col-md-3 col-xs-7 form-group">
+                    <input type="text" class="form-control" ng-model="entity.createTime" readonly/>
+                    <span class="help-block">Create Time</span>
+                </div>
+                <div class="col-md-3 col-xs-7 form-group">
+                    <input type="text" class="form-control" ng-model="entity.updateTime" readonly/>
+                    <span class="help-block">Update Time</span>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="createTime">Create:</label>
-            <input type="text" class="form-control" id="createTime" name="createTime"
-                   ng-model="entity.createTime" readonly/>
-        </div>
-        <div class="form-group">
-            <label for="updateTime">Update:</label>
-            <input type="text" readonly="readonly" class="form-control" id="updateTime" placeholder=""
-                   name="updateTime" ng-model="entity.updateTime" readonly/>
-        </div>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" placeholder=""
-                   name="name" ng-model="entity.name">
-        </div>
-        <div class="form-group">
-            <button class="btn btn-default" ng-click="new()">New</button>
-            <button class="btn btn-default" ng-click="save(entity.id)">Save</button>
-            <button class="btn btn-default" ng-click="remove(entity.id)">Delete</button>
-            <div id="message" class="alert alert-success" disable>{{message}}</div>
-            <div id="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
-        </div>
-
-
-        <div class="form-group">
-            <table class="table table-striped">
-                <tr ng-repeat="entity in entities" ng-click="select(entity.id)">
-                    <td>{{entity.createTime}}</td>
-                    <td>{{entity.name}}</td>
-                </tr>
-            </table>
-            <span class="help-block">Total: {{entities.length}}</span>
-        </div>
-
     </div>
+    <div>
+        <div class="col-md-10 col-xs-7">
+            <div class="form-group row">
+                <div class="col-md-10 col-xs-7 form-group">
+                    <input type="text" class="form-control" ng-model="entity.name"/>
+                    <span class="help-block">Name</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-md-10 col-xs-7">
+            <div class="form-group row">
+                <div class="col-md-4 col-xs-7 form-group">
+                    <input type="text" class="form-control" ng-model="entity.initQuantity"/>
+                    <span class="help-block">Initial Quantity</span>
+                </div>
+                <div class="col-md-3 col-xs-7 form-group">
+                    <input type="number" class="form-control" ng-model="entity.cost"/>
+                    <span class="help-block">Cost</span>
+                </div>
+                <div class="col-md-3 col-xs-7 form-group">
+                    <input type="number" class="form-control" ng-model="entity.price"/>
+                    <span class="help-block">Price</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-1 col-xs-offset-0">
+            <div class="form-group row col-md-12 col-xs-6">
+                <div class="col-md-1 col-xs-1">
+                    <button class="btn btn-primary" ng-click="new()">New</button>
+                </div>
+                <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
+                    <button class="btn btn-success" ng-click="save()">Save</button>
+                </div>
+                <div class="col-md-2 col-xs-3 col-md-offset-0 col-xs-offset-1">
+                    <button class="btn btn-danger" data-toggle="confirmation" ng-click="remove()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-group row">
+            <div class="col-md-1 col-xs-12">
+                <label class="col-md-1 col-xs-1 control-label"> Existing:</label>
+            </div>
+            <div class="col-md-10 col-xs-4">
+                <table class="table table-striped">
+                    <tr ng-repeat="entity in entities" ng-click="select(entity.id)">
+                        <td class="col-md-1 col-xs-1">{{entity.createTime}} - {{entity.name}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
+<script>
+    $('[data-toggle=confirmation]').confirmation();
+</script>
 

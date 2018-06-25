@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 var app = angular.module('inventory', []);
 app.controller('inventoryCtrl',
 ['$scope','inventoryService', function ($scope, service) {

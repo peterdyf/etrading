@@ -12,28 +12,36 @@ var controllerTemplate = function ($scope, service) {
        $scope.entity = $scope.entities.filter(function (entity){return entity.id===id;})[0];
     }
 
-    $scope.save = function () {
+    $scope.save = function (thenFunc) {
         if ($scope.entity != null) {
             if($scope.entity.id == null){
-                service.add($scope.entity)
-                   .then (function success(response){
-                       $scope.setMessage('Added!');
-                       $scope.entity = null;
-                       $scope.refresh();
-                   },
-                   function error(response){
+                service.add($scope.entity).then (
+                    function success(response){
+                               $scope.setMessage('Added!');
+                               $scope.entity = null;
+                               $scope.refresh();
+                               if(thenFunc){
+                                    thenFunc();
+                               }
+                    },
+                    function error(response){
                        $scope.setErrorMessage('Error adding!');
-                   });
+                    }
+                );
             }
             else{
-                service.update($scope.entity)
-                   .then(function success(response) {
-                       $scope.setMessage('Updated!');
-                       $scope.refresh($scope.entity.id);
-                   },
-                   function error(response) {
+                service.update($scope.entity).then(
+                    function success(response) {
+                        $scope.setMessage('Updated!');
+                        $scope.refresh($scope.entity.id);
+                        if(thenFunc){
+                            thenFunc();
+                        }
+                    },
+                    function error(response) {
                         $scope.setErrorMessage('Error updating!');
-                   });
+                    }
+                );
             }
         }
         else {

@@ -7,9 +7,11 @@ app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
     controllerTemplate($scope, orderService);
 
-    inventoryService.getAll().then(function success(response) {
-        $scope.inventories = response.data._embedded['entities'];
-    });
+    $scope.refreshInventory = function (){
+        inventoryService.getAll().then(function success(response) {
+            $scope.inventories = response.data._embedded['entities'];
+        });
+    }
 
     $scope.parse = function () {
         if ($scope.entity != null && $scope.entity.content != null) {
@@ -39,7 +41,9 @@ app.controller('orderCtrl',
                 return;
             }
         }
-        $scope.save();
+        $scope.save(function (){
+            $scope.refreshInventory();
+        });
     }
 
     $scope.newItem = function () {
@@ -124,7 +128,12 @@ app.controller('orderCtrl',
     }
 
     $scope.displayInventory = function (inventory) {
-        return inventory.name + " (" + inventory.price + "$) - " + inventory.quantity+ "";
+        if(inventory == null) return null;
+        var quantity = inventory.initQuantity;
+        if(inventory.consumed != null){
+            quantity = quantity - inventory.consumed
+        }
+        return inventory.name + " (" + inventory.price + "$) - " + quantity+ "";
     }
 
 
@@ -132,6 +141,8 @@ app.controller('orderCtrl',
     $scope.sources = ['Facebook','Instagram','WhatsApp'];
     $scope.paymentMethods = ['HSBC - Kiwi','BOC - Kiwi','Payme - Kiwi','Payme - Jessie'];
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';
+
+    $scope.refreshInventory();
 
 }]
 );
