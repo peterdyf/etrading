@@ -1,12 +1,11 @@
 package com.xiaoqi.entity;
 
-import org.hibernate.annotations.Cascade;
+import com.xiaoqi.entity.type.OrderStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "ORDERS")
@@ -29,6 +28,13 @@ public class Order extends BaseEntity {
     private Integer discount;
 
     private String calculator;
+
+    private Integer shippingFee;
+
+    private LocalDate deliveryDate;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "orderId")
@@ -124,5 +130,29 @@ public class Order extends BaseEntity {
     public void setItems(List<OrderItem> items) {
         items.forEach(item -> item.setOrderId(this.getId()));
         this.items = items;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public Integer getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(Integer shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

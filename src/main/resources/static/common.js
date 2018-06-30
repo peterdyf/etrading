@@ -1,82 +1,67 @@
 'use strict';
 
-$(document).ready(function () {
-    $('.alert').hide();
-});
-
 var controllerTemplate = function ($scope, service) {
+    $scope.isNew = function (e) {
+        return e != null && e.id == null;
+    }
+
     $scope.new = function () {
-        $scope.entity = null;
-    }
-    $scope.select = function (id) {
-       $scope.entity = $scope.entities.filter(function (entity){return entity.id===id;})[0];
+        if($scope.entities.length > 0 && $scope.entities[0].id == null){
+            $scope.entities.shift();
+        }
+        $scope.entities.unshift(new Object());
     }
 
-    $scope.save = function (thenFunc) {
-        if ($scope.entity != null) {
-            if($scope.entity.id == null){
-                service.add($scope.entity).then (
-                    function success(response){
-                               $scope.setMessage('Added!');
-                               $scope.entity = null;
-                               $scope.refresh();
-                               if(thenFunc){
-                                    thenFunc();
-                               }
-                    },
-                    function error(response){
-                       $scope.setErrorMessage('Error adding!');
-                    }
-                );
-            }
-            else{
-                service.update($scope.entity).then(
-                    function success(response) {
-                        $scope.setMessage('Updated!');
-                        $scope.refresh($scope.entity.id);
-                        if(thenFunc){
-                            thenFunc();
-                        }
-                    },
-                    function error(response) {
-                        $scope.setErrorMessage('Error updating!');
-                    }
-                );
-            }
+    $scope.save = function (entity, thenFunc, message) {
+        if(entity.id == null){
+            service.add(entity).then (
+                function success(response){
+                           if(!message){
+                            message = 'Added!';
+                           }
+                           $scope.setMessage(message);
+                           $scope.refresh();
+                           if(thenFunc){
+                                thenFunc();
+                           }
+                },
+                function error(response){
+                   $scope.setErrorMessage('Error adding!');
+                }
+            );
         }
-        else {
-            $scope.setErrorMessage('Empty form!');
-        }
-    }
-
-    $scope.remove = function () {
-        if ($scope.entity != null) {
-            if($scope.entity.id == null){
-                 $scope.setErrorMessage('Unsaved Form!');
-            }
-            else{
-                service.remove($scope.entity.id).then (function success(response){
-                    $scope.entity = null;
-                    $scope.setMessage('Deleted!');
+        else{
+            service.update(entity).then(
+                function success(response) {
+                    if(!message){
+                        message = 'Updated!';
+                    }
+                    $scope.setMessage(message);
                     $scope.refresh();
+                    if(thenFunc){
+                        thenFunc();
+                    }
                 },
                 function error(response) {
-                    $scope.setErrorMessage('Error deleting!');
-                });
-            }
-
-        }
-        else {
-            $scope.setErrorMessage('Empty form!');
+                    $scope.setErrorMessage('Error updating!');
+                }
+            );
         }
     }
 
-    $scope.refresh = function (id) {
+    $scope.remove = function (entity) {
+        service.remove(entity.id).then (function success(response){
+            $scope.setMessage('Deleted!');
+            $scope.refresh();
+        },
+        function error(response) {
+            $scope.setErrorMessage('Error deleting!');
+        });
+    }
+
+    $scope.refresh = function () {
         service.getAll().then(function success(response) {
             $scope.entities = response.data._embedded['entities'];
-            if(id!=null){
-                $scope.select(id);
-            }
         },
         function error (response) {
             $scope.setErrorMessage('Error getting!');
@@ -85,28 +70,45 @@ var controllerTemplate = function ($scope, service) {
 
     $scope.setMessage = function (message, errorMessage){
         console.log("set message " + message +":" + errorMessage);
-        $scope.message='';
-        $scope.errorMessage = '';
-        $('#message').hide();
-        $('#errorMessage').hide();
         if(errorMessage != null){
             $scope.errorMessage = errorMessage;
             $('#errorMessage').show();
+            $scope.showErrorMessage=true;
+            $scope.showMessage=false;
         }
         if(message != null){
             $scope.message = message;
             $('#message').show();
+            $scope.showMessage=true;
+            $scope.showErrorMessage=false;
         }
+        $scope.back();
+    }
+
+    $scope.back = function (){
         window.scrollTo(0, 0);
     }
 
     $scope.setErrorMessage = function (errorMessage){
         $scope.setMessage(null, errorMessage);
     }
+
+
 }
 
-var serviceTemplate = function(urlBase){
+var serviceTemplate = function(urlBase,query){
+
+    var searchURl;
+    if(query){
+        searchURl=urlBase + query;
+    }
+    else{
+        searchURl=urlBase+'?sort=createTime,desc';
+    }
+
     return ['$http', function($http) {
+
+        this.searchURl = searchURl;
 
         this.add = function add(entity) {
             return $http({
@@ -119,7 +121,7 @@ var serviceTemplate = function(urlBase){
         this.update = function update(entity) {
             return $http({
                 method : 'PUT',
-                url : urlBase + entity.id,
+                url : urlBase + "/" + entity.id,
                 data : entity
             });
         }
@@ -127,14 +129,14 @@ var serviceTemplate = function(urlBase){
         this.remove = function remove(id){
                return $http({
                    method : 'DELETE',
-                   url : urlBase + id
+                   url : urlBase + "/" + id
                });
            }
 
-        this.getAll = function getAll() {
+        this.getAll = function getAll(query) {
             return $http({
                 method : 'GET',
-                url : urlBase+'?sort=createTime,desc'
+                url : this.searchURl
             });
         }
     } ];

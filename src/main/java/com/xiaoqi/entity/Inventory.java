@@ -19,6 +19,11 @@ public class Inventory extends BaseEntity {
     @Formula("(select sum(o.volume) from order_item o where o.inventory_id = id)")
     private Integer consumed;
 
+
+    public int getQuantity() {
+        return consumed == null ? initQuantity : initQuantity - consumed;
+    }
+
     public int getInitQuantity() {
         return initQuantity;
     }

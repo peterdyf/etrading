@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/components-font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/lib/select/select.min.css">
     <link rel="stylesheet" href="/lib/select/selectize.default.css">
     <link rel="stylesheet" href="/lib/select/select2.css">
@@ -15,185 +16,185 @@
     <script src="/lib/jquery.min.js"></script>
     <script src="/lib/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/lib/angular.min.js"></script>
-    <script src="/lib/angular-sanitize.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/angular-animate/angular-animate.min.js"></script>
+    <script src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="/lib/select/select.min.js"></script>
     <script src="/lib/datepicker/ng-bs3-datepicker.js"></script>
     <script src="/lib/numberpicker/angular-number-picker.min.js"></script>
-    <script src="/lib/confirmation/bootstrap-confirmation.min.js"></script>
+    <script src="/lib/confirmation/ui-bootstrap-position.js"></script>
+    <script src="/lib/confirmation/angular-bootstrap-confirm.min.js"></script>
     <script src="/common.js"></script>
     <script src="order.js"></script>
 </head>
 <body>
+<ul class="nav nav-pills">
+    <li role="presentation"><a href="/inventory/inventory.html">Inventory</a></li>
+    <li role="presentation" class="active"><a href="/order/order.html">Order</a></li>
+    <li role="presentation"><a href="/order/delivery.html">Delivery</a></li>
+    <li role="presentation"><a href="/order/orderHistory.html">Order History</a></li>
+</ul>
 <div ng-controller="orderCtrl as c" ng-init="refresh()">
     <div>
-        <h2>Order</h2>
-        <div id="message" class="alert alert-success">{{message}}</div>
-        <div id="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
-        <div>
-            <div class="col-md-1 col-xs-7">
-                <label class="control-label"> Basic: </label>
-            </div>
-            <div class="col-md-10 col-xs-7">
-                <div class="form-group row">
-                    <div class="col-md-4 col-xs-7 form-group">
-                        <input type="text" class="form-control" ng-model="entity.id" readonly/>
-                        <span class="help-block">ID</span>
-                    </div>
-                    <div class="col-md-3 col-xs-7 form-group">
-                        <input type="text" class="form-control" ng-model="entity.createTime" readonly/>
-                        <span class="help-block">Create Time</span>
-                    </div>
-                    <div class="col-md-3 col-xs-7 form-group">
-                        <input type="text" class="form-control" placeholder="" ng-model="entity.updateTime" readonly/>
-                        <span class="help-block">Update Time</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="col-md-10 col-xs-7 col-md-offset-1">
-                <div class="form-group row">
-                    <div class="col-md-8 col-xs-7 form-group">
-                        <textarea rows="3" class="auto form-control" placeholder="" ng-model="entity.content"></textarea>
-                        <span class="help-block">Content</span>
-                    </div>
-                    <div class="col-md-2 col-xs-7">
-                        <button class="btn btn-primary" ng-click="parse()">Parse</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="col-md-10 col-xs-7 col-md-offset-1">
-                <div class="form-group row">
-                    <div class="col-md-2 col-xs-7 form-group">
-                        <input type="text" class="form-control" ng-model="entity.customer"/>
-                        <span class="help-block">Customer</span>
-                    </div>
-                    <div class="col-md-2 col-xs-7 form-group">
-                        <input type="text" class="form-control" ng-model="entity.tel"/>
-                        <span class="help-block">Telephone</span>
-                    </div>
-                    <div class="col-md-6 col-xs-7 form-group">
-                        <input type="text" class="form-control" ng-model="entity.address"/>
-                        <span class="help-block">Address</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="col-md-10 col-xs-7 col-md-offset-1">
-                <div class="form-group row">
-                    <div class="col-md-2 col-xs-7 form-group">
-                        <ui-select ng-model="entity.source" theme="selectize">
-                            <ui-select-match placeholder="Select...">{{$select.selected}}</ui-select-match>
-                            <ui-select-choices repeat="source in sources | filter: $select.search">
-                                <div ng-bind-html="source | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                        <span class="help-block">Source</span>
-                    </div>
-                    <div class="col-md-2 col-xs-7 form-group">
-                        <ui-select ng-model="entity.paymentMethod" theme="selectize">
-                            <ui-select-match placeholder="Select...">{{$select.selected}}</ui-select-match>
-                            <ui-select-choices repeat="methods in paymentMethods | filter: $select.search">
-                                <div ng-bind-html="methods | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                        <span class="help-block">Payment Method</span>
-                    </div>
-                    <div class="col-md-2 col-xs-7 form-group">
-                        <div>
-                            <ng-bs3-datepicker ng-model="entity.paymentDate" language="en" date-format="YYYY-MM-DD"/>
+        <div id="message" class="alert alert-success" ng-show="showMessage">{{message}}</div>
+        <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage">{{errorMessage}}</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Order List</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="form-group row col-md-12 col-xs-12">
+                        <div class="col-md-1 col-xs-4">
+                            <input type="text" class="form-control" placeholder="filter" ng-model="filter"/>
                         </div>
-                        <span class="help-block">Payment Date</span>
+                        <div class="col-md-1 col-xs-2">
+                            <button class="btn btn-primary" ng-click="new()">New</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-12 col-xs-7">
-            <div class="form-group row">
-                <div class="col-md-1 col-xs-2 col-md-offset-1 form-group">
-                    <input type="number" class="form-control" ng-model="entity.discount"/>
-                    <span class="help-block">Discount</span>
+                <div class="form-group">
+                    <div class="form-group row">
+                        <div class="col-md-10 col-xs-12">
+                            <uib-accordion close-others="true">
+                                <div uib-accordion-group class="panel-default" heading="{{entity.createTime}} - {{entity.customer}} - {{entity.tel}}" ng-repeat="entity in entities | filter: {name: filter }">
+                                    <div>
+                                        <div class="col-md-10 col-xs-10">
+                                            <div class="form-group row">
+                                                <div class="col-md-8 col-xs-10 form-group">
+                                                    <textarea rows="3" class="auto form-control" ng-model="entity.content"></textarea>
+                                                    <span class="help-block">Content</span>
+                                                </div>
+                                                <div class="col-md-2 col-xs-10">
+                                                    <button class="btn btn-primary" ng-click="parse(entity)">Parse</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-10 col-xs-10">
+                                            <div class="form-group row">
+                                                <div class="col-md-2 col-xs-10 form-group">
+                                                    <input type="text" class="form-control" ng-model="entity.customer"/>
+                                                    <span class="help-block">Customer</span>
+                                                </div>
+                                                <div class="col-md-2 col-xs-10 form-group">
+                                                    <input type="text" class="form-control" ng-model="entity.tel"/>
+                                                    <span class="help-block">Telephone</span>
+                                                </div>
+                                                <div class="col-md-6 col-xs-10 form-group">
+                                                    <textarea rows="3" class="auto form-control" ng-model="entity.address"></textarea>
+                                                    <span class="help-block">Address</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-10 col-xs-10">
+                                            <div class="form-group row">
+                                                <div class="col-md-2 col-xs-10 form-group">
+                                                    <ui-select ng-model="entity.source" theme="selectize">
+                                                        <ui-select-match placeholder="Select...">{{$select.selected}}</ui-select-match>
+                                                        <ui-select-choices repeat="source in sources | filter: $select.search">
+                                                            <div ng-bind-html="source | highlight: $select.search"></div>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                    <span class="help-block">Source</span>
+                                                </div>
+                                                <div class="col-md-3 col-xs-10 form-group">
+                                                    <ui-select ng-model="entity.paymentMethod" theme="selectize">
+                                                        <ui-select-match placeholder="Select...">{{$select.selected}}</ui-select-match>
+                                                        <ui-select-choices repeat="methods in paymentMethods | filter: $select.search">
+                                                            <div ng-bind-html="methods | highlight: $select.search"></div>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                    <span class="help-block">Payment Method</span>
+                                                </div>
+                                                <div class="col-md-3 col-xs-10 form-group">
+                                                    <div>
+                                                        <ng-bs3-datepicker ng-model="entity.paymentDate" language="en" date-format="YYYY-MM-DD"/>
+                                                    </div>
+                                                    <span class="help-block">Payment Date</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-10">
+                                        <div class="form-group row">
+                                            <div class="col-md-2 col-xs-4 form-group">
+                                                <input type="number" class="form-control" ng-model="entity.discount"/>
+                                                <span class="help-block">Discount</span>
+                                            </div>
+                                            <div class="col-md-2 col-xs-5 form-group">
+                                                <input type="text" class="form-control" ng-model="entity.totalBilling" readonly/>
+                                                <span class="help-block">Total</span>
+                                            </div>
+                                            <div class="col-md-4 col-xs-12 form-group">
+                                                <input type="text" class="form-control" ng-model="entity.calculator" readonly/>
+                                                <span class="help-block">Calculator</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="row col-md-12 col-xs-12">
+                                            <div class="col-md-1 col-xs-4 form-group">
+                                                <button class="btn btn-success" ng-click="newItem(entity)">New Item</button>
+                                            </div>
+                                            <div class="col-md-6 col-xs-4">
+                                                <label class="control-label"> Items ({{entity.items.length}}): </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" ng-repeat="item in entity.items | orderBy:'createTime'">
+                                        <div class="form-group row col-md-12 col-xs-18">
+                                            <div class="col-md-4 col-xs-7 col-md-offset-1 col-xs-offset-0">
+                                                <ui-select ng-model="item.inventoryId" theme="selectize">
+                                                    <ui-select-match placeholder="Select an inventory...">{{$select.selected.name}}</ui-select-match>
+                                                    <ui-select-choices repeat="inventory.id as inventory in inventories | filter: $select.search">
+                                                        <div ng-bind-html="displayInventory(inventory) | highlight: $select.search"></div>
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                            </div>
+                                            <div class="col-md-2 col-xs-3">
+                                                <h-number value="item.volume" min="0" max="99" step="1" change="onChanged()"/>
+                                            </div>
+                                            <div class="col-md-2 col-xs-1">
+                                                <button class="btn btn-danger" ng-click="removeItem(entity, item)">X</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-1 col-xs-offset-0">
+                                            <div class="form-group row col-md-12 col-xs-12">
+                                                <div class="col-md-1 col-xs-2">
+                                                    <button class="btn btn-warning" ng-click="calculate(entity)">Cal.</button>
+                                                </div>
+                                                <div class="col-md-1 col-xs-2">
+                                                    <button class="btn btn-success" ng-click="validateAndSave(entity)">Save</button>
+                                                </div>
+                                                <div class="col-md-2 col-xs-5">
+                                                    <button class="btn btn-warning" mwl-confirm on-confirm="readyToDelivery(entity)">Ready to Delivery</button>
+                                                </div>
+                                                <div class="col-md-1 col-xs-5 col-md-offset-0 col-xs-offset-4">
+                                                    <button class="btn btn-danger" mwl-confirm on-confirm="remove(entity)">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </uib-accordion>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-1 col-xs-2 form-group">
-                    <input type="text" class="form-control" ng-model="entity.totalBilling" readonly/>
-                    <span class="help-block">Total</span>
-                </div>
-                <div class="col-md-4 col-xs-9 form-group">
-                    <input type="text" class="form-control" ng-model="entity.calculator" readonly/>
-                    <span class="help-block">Calculator</span>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="row col-md-12 col-xs-10">
-                <div class="col-md-1 col-xs-2 form-group col-xs-offset-0">
-                    <button class="btn btn-success" ng-click="newItem()">New Item</button>
-                </div>
-                <div class="col-md-6 col-xs-4">
-                    <label class="control-label"> Items ({{entity.items.length}}): </label>
-                </div>
+
             </div>
         </div>
 
-        <div class="form-group" ng-repeat="item in entity.items | orderBy:'createTime'">
-            <div class="form-group row col-md-12 col-xs-10">
-                <div class="col-md-4 col-xs-4 col-md-offset-1 col-xs-offset-0">
-                    <ui-select ng-model="item.inventoryId" theme="selectize">
-                        <ui-select-match placeholder="Select or search an inventory...">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="inventory.id as inventory in inventories | filter: $select.search">
-                            <div ng-bind-html="displayInventory(inventory) | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-                <div class="col-md-1 col-xs-2">
-                    <h-number value="item.volume" min="0" max="99" step="1" change="onChanged()"/>
-                </div>
-                <div class="col-md-1 col-xs-1">
-                    <button class="btn btn-danger" ng-click="removeItem(item)">Delete</button>
-                </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-1 col-xs-offset-0">
-                <div class="form-group row col-md-12 col-xs-6">
-                    <div class="col-md-1 col-xs-1">
-                        <button class="btn btn-primary" ng-click="new()">New</button>
-                    </div>
-                    <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
-                        <button class="btn btn-warning" ng-click="calculate()">Cal.</button>
-                    </div>
-                    <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
-                        <button class="btn btn-success" ng-click="validateAndSave()">Save</button>
-                    </div>
-                    <div class="col-md-1 col-xs-1 col-md-offset-0 col-xs-offset-1">
-                        <button class="btn btn-danger" data-toggle="confirmation" ng-click="remove()">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group row">
-                <div class="col-md-1 col-xs-12">
-                    <label class="col-md-1 col-xs-1 control-label"> Existing:</label>
-                </div>
-                <div class="col-md-10 col-xs-4">
-                    <table class="table table-striped">
-                        <tr ng-repeat="entity in entities" ng-click="select(entity.id)">
-                            <td class="col-md-1 col-xs-1">{{entity.createTime}} - {{entity.customer}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </body>
 </html>
-<script>
-    $('[data-toggle=confirmation]').confirmation();
-</script>

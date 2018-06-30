@@ -1,7 +1,6 @@
 'use strict';
 
-var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker']);
-
+var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap',  'mwl.confirm']);
 
 app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
@@ -13,19 +12,19 @@ app.controller('orderCtrl',
         });
     }
 
-    $scope.parse = function () {
-        if ($scope.entity != null && $scope.entity.content != null) {
-            var content = $scope.entity.content;
+    $scope.parse = function (entity) {
+        if (entity != null && entity.content != null) {
+            var content = entity.content;
             if((content.match(/\n/g) || []).length == 2){
                 var lines = content.split("\n");
-                $scope.entity.customer = lines[0];
-                $scope.entity.tel = lines[1];
-                $scope.entity.address = lines[2];
+                entity.customer = lines[0];
+                entity.tel = lines[1];
+                entity.address = lines[2];
             }
             else{
                 var tel = parsePhone(content);
                 if(tel!=null){
-                    $scope.entity.tel = tel;
+                    entity.tel = tel;
                 }
             }
         }
@@ -34,45 +33,78 @@ app.controller('orderCtrl',
         }
     }
 
-    $scope.validateAndSave = function () {
-        if ($scope.entity != null && $scope.entity.calculator != null) {
-            if($scope.entity.calculator != $scope.getCaculator()){
+    $scope.validateCalc = function (entity) {
+        if (entity != null && entity.calculator != null) {
+            if(entity.calculator != $scope.getCaculator(entity)){
                 $scope.setErrorMessage('Calculator Unmatched!');
-                return;
+                return false;
             }
         }
-        $scope.save(function (){
-            $scope.refreshInventory();
-        });
+        return true;
     }
 
-    $scope.newItem = function () {
-        if ($scope.entity != null) {
-            if(!$scope.entity.items){
-                $scope.entity.items = [];
+    $scope.validateAndSave = function (entity) {
+        if($scope.validateCalc(entity)){
+            if(!entity.status){
+                entity.status = 'PREPARING'
             }
-            $scope.entity.items.push({volume:1});
+            $scope.save(entity, function (){
+                $scope.refreshInventory();
+            });
         }
-        else {
-            $scope.setErrorMessage('Empty Form!');
+    }
+
+    $scope.readyToDelivery = function (entity) {
+        if(entity.totalBilling == null){
+            $scope.setErrorMessage('Uncalculated Order!');
+            return false;
+        }
+        if(entity.customer == null){
+            $scope.setErrorMessage('Customer is empty!');
+            return false;
+        }
+        if(entity.tel == null){
+            $scope.setErrorMessage('Tel is empty!');
+            return false;
+        }
+        if(entity.address == null){
+            $scope.setErrorMessage('Address is empty!');
+            return false;
+        }
+        if(entity.paymentDate == null){
+            $scope.setErrorMessage('Payment Date is empty!');
+            return false;
+        }
+        entity.status = 'PENDING_DELIVERY';
+        if($scope.validateCalc(entity)){
+            $scope.save(entity, function (){
+                $scope.refreshInventory();
+            }, "Order moved to Delivery");
         }
     }
 
-    $scope.removeItem = function (item) {
-        var index = $scope.entity.items.indexOf(item);
-        $scope.entity.items.splice(index, 1);
+    $scope.newItem = function (entity) {
+        if(!entity.items){
+            entity.items = [];
+        }
+        entity.items.push({volume:1});
     }
 
-    $scope.calculate = function (){
-        $scope.entity.totalBilling = $scope.getTotal();
-        $scope.entity.calculator = $scope.getCaculator();
+    $scope.removeItem = function (entity, item) {
+        var index = entity.items.indexOf(item);
+        entity.items.splice(index, 1);
     }
 
-    $scope.getTotal = function (){
+    $scope.calculate = function (entity){
+        entity.totalBilling = $scope.getTotal(entity);
+        entity.calculator = $scope.getCaculator(entity);
+    }
+
+    $scope.getTotal = function (entity){
         var total = 0;
-        if ($scope.entity != null && $scope.entity.items != null) {
-            for( var i in $scope.entity.items){
-                var item = $scope.entity.items[i];
+        if (entity != null && entity.items != null) {
+            for( var i in entity.items){
+                var item = entity.items[i];
                 if (item.inventoryId !=null){
                     var inventory = $scope.inventories.filter(function( obj ) {
                       return obj.id == item.inventoryId;
@@ -82,7 +114,7 @@ app.controller('orderCtrl',
             }
         }
 
-        var discount = $scope.entity.discount;
+        var discount = entity.discount;
 
         if(discount !=null && discount > 0){
             total = total - discount;
@@ -95,12 +127,12 @@ app.controller('orderCtrl',
         return total;
     }
 
-    $scope.getCaculator = function (){
+    $scope.getCaculator = function (entity){
         var calculatorStr = "";
         var total = 0;
-        if ($scope.entity != null && $scope.entity.items != null) {
-            for( var i in $scope.entity.items){
-                var item = $scope.entity.items[i];
+        if (entity != null && entity.items != null) {
+            for( var i in entity.items){
+                var item = entity.items[i];
                 if (item.inventoryId !=null){
                     var inventory = $scope.inventories.filter(function( obj ) {
                       return obj.id == item.inventoryId;
@@ -111,7 +143,7 @@ app.controller('orderCtrl',
             }
         }
 
-        var discount = $scope.entity.discount;
+        var discount = entity.discount;
 
         if(discount !=null && discount > 0){
             total = total - discount;
@@ -128,15 +160,8 @@ app.controller('orderCtrl',
     }
 
     $scope.displayInventory = function (inventory) {
-        if(inventory == null) return null;
-        var quantity = inventory.initQuantity;
-        if(inventory.consumed != null){
-            quantity = quantity - inventory.consumed
-        }
-        return inventory.name + " (" + inventory.price + "$) - " + quantity+ "";
+        return inventory.name + " (" + inventory.price + "$) - " + inventory.quantity+ "";
     }
-
-
 
     $scope.sources = ['Facebook','Instagram','WhatsApp'];
     $scope.paymentMethods = ['HSBC - Kiwi','BOC - Kiwi','Payme - Kiwi','Payme - Jessie'];
@@ -158,8 +183,8 @@ function parsePhone(content){
 }
 
 
-app.service('orderService', serviceTemplate("/orders/"));
-app.service('inventoryService', serviceTemplate("/inventories/"));
+app.service('orderService', serviceTemplate("/orders", "/search/findByStatusOrderByCreateTimeDesc?status=PREPARING" ));
+app.service('inventoryService', serviceTemplate("/inventories"));
 
 
 
