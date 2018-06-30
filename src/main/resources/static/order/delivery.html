@@ -35,8 +35,9 @@
     <li role="presentation"><a href="/order/orderHistory.html">Order History</a></li>
 </ul>
 <div ng-controller="deliveryCtrl" ng-init="refresh()">
-    <div id="message" class="alert alert-success" ng-show="showMessage">{{message}}</div>
-    <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage">{{errorMessage}}</div>
+    <div id="message" class="alert alert-success" ng-show="showMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{message}}</div>
+    <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{errorMessage}}</div>
+
     <div class="panel panel-default">
         <div class="panel-heading">Delivery List</div>
         <div class="panel-body">
@@ -107,7 +108,7 @@
                                                 <button class="btn btn-danger" mwl-confirm on-confirm="revert(entity)">Revert</button>
                                             </div>
                                             <div class="col-md-1 col-xs-5">
-                                                <button class="btn btn-success" mwl-confirm on-confirm="complete(entity)">Done</button>
+                                                <button class="btn btn-success" mwl-confirm on-confirm="complete(entity)" ng-disabled="disableComplete(entity)">Done</button>
                                             </div>
                                         </div>
                                     </div>

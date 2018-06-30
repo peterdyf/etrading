@@ -34,14 +34,17 @@ app.controller('orderCtrl',
     }
 
     $scope.validateCalc = function (entity) {
-        if (entity != null && entity.calculator != null) {
-            if(entity.calculator != $scope.getCaculator(entity)){
-                $scope.setErrorMessage('Calculator Unmatched!');
-                return false;
-            }
+        if($scope.getCaculator(entity) != entity.calculator){
+            return false;
         }
         return true;
     }
+
+    $scope.disableSave = function (entity) {
+        return !$scope.validateCalc(entity);
+    }
+
+
 
     $scope.validateAndSave = function (entity) {
         if($scope.validateCalc(entity)){
@@ -54,29 +57,36 @@ app.controller('orderCtrl',
         }
     }
 
+    $scope.validateDelivery = function (entity) {
+
+        if(!entity.totalBilling){
+            return false;
+        }
+        if(!entity.customer){
+            return false;
+        }
+        if(!entity.tel){
+            return false;
+        }
+        if(!entity.address){
+            return false;
+        }
+        if(!entity.paymentDate){
+            return false;
+        }
+        if(!$scope.validateCalc(entity)){
+            return false;
+        }
+        return true;
+    }
+
+    $scope.disableDelivery = function (entity) {
+        return !$scope.validateDelivery(entity);
+    }
+
     $scope.readyToDelivery = function (entity) {
-        if(entity.totalBilling == null){
-            $scope.setErrorMessage('Uncalculated Order!');
-            return false;
-        }
-        if(entity.customer == null){
-            $scope.setErrorMessage('Customer is empty!');
-            return false;
-        }
-        if(entity.tel == null){
-            $scope.setErrorMessage('Tel is empty!');
-            return false;
-        }
-        if(entity.address == null){
-            $scope.setErrorMessage('Address is empty!');
-            return false;
-        }
-        if(entity.paymentDate == null){
-            $scope.setErrorMessage('Payment Date is empty!');
-            return false;
-        }
-        entity.status = 'PENDING_DELIVERY';
-        if($scope.validateCalc(entity)){
+        if($scope.validateDelivery(entity)){
+            entity.status = 'PENDING_DELIVERY';
             $scope.save(entity, function (){
                 $scope.refreshInventory();
             }, "Order moved to Delivery");

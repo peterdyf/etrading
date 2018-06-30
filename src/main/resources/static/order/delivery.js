@@ -20,11 +20,9 @@ app.controller('deliveryCtrl',
 
     $scope.validate = function (entity) {
         if(entity.deliveryDate == null){
-            $scope.setErrorMessage('Delivery Date is empty!');
             return false;
         }
         if(entity.shippingFee == null){
-            $scope.setErrorMessage('Shipping Fee is empty!');
             return false;
         }
         return true;
@@ -35,11 +33,18 @@ app.controller('deliveryCtrl',
        $scope.save(entity, null, "Order reverted");
     }
 
-     $scope.complete = function (entity) {
+    $scope.complete = function (entity) {
         if($scope.validate(entity)){
             entity.status = 'COMPLETED';
             $scope.save(entity, null, "Order completed and move to History");
         }
+        else{
+            $scope.setErrorMessage('Missing Delivery Date/Shipping Fee!');
+        }
+    }
+
+    $scope.disableComplete = function (entity) {
+        return !$scope.validate(entity);
     }
 
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';

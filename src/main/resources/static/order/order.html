@@ -37,8 +37,8 @@
 </ul>
 <div ng-controller="orderCtrl as c" ng-init="refresh()">
     <div>
-        <div id="message" class="alert alert-success" ng-show="showMessage">{{message}}</div>
-        <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage">{{errorMessage}}</div>
+        <div id="message" class="alert alert-success" ng-show="showMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{message}}</div>
+        <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{errorMessage}}</div>
         <div class="panel panel-default">
             <div class="panel-heading">Order List</div>
             <div class="panel-body">
@@ -171,10 +171,10 @@
                                                     <button class="btn btn-warning" ng-click="calculate(entity)">Cal.</button>
                                                 </div>
                                                 <div class="col-md-1 col-xs-2">
-                                                    <button class="btn btn-success" ng-click="validateAndSave(entity)">Save</button>
+                                                    <button class="btn btn-success" ng-click="validateAndSave(entity)" ng-disabled="disableSave(entity)">Save</button>
                                                 </div>
                                                 <div class="col-md-2 col-xs-5">
-                                                    <button class="btn btn-warning" mwl-confirm on-confirm="readyToDelivery(entity)">Ready to Delivery</button>
+                                                    <button class="btn btn-warning" mwl-confirm on-confirm="readyToDelivery(entity)" ng-disabled="disableDelivery(entity)">Ready to Delivery</button>
                                                 </div>
                                                 <div class="col-md-1 col-xs-5 col-md-offset-0 col-xs-offset-4">
                                                     <button class="btn btn-danger" mwl-confirm on-confirm="remove(entity)">Delete</button>

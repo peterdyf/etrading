@@ -26,8 +26,9 @@
     <li role="presentation"><a href="/order/orderHistory.html">Order History</a></li>
 </ul>
 <div ng-controller="inventoryCtrl" ng-init="refresh()">
-    <div id="message" class="alert alert-success" ng-show="showMessage">{{message}}</div>
-    <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage">{{errorMessage}}</div>
+    <div id="message" class="alert alert-success" ng-show="showMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{message}}</div>
+    <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{errorMessage}}</div>
+
     <div class="panel panel-default">
         <div class="panel-heading">Inventory List</div>
         <div class="panel-body">
