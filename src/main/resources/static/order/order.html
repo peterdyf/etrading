@@ -139,8 +139,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="row col-md-12 col-xs-12">
-                                            <div class="col-md-1 col-xs-4 form-group">
+                                        <div class="row">
+                                            <div class="col-md-2 col-xs-4 form-group">
                                                 <button class="btn btn-success" ng-click="newItem(entity)">New Item</button>
                                             </div>
                                             <div class="col-md-6 col-xs-4">
@@ -150,19 +150,15 @@
                                     </div>
 
                                     <div class="form-group" ng-repeat="item in entity.items | orderBy:'createTime'">
-                                        <div class="form-group row col-md-12 col-xs-18">
-                                            <div class="col-md-4 col-xs-7 col-md-offset-1 col-xs-offset-0">
-                                                <ui-select ng-model="item.inventoryId" theme="selectize">
-                                                    <ui-select-match placeholder="Select an inventory...">{{$select.selected.name}}</ui-select-match>
-                                                    <ui-select-choices repeat="inventory.id as inventory in inventories | filter: $select.search">
-                                                        <div ng-bind-html="displayInventory(inventory) | highlight: $select.search"></div>
-                                                    </ui-select-choices>
-                                                </ui-select>
-                                            </div>
-                                            <div class="col-md-2 col-xs-2">
-                                                <h-number value="item.volume" min="0" max="99" step="1" change="onChanged()"/>
-                                            </div>
-                                            <div class="col-md-2 col-xs-1">
+                                        <div class="row no-gutter">
+                                            <ui-select class="col-md-7 col-xs-7" ng-model="item.inventoryId" theme="selectize">
+                                                <ui-select-match placeholder="Select an inventory...">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="inventory.id as inventory in inventories | filter: $select.search">
+                                                    <div ng-bind-html="displayInventory(inventory) | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <div class="col-md-4 col-xs-4"><h-number value="item.volume" min="0" max="99" step="1" change="onChanged()"/></div>
+                                            <div class="col-md-1 col-xs-1">
                                                 <button class="btn btn-danger" ng-click="removeItem(entity, item)">X</button>
                                             </div>
                                         </div>
@@ -171,16 +167,12 @@
                                     <div class="form-group">
                                         <div class="col-md-offset-1 col-xs-offset-0">
                                             <div class="form-group row col-md-12 col-xs-12">
-                                                <div class="col-md-1 col-xs-2">
+                                                <div class="btn-group">
                                                     <button class="btn btn-warning" ng-click="calculate(entity)">Cal.</button>
-                                                </div>
-                                                <div class="col-md-1 col-xs-2">
                                                     <button class="btn btn-success" ng-click="validateAndSave(entity)" ng-disabled="disableSave(entity)">Save</button>
-                                                </div>
-                                                <div class="col-md-2 col-xs-5">
-                                                    <button class="btn btn-warning" mwl-confirm on-confirm="readyToDelivery(entity)" ng-disabled="disableDelivery(entity)">Ready to Delivery</button>
-                                                </div>
-                                                <div class="col-md-1 col-xs-5 col-md-offset-0 col-xs-offset-4">
+                                                    <button class="btn btn-warning" mwl-confirm on-confirm="readyToDelivery(entity)" ng-disabled="disableDelivery(entity)" ng-model="checkModel.right">
+                                                        Tobe Delivery
+                                                    </button>
                                                     <button class="btn btn-danger" mwl-confirm on-confirm="remove(entity)" ng-hide="isNew(entity)">Delete</button>
                                                 </div>
                                             </div>

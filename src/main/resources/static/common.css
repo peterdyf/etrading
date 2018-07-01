@@ -1,1 +1,6 @@
 .highlight { background: yellow }
+
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
