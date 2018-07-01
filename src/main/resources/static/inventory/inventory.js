@@ -19,6 +19,10 @@ app.controller('inventoryCtrl',
 
         return display;
     }
+
+    $scope.disableDelete = function (entity) {
+        return entity.consumed !=null && entity.consumed > 0;
+    }
 }]
 );
 

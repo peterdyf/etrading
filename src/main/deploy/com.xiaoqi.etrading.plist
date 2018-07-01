@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.xiaoqi.etrading</string>
+	<key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/java</string>
+        <string>-jar</string>
+        <string>/Users/DiYifei/Desktop/Peter/etrading/etrading-1.0-SNAPSHOT.jar</string>
+    </array>
+	<key>RunAtLoad</key>
+	<true/>
+</dict>
+</plist>

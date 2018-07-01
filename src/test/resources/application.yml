@@ -1,0 +1,11 @@
+server.port: 8081
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:log4jdbc:h2:mem:h2test
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    username: sa
+    password:

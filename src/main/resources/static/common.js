@@ -12,7 +12,9 @@ var controllerTemplate = function ($scope, service) {
         $scope.entities.unshift(new Object());
     }
 
-    $scope.save = function (entity, thenFunc, message) {
+    $scope.save = function (_entity, thenFunc, message) {
+        var entity = Object.assign({}, _entity);
+        delete entity._links;
         if(entity.id == null){
             service.add(entity).then (
                 function success(response){
