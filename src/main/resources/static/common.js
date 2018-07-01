@@ -94,8 +94,6 @@ var controllerTemplate = function ($scope, service) {
     $scope.setErrorMessage = function (errorMessage){
         $scope.setMessage(null, errorMessage);
     }
-
-
 }
 
 var serviceTemplate = function(urlBase,query){

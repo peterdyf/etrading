@@ -6,7 +6,8 @@
 	<string>com.xiaoqi.etrading</string>
 	<key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/java</string>
+        <string>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/bin/java</string>
+        <string>-Dspring.profiles.active=prod</string>
         <string>-jar</string>
         <string>/Users/DiYifei/Desktop/Peter/etrading/etrading-1.0-SNAPSHOT.jar</string>
     </array>

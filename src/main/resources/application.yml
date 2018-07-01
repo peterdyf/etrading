@@ -5,7 +5,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/xiaoqi?user=root&password=root&useSSL=false
+    url: jdbc:mysql://localhost:3306/xiaoqi?user=root&password=root&useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     username:
     password:
@@ -13,12 +13,11 @@ spring:
 logging:
   level:
     org:
-      apache: ERROR
-      springframework: ERROR
+      springframework: INFO
       springframework.web.filter: DEBUG
-      hibernate: ERROR
+      hibernate: INFO
     com:
       zaxxer.hikari: ERROR
-      xiaoqi: INFO
+      xiaoqi: DEBUG
   pattern:
     console: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'

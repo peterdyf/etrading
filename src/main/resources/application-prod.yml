@@ -8,6 +8,10 @@ spring:
     password:
 
 logging:
+  level:
+      org:
+        springframework: ERROR
+        hibernate: ERROR
   file: /Users/DiYifei/Desktop/Peter/etrading/log/application.log
   pattern:
     file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'

@@ -7,16 +7,7 @@ app.controller('inventoryCtrl',
 ['$scope','inventoryService', function ($scope, service) {
     controllerTemplate($scope, service);
     $scope.display = function(entity){
-        var display = "";
-        if(entity.name){
-            display = display = entity.name + " -";
-        }
-        else{
-            display = display = "<empty name> -";
-        }
-
-        display= display + "QTY(" + entity.quantity + "/" + entity.initQuantity + ")-cost/price(" + entity.cost + "/" +entity.price +")"
-
+        var display= entity.name + " -" + "QTY(" + entity.quantity + "/" + entity.initQuantity + ")-cost/price(" + entity.cost + "/" +entity.price +")"
         return display;
     }
 
