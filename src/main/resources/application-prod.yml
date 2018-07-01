@@ -1,0 +1,14 @@
+server.port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/xiaoqi?user=root&password=root&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username:
+    password:
+
+logging:
+  file: /Users/DiYifei/Desktop/Peter/etrading/log/application.log
+  pattern:
+    file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+    console:
