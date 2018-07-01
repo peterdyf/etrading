@@ -33,6 +33,8 @@ public class Order extends BaseEntity {
 
     private LocalDate deliveryDate;
 
+    private String wayBillNumber;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -154,5 +156,13 @@ public class Order extends BaseEntity {
 
     public void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public String getWayBillNumber() {
+        return wayBillNumber;
+    }
+
+    public void setWayBillNumber(String wayBillNumber) {
+        this.wayBillNumber = wayBillNumber;
     }
 }

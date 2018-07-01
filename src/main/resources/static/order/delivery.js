@@ -25,6 +25,9 @@ app.controller('deliveryCtrl',
         if(entity.shippingFee == null){
             return false;
         }
+        if(entity.wayBillNumber == null){
+            return false;
+        }
         return true;
     }
 
@@ -37,9 +40,6 @@ app.controller('deliveryCtrl',
         if($scope.validate(entity)){
             entity.status = 'COMPLETED';
             $scope.save(entity, null, "Order completed and move to History");
-        }
-        else{
-            $scope.setErrorMessage('Missing Delivery Date/Shipping Fee!');
         }
     }
 

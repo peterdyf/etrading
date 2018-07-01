@@ -34,14 +34,11 @@ app.controller('orderCtrl',
     }
 
     $scope.validateCalc = function (entity) {
-        if($scope.getCaculator(entity) != entity.calculator){
-            return false;
-        }
-        return true;
+        return $scope.getCaculator(entity) == entity.calculator;
     }
 
     $scope.disableSave = function (entity) {
-        return entity.items!=null && entity.items.length>1 && $scope.validateCalc(entity);
+        return entity.items!=null && entity.items.length>1 && !$scope.validateCalc(entity);
     }
 
 
