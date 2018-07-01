@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap',  'mwl.confirm']);
+var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap',  'mwl.confirm', 'ngHighlight']);
 
 app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
@@ -41,13 +41,13 @@ app.controller('orderCtrl',
     }
 
     $scope.disableSave = function (entity) {
-        return !$scope.validateCalc(entity);
+        return entity.items!=null && entity.items.length>1 && $scope.validateCalc(entity);
     }
 
 
 
     $scope.validateAndSave = function (entity) {
-        if($scope.validateCalc(entity)){
+        if(entity.items==null || entity.items.length==0 || $scope.validateCalc(entity)){
             if(!entity.status){
                 entity.status = 'PREPARING'
             }
@@ -172,6 +172,12 @@ app.controller('orderCtrl',
     $scope.displayInventory = function (inventory) {
         return inventory.name + " (" + inventory.price + "$) - " + inventory.quantity+ "";
     }
+
+    $scope.query = function(entity){
+        if(!$scope.filter) return true;
+        var regExp = new RegExp($scope.filter, 'gi');
+        return regExp.test(entity.customer);
+    };
 
     $scope.sources = ['Facebook','Instagram','WhatsApp'];
     $scope.paymentMethods = ['HSBC - Kiwi','BOC - Kiwi','Payme - Kiwi','Payme - Jessie'];

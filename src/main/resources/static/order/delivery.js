@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('delivery', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm']);
+var app = angular.module('delivery', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight']);
 
 app.controller('deliveryCtrl',
 ['$scope','deliveryService','inventoryService', function ($scope, deliveryService, inventoryService) {

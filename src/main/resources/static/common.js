@@ -5,7 +5,7 @@ var controllerTemplate = function ($scope, service) {
         return e != null && e.id == null;
     }
 
-    $scope.new = function () {
+    $scope.insert = function () {
         if($scope.entities.length > 0 && $scope.entities[0].id == null){
             $scope.entities.shift();
         }
@@ -71,7 +71,6 @@ var controllerTemplate = function ($scope, service) {
     }
 
     $scope.setMessage = function (message, errorMessage){
-        console.log("set message " + message +":" + errorMessage);
         if(errorMessage != null){
             $scope.errorMessage = errorMessage;
             $('#errorMessage').show();

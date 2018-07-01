@@ -7,6 +7,7 @@
     <title>Inventory</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/common.css">
     <script src="/lib/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/lib/angular/angular.min.js"></script>
@@ -15,6 +16,7 @@
     <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="/lib/confirmation/ui-bootstrap-position.js"></script>
     <script src="/lib/confirmation/angular-bootstrap-confirm.min.js"></script>
+    <script src="/lib/ng-highlight/ng-highlight.min.js"></script>
     <script src="/common.js"></script>
     <script src="inventory.js"></script>
 </head>
@@ -38,7 +40,7 @@
                         <input type="text" class="form-control" placeholder="filter" ng-model="filter"/>
                     </div>
                     <div class="col-md-1 col-xs-2">
-                        <button class="btn btn-primary" ng-click="new()">New</button>
+                        <button class="btn btn-primary" ng-click="insert()">New</button>
                     </div>
                 </div>
             </div>
@@ -46,7 +48,10 @@
                 <div class="form-group row">
                     <div class="col-md-10 col-xs-12">
                         <uib-accordion close-others="true">
-                            <div uib-accordion-group class="panel-default" is-open="$first" heading="{{display(entity)}}" is-open="openFirst()" ng-repeat="entity in entities | filter: {name: filter }">
+                            <div uib-accordion-group class="panel-default" ng-init="status.open = isNew(entity)" is-open="status.open" ng-repeat="entity in entities | filter: query">
+                                <uib-accordion-heading>
+                                    <div highlight="filter">{{ display(entity) }}</div>
+                                </uib-accordion-heading>
                                 <div>
                                     <div class="col-md-10 col-xs-10">
                                         <div class="form-group row">
