@@ -21,6 +21,7 @@
     <script src="/lib/confirmation/ui-bootstrap-position.js"></script>
     <script src="/lib/confirmation/angular-bootstrap-confirm.min.js"></script>
     <script src="/lib/ng-highlight/ng-highlight.min.js"></script>
+    <script src="/lib/angular-elastic/angular-elastic.js"></script>
     <script src="/common.js"></script>
     <script src="delivery.js"></script>
 </head>
@@ -53,19 +54,27 @@
                                 <uib-accordion-heading>
                                     <div highlight="filter">{{entity.customer + ' - ' + entity.tel}}</div>
                                 </uib-accordion-heading>
-                                <div class="col-md-10 col-xs-10">
-                                    <div class="form-group row">
-                                        <div class="col-md-2 col-xs-10 form-group">
-                                            <input type="text" class="form-control" ng-model="entity.customer"/>
-                                            <span class="help-block">Customer</span>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Customer</span>
+                                                <input type="text" class="form-control" ng-model="entity.customer" readonly/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2 col-xs-10 form-group">
-                                            <input type="text" class="form-control" ng-model="entity.tel"/>
-                                            <span class="help-block">Telephone</span>
+                                        <div class="col-md-4 col-xs-12 form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Telephone</span>
+                                                <input type="text" class="form-control" ng-model="entity.tel" readonly/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 col-xs-10 form-group">
-                                            <input type="text" class="form-control" ng-model="entity.address"/>
-                                            <span class="help-block">Address</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10 col-xs-12 form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Address&nbsp;&nbsp;&nbsp;</span>
+                                                <textarea rows="1" class="form-control" ng-model="entity.address" readonly></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -88,18 +97,24 @@
                                     </table>
                                 </div>
 
-                                <div class="form-group">
-                                    <div>
-                                        <div class="form-group row col-md-12 col-xs-12">
-                                            <div class="col-md-2 col-xs-10 form-group">
-                                                <input type="number" class="form-control" placeholder="Shipping Fee" ng-model="entity.shippingFee"/>
-                                            </div>
-                                            <div class="col-md-3 col-xs-10 form-group">
-                                                <ng-bs3-datepicker ng-model="entity.deliveryDate" placeholder="Delivery Date" language="en" date-format="YYYY-MM-DD"/>
-                                            </div>
-                                            <div class="col-md-3 col-xs-10 form-group">
-                                                <input type="text" class="form-control" placeholder="Waybill Number" ng-model="entity.waybillNumber"/>
-                                            </div>
+                                <div class="row col-md-12 col-xs-12">
+                                    <div class="col-md-3 col-xs-12 form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Shipping Fee</span>
+                                            <input type="number" class="form-control" ng-model="entity.shippingFee"/>
+                                            <span class="input-group-addon">$</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Delivery Date</span>
+                                            <ng-bs3-datepicker ng-model="entity.deliveryDate" language="en" date-format="YYYY-MM-DD"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Waybill No.&nbsp;&nbsp;&nbsp;</span>
+                                            <input type="text" class="form-control" ng-model="entity.waybillNumber"/>
                                         </div>
                                     </div>
                                 </div>
@@ -115,8 +130,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </uib-accordion>
                     </div>

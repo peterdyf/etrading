@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap',  'mwl.confirm', 'ngHighlight']);
+var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap',  'mwl.confirm', 'ngHighlight', 'angular-elastic']);
 
 app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
@@ -187,23 +187,7 @@ app.controller('orderCtrl',
     $scope.refreshInventory();
 
 }]
-).directive('elastic', [
-     '$timeout',
-     function($timeout) {
-         return {
-             restrict: 'A',
-             link: function($scope, element) {
-                 $scope.initialHeight = $scope.initialHeight || element[0].style.height;
-                 var resize = function() {
-                     element[0].style.height = $scope.initialHeight;
-                     element[0].style.height = "" + element[0].scrollHeight + "px";
-                 };
-                 element.on("input change", resize);
-                 $timeout(resize, 0);
-             }
-         };
-     }
- ]);
+);
 
 
 function parsePhone(content){

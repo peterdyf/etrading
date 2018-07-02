@@ -74,11 +74,17 @@
                                                 <span class="help-block">Quantity</span>
                                             </div>
                                             <div class="col-md-3 col-xs-10 form-group">
-                                                <input type="number" class="form-control" ng-model="entity.cost"/>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="number" class="form-control" ng-model="entity.cost"/>
+                                                </div>
                                                 <span class="help-block">Cost</span>
                                             </div>
                                             <div class="col-md-3 col-xs-10 form-group">
-                                                <input type="number" class="form-control" ng-model="entity.price"/>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="number" class="form-control" ng-model="entity.price"/>
+                                                </div>
                                                 <span class="help-block">Price</span>
                                             </div>
                                         </div>
