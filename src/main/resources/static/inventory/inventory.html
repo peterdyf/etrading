@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Inventory</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -50,7 +50,7 @@
                         <uib-accordion close-others="true">
                             <div uib-accordion-group class="panel-default" ng-init="status.open = isNew(entity)" is-open="status.open" ng-repeat="entity in entities | filter: query">
                                 <uib-accordion-heading>
-                                    <div highlight="filter">{{ display(entity) }}</div>
+                                    <div ng-class="{'warning': entity.quantity < 3}" highlight="filter">{{ display(entity) }}</div>
                                 </uib-accordion-heading>
                                 <div>
                                     <div class="col-md-10 col-xs-10">
@@ -90,7 +90,7 @@
                                             <button class="btn btn-success" ng-click="save(entity)">Save</button>
                                         </div>
                                         <div class="col-md-2 col-xs-3 col-md-offset-0 col-xs-offset-1">
-                                            <button class="btn btn-danger" mwl-confirm on-confirm="remove(entity)" ng-hide="isNew(entity)" ng-disabled="disableDelete(entity)">Delete</button>
+                                            <button class="btn btn-danger" mwl-confirm on-confirm="remove(entity)" ng-disabled="disableDelete(entity)">Delete</button>
                                         </div>
                                     </div>
                                 </div>

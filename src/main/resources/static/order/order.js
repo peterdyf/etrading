@@ -4,6 +4,7 @@ var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker
 
 app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
+    $scope.inventories = [];
     controllerTemplate($scope, orderService);
 
     $scope.refreshInventory = function (){
@@ -141,11 +142,14 @@ app.controller('orderCtrl',
             for( var i in entity.items){
                 var item = entity.items[i];
                 if (item.inventoryId !=null){
-                    var inventory = $scope.inventories.filter(function( obj ) {
+                    var inventories = $scope.inventories.filter(function( obj ) {
                       return obj.id == item.inventoryId;
-                    })[0];
-                    total = total + item.volume * inventory.price;
-                    calculatorStr = calculatorStr + "("+inventory.name+") "+inventory.price + " * " + item.volume + " "
+                    });
+                    if(inventories>0){
+                        var inventory = inventories[0];
+                        total = total + item.volume * inventory.price;
+                        calculatorStr = calculatorStr + "("+inventory.name+") "+inventory.price + " * " + item.volume + " ";
+                    }
                 }
             }
         }
@@ -167,7 +171,7 @@ app.controller('orderCtrl',
     }
 
     $scope.displayInventory = function (inventory) {
-        return inventory.name + " (" + inventory.price + "$) - " + inventory.quantity+ "";
+        return "price: " + inventory.price + " quantity: " + inventory.quantity;
     }
 
     $scope.query = function(entity){
@@ -183,7 +187,23 @@ app.controller('orderCtrl',
     $scope.refreshInventory();
 
 }]
-);
+).directive('elastic', [
+     '$timeout',
+     function($timeout) {
+         return {
+             restrict: 'A',
+             link: function($scope, element) {
+                 $scope.initialHeight = $scope.initialHeight || element[0].style.height;
+                 var resize = function() {
+                     element[0].style.height = $scope.initialHeight;
+                     element[0].style.height = "" + element[0].scrollHeight + "px";
+                 };
+                 element.on("input change", resize);
+                 $timeout(resize, 0);
+             }
+         };
+     }
+ ]);
 
 
 function parsePhone(content){

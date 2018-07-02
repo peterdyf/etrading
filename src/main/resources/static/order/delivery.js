@@ -1,10 +1,10 @@
 'use strict';
 
-var app = angular.module('delivery', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight']);
+var app = angular.module('delivery', ['ngSanitize', 'ng-bs3-datepicker', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight']);
 
 app.controller('deliveryCtrl',
 ['$scope','deliveryService','inventoryService', function ($scope, deliveryService, inventoryService) {
-
+    $scope.inventories = [];
     controllerTemplate($scope, deliveryService);
 
     inventoryService.getAll().then(function success(response) {
@@ -25,7 +25,7 @@ app.controller('deliveryCtrl',
         if(entity.shippingFee == null){
             return false;
         }
-        if(entity.wayBillNumber == null){
+        if(entity.waybillNumber == null){
             return false;
         }
         return true;

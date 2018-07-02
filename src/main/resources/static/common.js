@@ -52,13 +52,19 @@ var controllerTemplate = function ($scope, service) {
     }
 
     $scope.remove = function (entity) {
-        service.remove(entity.id).then (function success(response){
-            $scope.setMessage('Deleted!');
-            $scope.refresh();
-        },
-        function error(response) {
-            $scope.setErrorMessage('Error deleting!');
-        });
+        if(entity.id==null){
+            $scope.entities.shift();
+            $scope.setErrorMessage('Deleted!');
+        }
+        else{
+            service.remove(entity.id).then (function success(response){
+                $scope.setMessage('Deleted!');
+                $scope.refresh();
+            },
+            function error(response) {
+                $scope.setErrorMessage('Error deleting!');
+            });
+        }
     }
 
     $scope.refresh = function () {

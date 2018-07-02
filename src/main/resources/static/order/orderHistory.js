@@ -4,6 +4,7 @@ var app = angular.module('orderHistory', ['ngAnimate', 'ngSanitize', 'ui.bootstr
 
 app.controller('orderHistoryCtrl',
 ['$scope','orderHistoryService','inventoryService', function ($scope, orderHistoryService, inventoryService) {
+    $scope.inventories = [];
     controllerTemplate($scope, orderHistoryService);
 
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';
@@ -13,11 +14,11 @@ app.controller('orderHistoryCtrl',
     });
 
     $scope.displayInventory = function (inventoryId) {
-        var inventory = $scope.inventories.filter(function( obj ) {
-          return obj.id == inventoryId;
-        })[0];
-        return inventory.name;
-    }
+       var inventory = $scope.inventories.filter(function( obj ) {
+         return obj.id == inventoryId;
+       })[0];
+       return inventory.name;
+   }
 
     $scope.revert = function (entity) {
         entity.status = 'PENDING_DELIVERY';
