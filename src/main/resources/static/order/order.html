@@ -65,7 +65,7 @@
                                     <div class="col-md-10 col-xs-10">
                                         <div class="form-group row">
                                             <div class="col-md-8 col-xs-12 form-group">
-                                                <textarea elastic rows="3" class="auto form-control" ng-model="entity.content"></textarea>
+                                                <textarea elastic rows="3" class="form-control" ng-model="entity.content"></textarea>
                                                 <span class="help-block">Content</span>
                                             </div>
                                             <div class="col-md-2 col-xs-12">
@@ -86,7 +86,7 @@
                                                 <span class="help-block">Telephone</span>
                                             </div>
                                             <div class="col-md-6 col-xs-12 form-group">
-                                                <textarea elastic rows="1" class="auto form-control" ng-model="entity.address"></textarea>
+                                                <textarea elastic rows="1" class="form-control" ng-model="entity.address"></textarea>
                                                 <span class="help-block">Address</span>
                                             </div>
                                         </div>
@@ -133,18 +133,16 @@
                                             <span class="help-block">Total</span>
                                         </div>
                                         <div class="col-md-4 col-xs-12 form-group">
-                                            <textarea rows="1" elastic class="auto form-control" ng-model="entity.calculator" readonly></textarea>
+                                            <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
                                             <span class="help-block">Calculator</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="row">
-                                        <div class="col-md-2 col-xs-4 form-group">
-                                            <button class="btn btn-success" ng-click="newItem(entity)">New Item</button>
-                                        </div>
                                         <div class="col-md-6 col-xs-4">
-                                            <label class="control-label"> Items ({{entity.items.length}}): </label>
+                                            <label class="control-label"> Items ({{entity.items.length}})</label>
+                                            <button class="btn btn-success" ng-click="newItem(entity)">+</button>
                                         </div>
                                     </div>
                                 </div>
@@ -152,10 +150,10 @@
                                 <div ng-repeat="item in entity.items | orderBy:'createTime'">
                                     <div class="row no-gutter col-md-7 col-xs-12">
                                         <ui-select class="col-md-7 col-xs-6 col-md-offset-1 col-xs-offset-0" ng-model="item.inventoryId" theme="selectize">
-                                            <ui-select-match placeholder="Select an inventory...">{{$select.selected.name}}</ui-select-match>
-                                            <ui-select-choices repeat="inventory.id as inventory in inventories | filter: $select.search">
-                                                <div ng-bind-html="inventory.name | highlight: $select.search"></div>
-                                                <small ng-class="{'warning': inventory.quantity < 3}" ng-bind-html="displayInventory(inventory) | highlight: $select.search"></small>
+                                            <ui-select-match placeholder="Select an inventory...">{{$select.selected.value.name}}</ui-select-match>
+                                            <ui-select-choices repeat="inventory.value.id as (key, inventory) in inventories | filter: $select.search">
+                                                <div ng-bind-html="inventory.value.name | highlight: $select.search"></div>
+                                                <small ng-class="{'warning': inventory.value.quantity < 3}" ng-bind-html="displayInventory(inventory.value) | highlight: $select.search"></small>
                                             </ui-select-choices>
                                         </ui-select>
                                         <div class="col-md-2 col-xs-5">

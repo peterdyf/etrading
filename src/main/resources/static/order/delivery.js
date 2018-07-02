@@ -8,15 +8,12 @@ app.controller('deliveryCtrl',
     controllerTemplate($scope, deliveryService);
 
     inventoryService.getAll().then(function success(response) {
-        $scope.inventories = response.data._embedded['entities'];
+        var arr = response.data._embedded['entities'];
+        $scope.inventories = arr.reduce(function(map, obj) {
+            map[obj.id] = obj;
+            return map;
+        }, {});
     });
-
-    $scope.displayInventory = function (inventoryId) {
-        var inventory = $scope.inventories.filter(function( obj ) {
-          return obj.id == inventoryId;
-        })[0];
-        return inventory.name;
-    }
 
     $scope.validate = function (entity) {
         if(entity.deliveryDate == null){

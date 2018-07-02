@@ -90,8 +90,8 @@
                                         <tbody>
                                         <tr ng-repeat="item in entity.items | orderBy:'createTime'">
                                             <th scope="row" >{{$index+1}}</th>
-                                            <td >{{displayInventory(item.inventoryId)}}</td>
-                                            <td >{{item.volume}}</td>
+                                            <td ng-bind-html="inventories[item.inventoryId].name"></td>
+                                            <td ng-bind-html="item.volume"></td>
                                         </tr>
                                         </tbody>
                                     </table>

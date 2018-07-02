@@ -9,7 +9,11 @@ app.controller('orderCtrl',
 
     $scope.refreshInventory = function (){
         inventoryService.getAll().then(function success(response) {
-            $scope.inventories = response.data._embedded['entities'];
+            var arr = response.data._embedded['entities'];
+            $scope.inventories = arr.reduce(function(map, obj) {
+                map[obj.id] = obj;
+                return map;
+            }, {});
         });
     }
 
@@ -114,9 +118,7 @@ app.controller('orderCtrl',
             for( var i in entity.items){
                 var item = entity.items[i];
                 if (item.inventoryId !=null){
-                    var inventory = $scope.inventories.filter(function( obj ) {
-                      return obj.id == item.inventoryId;
-                    })[0];
+                    var inventory = $scope.inventories[item.inventoryId];
                     total = total + item.volume * inventory.price;
                 }
             }
@@ -141,32 +143,27 @@ app.controller('orderCtrl',
         if (entity != null && entity.items != null) {
             for( var i in entity.items){
                 var item = entity.items[i];
-                if (item.inventoryId !=null){
-                    var inventories = $scope.inventories.filter(function( obj ) {
-                      return obj.id == item.inventoryId;
-                    });
-                    if(inventories>0){
-                        var inventory = inventories[0];
-                        total = total + item.volume * inventory.price;
-                        calculatorStr = calculatorStr + "("+inventory.name+") "+inventory.price + " * " + item.volume + " ";
+                if (item.inventoryId !=null && $scope.inventories[item.inventoryId]){
+                    var inventory = $scope.inventories[item.inventoryId];
+                    total = total + item.volume * inventory.price;
+                    if(calculatorStr!=""){
+                        calculatorStr = calculatorStr+"+\n";
                     }
+                    calculatorStr = calculatorStr + "("+inventory.name+") "+inventory.price + " * " + item.volume + " ";
                 }
             }
         }
 
         var discount = entity.discount;
 
+        calculatorStr = calculatorStr + "\n= " + total;
+
         if(discount !=null && discount > 0){
             total = total - discount;
-            calculatorStr = calculatorStr + "- " + discount + " ";
+            calculatorStr = calculatorStr + " - " + discount + "\n= " + total;
+
         }
 
-        if(total == 0) {
-            total = null;
-        }
-        else{
-            calculatorStr = calculatorStr + "= " + total;
-        }
         return calculatorStr;
     }
 
