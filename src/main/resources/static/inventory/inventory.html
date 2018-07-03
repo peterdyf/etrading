@@ -36,8 +36,12 @@
         <div class="panel-body">
             <div class="form-group">
                 <div class="form-group row col-md-12 col-xs-12">
-                    <div class="col-md-1 col-xs-5">
-                        <input type="text" class="form-control" placeholder="filter" ng-model="filter"/>
+                    <div class="col-md-2 col-xs-9">
+                        <div class="input-group">
+                            <span class="input-group-addon">Filter</span>
+                            <input type="text" class="form-control" ng-model="filter"/>
+                            <span class="input-group-addon danger"><span class="glyphicon glyphicon-remove" ng-click="filter=''"></span></span>
+                        </div>
                     </div>
                     <div class="col-md-1 col-xs-2">
                         <button class="btn btn-primary" ng-click="insert()">New</button>
@@ -56,8 +60,10 @@
                                     <div class="col-md-10 col-xs-10">
                                         <div class="form-group row">
                                             <div class="col-md-10 col-xs-10 form-group">
-                                                <input type="text" class="form-control" ng-model="entity.name"/>
-                                                <span class="help-block">Name</span>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Name</span>
+                                                    <input type="text" class="form-control" ng-model="entity.name"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -66,26 +72,30 @@
                                     <div class="col-md-10 col-xs-10">
                                         <div class="form-group row">
                                             <div class="col-md-2 col-xs-10 form-group">
-                                                <input type="text" class="form-control" ng-model="entity.initQuantity"/>
-                                                <span class="help-block">Initial Quantity</span>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Init. Qty</span>
+                                                    <input type="number" class="form-control" ng-model="entity.initQuantity"/>
+                                                </div>
                                             </div>
                                             <div class="col-md-2 col-xs-10 form-group">
-                                                <input type="text" class="form-control" ng-model="entity.quantity" readonly/>
-                                                <span class="help-block">Quantity</span>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Qty</span>
+                                                    <input type="number" class="form-control" ng-model="entity.quantity"/>
+                                                </div>
                                             </div>
                                             <div class="col-md-3 col-xs-10 form-group">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">$</span>
+                                                    <span class="input-group-addon">Cost</span>
                                                     <input type="number" class="form-control" ng-model="entity.cost"/>
+                                                    <span class="input-group-addon">$</span>
                                                 </div>
-                                                <span class="help-block">Cost</span>
                                             </div>
                                             <div class="col-md-3 col-xs-10 form-group">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">$</span>
+                                                    <span class="input-group-addon">Price</span>
                                                     <input type="number" class="form-control" ng-model="entity.price"/>
+                                                    <span class="input-group-addon">$</span>
                                                 </div>
-                                                <span class="help-block">Price</span>
                                             </div>
                                         </div>
                                     </div>

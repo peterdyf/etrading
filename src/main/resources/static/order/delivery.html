@@ -41,8 +41,10 @@
         <div class="panel-body">
             <div class="form-group">
                 <div class="form-group row col-md-12 col-xs-12">
-                    <div class="col-md-1 col-xs-5">
-                        <input type="text" class="form-control" placeholder="filter" ng-model="filter"/>
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter</span>
+                        <input type="text" class="form-control" ng-model="filter"/>
+                        <span class="input-group-addon danger"><span class="glyphicon glyphicon-remove" ng-click="filter=''"></span></span>
                     </div>
                 </div>
             </div>
@@ -118,16 +120,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div>
-                                        <div class="form-group row col-md-12 col-xs-12">
-                                            <div class="col-md-2 col-xs-5 col-md-offset-1 col-xs-offset-1">
-                                                <button class="btn btn-danger" mwl-confirm on-confirm="revert(entity)">Revert</button>
-                                            </div>
-                                            <div class="col-md-1 col-xs-5">
-                                                <button class="btn btn-success" mwl-confirm on-confirm="complete(entity)" ng-disabled="disableComplete(entity)">Done</button>
-                                            </div>
-                                        </div>
+                                <div class="form-group row col-md-12 col-xs-12">
+                                    <div class="col-md-2 col-xs-5 col-md-offset-1 col-xs-offset-1">
+                                        <button class="btn btn-danger" mwl-confirm on-confirm="revert(entity)">Revert</button>
+                                    </div>
+                                    <div class="col-md-1 col-xs-5">
+                                        <button class="btn btn-success" mwl-confirm on-confirm="complete(entity)" ng-disabled="disableComplete(entity)">Done</button>
                                     </div>
                                 </div>
                             </div>
