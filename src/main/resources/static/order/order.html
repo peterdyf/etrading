@@ -71,7 +71,7 @@
                                             <div class="col-md-10 col-xs-12 form-group">
                                                 <div class="input-group">
                                                     <textarea elastic rows="3" class="form-control" ng-model="entity.content"></textarea>
-                                                    <span class="input-group-addon primary"><span class="glyphicon glyphicon-triangle-bottom" ng-click="parse(entity)"></span></span>
+                                                    <span class="input-group-addon btn btn-primary" ng-click="parse(entity)">Parse</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +120,7 @@
                                             <div class="col-md-5 col-xs-12 form-group">
                                                 <div class="input-group" theme="selectize">
                                                     <span class="input-group-addon">Payment Method</span>
-                                                    <ui-select ng-model="entity.paymentMethod" >
+                                                    <ui-select ng-model="entity.paymentMethod">
                                                         <ui-select-match placeholder="Select...">{{$select.selected}}</ui-select-match>
                                                         <ui-select-choices repeat="methods in paymentMethods | filter: $select.search">
                                                             <div ng-bind-html="methods | highlight: $select.search"></div>
@@ -154,8 +154,10 @@
                                             </div>
                                         </div>
                                         <div class="col-md-5 col-xs-12 form-group">
-                                            <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
-                                            <span class="help-block">Calculator</span>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Calc.</span>
+                                                <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
