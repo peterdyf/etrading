@@ -19,6 +19,7 @@
     <script src="/lib/confirmation/ui-bootstrap-position.js"></script>
     <script src="/lib/confirmation/angular-bootstrap-confirm.min.js"></script>
     <script src="/lib/ng-highlight/ng-highlight.min.js"></script>
+    <script src="/lib/angular-elastic/angular-elastic.js"></script>
     <script src="/common.js"></script>
     <script src="orderHistory.js"></script>
 </head>
@@ -38,7 +39,7 @@
         <div class="panel-body">
             <div class="form-group">
                 <div class="form-group row col-md-12 col-xs-12">
-                    <div class="col-md-2 col-xs-9">
+                    <div class="col-md-3 col-xs-9">
                         <div class="input-group">
                             <span class="input-group-addon">Filter</span>
                             <input type="text" class="form-control" ng-model="filter"/>
@@ -57,47 +58,75 @@
                                 </uib-accordion-heading>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="row">
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block">Customer: {{entity.customer}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Customer&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.customer" readonly/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2 col-xs-12">
-                                            <span class="help-block">Telephone: {{entity.tel}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Telephone</span>
+                                                <input type="text" class="form-control" ng-model="entity.tel" readonly/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block"> Source: {{entity.source}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.source" readonly/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="row">
                                         <div class="col-md-12 col-xs-12">
-                                            <span class="help-block">Address: {{entity.address}}</span>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Address&nbsp;&nbsp;&nbsp;</span>
+                                                <textarea elastic rows="1" class="form-control" ng-model="entity.address" readonly></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="row">
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block">Payment Method: {{entity.paymentMethod}}</span>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Payment Method</span>
+                                                <input type="text" class="form-control" ng-model="entity.paymentMethod" readonly/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block">Payment Date: {{entity.paymentDate}}</span>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Payment Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.paymentDate" readonly/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="row">
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block">Shipping Fee: {{entity.shippingFee}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Shipping Fee &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.shippingFee" readonly/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block">Delivery Date: {{entity.deliveryDate}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Delivery Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.deliveryDate" readonly/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block">Waybill Number: {{entity.waybillNumber}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Waybill Number &nbsp;&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.waybillNumber" readonly/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-xs-12" style="height:25px;"></div>
                                 <div class="col-md-8 col-xs-12">
                                     <table class="table table-bordered" >
                                         <thead>
@@ -105,31 +134,44 @@
                                             <th scope="col" class="col-md-1 col-xs-1">#</th>
                                             <th scope="col" class="col-md-5 col-xs-9">Item</th>
                                             <th scope="col" class="col-md-2 col-xs-1">Vol</th>
+                                            <th scope="col" class="col-md-2 col-xs-1">Price($)</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="item in entity.items | orderBy:'createTime'">
-                                            <th scope="row" >{{$index+1}}</th>
-                                            <td >{{displayInventory(item.inventoryId)}}</td>
-                                            <td >{{item.volume}}</td>
+                                            <th scope="row" ng-bind-html="index+1"></th>
+                                            <td ng-bind-html="displayInventory(item.inventoryId)"></td>
+                                            <td ng-bind-html="item.volume">{{item.volume}}</td>
+                                            <td ng-bind-html="item.price"></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="row">
-                                        <div class="col-md-3 col-xs-12">
-                                            <span class="help-block">Discount: {{entity.discount}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Discount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.discount" readonly/>
+                                                <span class="input-group-addon">$</span>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2 col-xs-12">
-                                            <span class="help-block">Total : {{entity.totalBilling}}</span>
+                                        <div class="col-md-4 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="text" class="form-control" ng-model="entity.totalBilling" readonly/>
+                                                <span class="input-group-addon">$</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="row">
                                         <div class="col-md-12 col-xs-12">
-                                            <span class="help-block">Calculator : {{entity.calculator}}</span>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Calculator&nbsp;&nbsp;&nbsp;</span>
+                                                <textarea elastic rows="1" class="form-control" ng-model="entity.calculator" readonly></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

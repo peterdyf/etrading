@@ -2,8 +2,9 @@ package com.xiaoqi.entity;
 
 import org.hibernate.annotations.Formula;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Inventory extends BaseEntity {
@@ -12,24 +13,18 @@ public class Inventory extends BaseEntity {
 
     private BigDecimal price;
 
-    private BigDecimal cost;
-
-    private int initQuantity;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "inventoryId")
+    private List<Purchase> purchases;
 
     @Formula("(select sum(o.volume) from order_item o where o.inventory_id = id)")
     private Integer consumed;
 
+    @Formula("(select sum(p.quantity) from purchase p where p.inventory_id = id)")
+    private Integer quantity;
 
-    public int getQuantity() {
-        return consumed == null ? initQuantity : initQuantity - consumed;
-    }
-
-    public int getInitQuantity() {
-        return initQuantity;
-    }
-
-    public void setInitQuantity(int initQuantity) {
-        this.initQuantity = initQuantity;
+    public int getStock() {
+        return consumed == null ? quantity : quantity - consumed;
     }
 
     public Integer getConsumed() {
@@ -48,19 +43,28 @@ public class Inventory extends BaseEntity {
         this.price = price;
     }
 
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Purchase> purchases) {
+        purchases.forEach(purchase -> purchase.setInventoryId(this.getId()));
+        this.purchases = purchases;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

@@ -16,6 +16,8 @@ public class OrderItem extends BaseEntity {
 
     private Integer volume;
 
+    private Integer price;
+
     public String getOrderId() {
         return orderId;
     }
@@ -38,5 +40,13 @@ public class OrderItem extends BaseEntity {
 
     public void setVolume(Integer volume) {
         this.volume = volume;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

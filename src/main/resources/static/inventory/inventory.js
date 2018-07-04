@@ -2,12 +2,12 @@
 
 
 
-var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight']);
+var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ng-bs3-datepicker', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight']);
 app.controller('inventoryCtrl',
 ['$scope','inventoryService', function ($scope, service) {
     controllerTemplate($scope, service);
     $scope.display = function(entity){
-        var display= entity.name + " -" + "QTY(" + entity.quantity + "/" + entity.initQuantity + ")-cost/price(" + entity.cost + "/" +entity.price +")"
+        var display= entity.name + " -" + "Stock(" + entity.stock + "/" + entity.quantity + ")-price(" + entity.price +")"
         return display;
     }
 
@@ -20,6 +20,32 @@ app.controller('inventoryCtrl',
         var regExp = new RegExp($scope.filter, 'gi');
         return regExp.test(entity.name);
     };
+
+
+    $scope.getQuantity = function (entity) {
+        var quantity = 0;
+        if(entity && entity.purchases){
+            for(var i in entity.purchases){
+                var purchase = entity.purchases[i];
+                if(purchase.quantity){
+                    quantity = quantity + purchase.quantity;
+                }
+            }
+        }
+        return quantity;
+    }
+
+    $scope.newPurchase = function (entity) {
+        if(!entity.purchases){
+            entity.purchases = [];
+        }
+        entity.purchases.push({purchaseDate:new Date().toISOString().substring(0, 10)});
+    }
+
+    $scope.removePurchase = function (entity, purchase) {
+        var index = entity.purchases.indexOf(purchase);
+        entity.purchases.splice(index, 1);
+    }
 }]
 );
 

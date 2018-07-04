@@ -45,7 +45,7 @@
         <div class="panel-body">
             <div class="form-group">
                 <div class="form-group row col-md-12 col-xs-12">
-                    <div class="col-md-2 col-xs-9">
+                    <div class="col-md-3 col-xs-9">
                         <div class="input-group">
                             <span class="input-group-addon">Filter</span>
                             <input type="text" class="form-control" ng-model="filter"/>
@@ -66,7 +66,7 @@
                                     <div highlight="filter">{{entity.createTime + ' - ' + entity.customer + ' - ' + entity.tel}}</div>
                                 </uib-accordion-heading>
                                 <div>
-                                    <div class="col-md-10 col-xs-12">
+                                    <div class="col-md-12 col-xs-12">
                                         <div class="form-group row">
                                             <div class="col-md-10 col-xs-12 form-group">
                                                 <div class="input-group">
@@ -77,21 +77,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-10 col-xs-12">
+                                <div class="col-md-12 col-xs-12">
                                     <div class="form-group row">
-                                        <div class="col-md-3 col-xs-12 form-group">
+                                        <div class="col-md-4 col-xs-12 form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Customer</span>
                                                 <input type="text" class="form-control" ng-model="entity.customer"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-xs-12 form-group">
+                                        <div class="col-md-4 col-xs-12 form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Telephone</span>
                                                 <input type="text" class="form-control" ng-model="entity.tel"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-xs-12 form-group">
+                                        <div class="col-md-4 col-xs-12 form-group">
                                             <div class="input-group" theme="selectize">
                                                 <span class="input-group-addon">Source&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                                 <ui-select ng-model="entity.source">
@@ -104,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-10 col-xs-12">
+                                <div class="col-md-12 col-xs-12">
                                     <div class="form-group row">
                                         <div class="col-md-10 col-xs-12 form-group">
                                             <div class="input-group">
@@ -115,9 +115,9 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="col-md-10 col-xs-12">
+                                    <div class="col-md-12 col-xs-12">
                                         <div class="form-group row">
-                                            <div class="col-md-5 col-xs-12 form-group">
+                                            <div class="col-md-6 col-xs-12 form-group">
                                                 <div class="input-group" theme="selectize">
                                                     <span class="input-group-addon">Payment Method</span>
                                                     <ui-select ng-model="entity.paymentMethod">
@@ -128,7 +128,7 @@
                                                     </ui-select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5 col-xs-12 form-group">
+                                            <div class="col-md-6 col-xs-12 form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Payment Date</span>
                                                     <ng-bs3-datepicker ng-model="entity.paymentDate" language="en" date-format="YYYY-MM-DD"/>
@@ -139,21 +139,21 @@
                                 </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="form-group row">
-                                        <div class="col-md-2 col-xs-12 form-group">
+                                        <div class="col-md-3 col-xs-12 form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Discount</span>
                                                 <input type="number" class="form-control" ng-model="entity.discount"/>
                                                 <span class="input-group-addon">$</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 col-xs-12 form-group">
+                                        <div class="col-md-3 col-xs-12 form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Total</span>
-                                                <input type="number" class="form-control" ng-model="entity.totalBilling" readonly/>
+                                                <text class="form-control">{{entity.totalBilling}}</text>
                                                 <span class="input-group-addon">$</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-xs-12 form-group">
+                                        <div class="col-md-6 col-xs-12 form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Calc.</span>
                                                 <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
@@ -169,16 +169,23 @@
                                 </div>
 
                                 <div ng-repeat="item in entity.items | orderBy:'createTime'">
-                                    <div class="form-group row no-gutter col-md-7 col-xs-12">
-                                        <ui-select class="col-md-7 col-xs-6 col-md-offset-1 col-xs-offset-0" ng-model="item.inventoryId" theme="selectize">
+                                    <div class="no-gutter row">
+                                        <ui-select class="col-md-4 col-xs-6 col-md-offset-1 col-xs-offset-0" ng-model="item.inventoryId" ng-change="bindItemPrice(item)" theme="selectize">
                                             <ui-select-match placeholder="Select an inventory...">{{$select.selected.value.name}}</ui-select-match>
                                             <ui-select-choices repeat="inventory.value.id as (key, inventory) in inventories | filter: $select.search">
                                                 <div ng-bind-html="inventory.value.name | highlight: $select.search"></div>
-                                                <small ng-class="{'warning': inventory.value.quantity < 3}" ng-bind-html="displayInventory(inventory.value) | highlight: $select.search"></small>
+                                                <small ng-class="{'warning': inventory.value.stock < 3}" ng-bind-html="displayInventory(inventory.value) | highlight: $select.search"></small>
                                             </ui-select-choices>
                                         </ui-select>
-                                        <div class="col-md-2 col-xs-5">
+                                        <div class="col-md-2 col-xs-3">
                                             <h-number value="item.volume" min="0" max="99" step="1" change="onChanged()"/>
+                                        </div>
+                                        <div class="col-md-3 col-xs-5">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Price</span>
+                                                <input type="text" class="form-control" ng-init="bindItemPrice(item)" ng-model="item.price" readonly></text>
+                                                <span class="input-group-addon">$</span>
+                                            </div>
                                         </div>
                                         <div class="col-md-1 col-xs-1">
                                             <button class="btn btn-danger" ng-click="removeItem(entity, item)">X</button>

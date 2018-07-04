@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('orderHistory', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight']);
+var app = angular.module('orderHistory', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight', 'angular-elastic']);
 
 app.controller('orderHistoryCtrl',
 ['$scope','orderHistoryService','inventoryService', function ($scope, orderHistoryService, inventoryService) {
