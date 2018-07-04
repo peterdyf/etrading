@@ -169,29 +169,24 @@
                                 </div>
 
                                 <div ng-repeat="item in entity.items | orderBy:'createTime'">
-                                    <div class="no-gutter row">
-                                        <ui-select class="col-md-4 col-xs-6 col-md-offset-1 col-xs-offset-0" ng-model="item.inventoryId" ng-change="bindItemPrice(item)" theme="selectize">
-                                            <ui-select-match placeholder="Select an inventory...">{{$select.selected.value.name}}</ui-select-match>
+                                    <div class="no-gutter row " ng-init="bindItemPrice(item)">
+                                        <ui-select class="col-md-4 col-xs-7 col-md-offset-1 col-xs-offset-0" ng-model="item.inventoryId" ng-change="bindItemPrice(item)" theme="selectize">
+                                            <ui-select-match placeholder="Select an inventory...">{{$select.selected.value.name + " (" + $select.selected.value.price+ "$)"}}</ui-select-match>
                                             <ui-select-choices repeat="inventory.value.id as (key, inventory) in inventories | filter: $select.search">
                                                 <div ng-bind-html="inventory.value.name | highlight: $select.search"></div>
                                                 <small ng-class="{'warning': inventory.value.stock < 3}" ng-bind-html="displayInventory(inventory.value) | highlight: $select.search"></small>
                                             </ui-select-choices>
                                         </ui-select>
-                                        <div class="col-md-2 col-xs-3">
+                                        <div class="col-md-2 col-xs-4">
                                             <h-number value="item.volume" min="0" max="99" step="1" change="onChanged()"/>
-                                        </div>
-                                        <div class="col-md-3 col-xs-5">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Price</span>
-                                                <input type="text" class="form-control" ng-init="bindItemPrice(item)" ng-model="item.price" readonly></text>
-                                                <span class="input-group-addon">$</span>
-                                            </div>
                                         </div>
                                         <div class="col-md-1 col-xs-1">
                                             <button class="btn btn-danger" ng-click="removeItem(entity, item)">X</button>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-xs-12" style="height:25px;"></div>
 
                                 <div class="form-group">
                                     <div class="form-group row col-md-12 col-xs-12 col-md-offset-1 col-xs-offset-0">
