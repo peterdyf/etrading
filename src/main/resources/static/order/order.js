@@ -102,7 +102,7 @@ app.controller('orderCtrl',
         if(!entity.items){
             entity.items = [];
         }
-        entity.items.push({volume:1});
+        entity.items.push({quantity:1});
     }
 
     $scope.removeItem = function (entity, item) {
@@ -113,7 +113,9 @@ app.controller('orderCtrl',
     $scope.bindItemPrice = function (item) {
          if (item.inventoryId !=null){
             var inventory = $scope.inventories[item.inventoryId];
-            item.price = inventory.price;
+            if(inventory){
+                item.price = inventory.price;
+            }
         }
     }
 
@@ -129,7 +131,7 @@ app.controller('orderCtrl',
                 var item = entity.items[i];
                 if (item.inventoryId !=null){
                     var inventory = $scope.inventories[item.inventoryId];
-                    total = total + item.volume * inventory.price;
+                    total = total + item.quantity * inventory.price;
                 }
             }
         }
@@ -155,11 +157,11 @@ app.controller('orderCtrl',
                 var item = entity.items[i];
                 if (item.inventoryId !=null && $scope.inventories[item.inventoryId]){
                     var inventory = $scope.inventories[item.inventoryId];
-                    total = total + item.volume * inventory.price;
+                    total = total + item.quantity * inventory.price;
                     if(calculatorStr!=""){
                         calculatorStr = calculatorStr+"+\n";
                     }
-                    calculatorStr = calculatorStr + "("+inventory.name+") $"+inventory.price + " * " + item.volume + " ";
+                    calculatorStr = calculatorStr + "("+inventory.name+") $"+inventory.price + " * " + item.quantity + " ";
                 }
             }
         }

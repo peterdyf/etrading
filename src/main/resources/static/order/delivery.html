@@ -85,14 +85,14 @@
                                         <tr >
                                             <th scope="col" class="col-md-1 col-xs-1">#</th>
                                             <th scope="col" class="col-md-5 col-xs-9">Item</th>
-                                            <th scope="col" class="col-md-2 col-xs-1">Vol</th>
+                                            <th scope="col" class="col-md-2 col-xs-1">Quantity</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="item in entity.items | orderBy:'createTime'">
                                             <th scope="row" >{{$index+1}}</th>
                                             <td ng-bind-html="inventories[item.inventoryId].name"></td>
-                                            <td ng-bind-html="item.volume"></td>
+                                            <td ng-bind-html="item.quantity"></td>
                                         </tr>
                                         </tbody>
                                     </table>

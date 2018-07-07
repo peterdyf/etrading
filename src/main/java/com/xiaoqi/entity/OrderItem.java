@@ -14,7 +14,7 @@ public class OrderItem extends BaseEntity {
 
     private String inventoryId;
 
-    private Integer volume;
+    private Integer quantity;
 
     private Integer price;
 
@@ -34,12 +34,12 @@ public class OrderItem extends BaseEntity {
         this.inventoryId = inventoryId;
     }
 
-    public Integer getVolume() {
-        return volume;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setVolume(Integer volume) {
-        this.volume = volume;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Integer getPrice() {

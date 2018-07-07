@@ -7,7 +7,8 @@ var controllerTemplate = function ($scope, service) {
         {name: 'order', url: '/order/order.html', display: 'Order'},
         {name: 'delivery', url: '/order/delivery.html', display: 'Delivery'},
         {name: 'orderHistory', url: '/order/orderHistory.html', display: 'Order History'},
-        {name: 'reportInventory', url: '/inventory/inventoryReport.html', display: 'Report-Inventory'}
+        {name: 'reportInventory', url: '/report/inventoryReport.html', display: 'Report-Inventory'},
+        {name: 'reportSummary', url: '/report/summaryReport.html', display: 'Report-Summary'}
     ];
 
     $scope.query = function(entity){
@@ -116,7 +117,7 @@ var controllerTemplate = function ($scope, service) {
     }
 }
 
-var serviceTemplate = function(urlBase,query){
+var serviceTemplate = function(urlBase, query){
 
     var searchURl;
     if(query){

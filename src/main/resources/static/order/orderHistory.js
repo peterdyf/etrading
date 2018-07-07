@@ -20,7 +20,10 @@ app.controller('orderHistoryCtrl',
        var inventory = $scope.inventories.filter(function( obj ) {
          return obj.id == inventoryId;
        })[0];
-       return inventory.name;
+       if(inventory){
+            return inventory.name;
+       }
+       return null;
    }
 
     $scope.revert = function (entity) {

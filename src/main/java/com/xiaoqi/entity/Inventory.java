@@ -4,6 +4,7 @@ import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Entity
@@ -17,14 +18,14 @@ public class Inventory extends BaseEntity {
     @JoinColumn(name = "inventoryId")
     private List<Purchase> purchases;
 
-    @Formula("(select sum(o.volume) from order_item o where o.inventory_id = id)")
+    @Formula("(select sum(o.quantity) from order_item o where o.inventory_id = id)")
     private Integer consumed;
 
     @Formula("(select sum(p.quantity) from purchase p where p.inventory_id = id)")
     private Integer quantity;
 
-    @Formula("(select sum(p.quantity * p.cost) / sum(p.quantity) from purchase p where p.inventory_id = id)")
-    private BigDecimal avgCost;
+    @Formula("(select sum(p.quantity * p.cost) from purchase p where p.inventory_id = id)")
+    private BigDecimal totalCost;
 
     public int getStock() {
         return consumed == null ? quantity : quantity - consumed;
@@ -72,10 +73,17 @@ public class Inventory extends BaseEntity {
     }
 
     public BigDecimal getAvgCost() {
-        return avgCost;
+        if (quantity != null && totalCost != null && quantity > 0) {
+            return totalCost.divide(BigDecimal.valueOf(quantity), 2, RoundingMode.HALF_UP);
+        }
+        return null;
     }
 
-    public void setAvgCost(BigDecimal avgCost) {
-        this.avgCost = avgCost;
+    public BigDecimal getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
     }
 }
