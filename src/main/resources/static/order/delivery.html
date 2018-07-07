@@ -104,6 +104,12 @@
                                 <div class="row col-md-12 col-xs-12">
                                     <div class="col-md-4 col-xs-12 form-group">
                                         <div class="input-group">
+                                            <span class="input-group-addon">Waybill No.&nbsp;&nbsp;&nbsp;</span>
+                                            <input type="text" class="form-control" ng-model="entity.waybillNumber"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12 form-group">
+                                        <div class="input-group">
                                             <span class="input-group-addon">Shipping Fee</span>
                                             <input type="number" class="form-control" ng-model="entity.shippingFee"/>
                                             <span class="input-group-addon">$</span>
@@ -117,17 +123,11 @@
                                     </div>
                                     <div class="col-md-4 col-xs-12 form-group">
                                         <div class="input-group">
-                                            <span class="input-group-addon">Waybill No.&nbsp;&nbsp;&nbsp;</span>
-                                            <input type="text" class="form-control" ng-model="entity.waybillNumber"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-xs-12 form-group">
-                                        <div class="input-group">
                                             <span class="input-group-addon">Drawee</span>
-                                            <div class="btn-group">
-                                                <label class="btn btn-primary" ng-model="entity.deliveryDrawee" uib-btn-radio="'Jessie'">Jessie</label>
-                                                <label class="btn btn-primary" ng-model="entity.deliveryDrawee" uib-btn-radio="'Kiwi'">Kiwi</label>
-                                            </div>
+                                            <select class="form-control"  ng-model="entity.deliveryDrawee">
+                                                <option value="Jessie">Jessie</option>
+                                                <option value="Kiwi">Kiwi</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

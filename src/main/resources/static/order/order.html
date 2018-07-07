@@ -94,11 +94,11 @@
                                         <div class="col-md-4 col-xs-12 form-group">
                                             <div class="input-group" theme="selectize">
                                                 <span class="input-group-addon">Source&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                <div class="btn-group">
-                                                    <label class="btn btn-primary" ng-model="entity.source" uib-btn-radio="'Facebook'">FB</label>
-                                                    <label class="btn btn-primary" ng-model="entity.source" uib-btn-radio="'Instagram'">IG</label>
-                                                    <label class="btn btn-primary" ng-model="entity.source" uib-btn-radio="'WhatsApp'">WhatsApp</label>
-                                                </div>
+                                                <select class="form-control"  ng-model="entity.source">
+                                                    <option value="Facebook">Facebook</option>
+                                                    <option value="Instagram">Instagram</option>
+                                                    <option value="WhatsApp">WhatsApp</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -119,12 +119,12 @@
                                             <div class="col-md-6 col-xs-12 form-group">
                                                 <div class="input-group" theme="selectize">
                                                     <span class="input-group-addon">Method</span>
-                                                    <div class="btn-group">
-                                                        <label class="btn btn-primary" ng-model="entity.paymentMethod" uib-btn-radio="'HSBC - Kiwi'">HSBC-Kiwi</label>
-                                                        <label class="btn btn-primary" ng-model="entity.paymentMethod" uib-btn-radio="'BOC - Kiwi'">BOC-Kiwi</label>
-                                                        <label class="btn btn-primary" ng-model="entity.paymentMethod" uib-btn-radio="'Payme - Kiwi'">Payme-Kiwi</label>
-                                                        <label class="btn btn-primary" ng-model="entity.paymentMethod" uib-btn-radio="'Payme - Jessie'">Payme-Jess</label>
-                                                    </div>
+                                                    <select class="form-control"  ng-model="entity.paymentMethod">
+                                                        <option value="HSBC - Kiwi">HSBC - Kiwi</option>
+                                                        <option value="BOC - Kiwi">BOC - Kiwi</option>
+                                                        <option value="Payme - Kiwi">Payme - Kiwi</option>
+                                                        <option value="Payme - Jessie">Payme - Jessie</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-xs-12 form-group">

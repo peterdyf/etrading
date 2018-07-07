@@ -120,10 +120,10 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2 col-xs-6">
-                                            <div class="btn-group">
-                                                <label class="btn btn-primary" ng-model="purchase.drawee" uib-btn-radio="'Jessie'">Jessie</label>
-                                                <label class="btn btn-primary" ng-model="purchase.drawee" uib-btn-radio="'Kiwi'">Kiwi</label>
-                                            </div>
+                                            <select class="form-control"  ng-model="purchase.drawee">
+                                                <option value="Jessie">Jessie</option>
+                                                <option value="Kiwi">Kiwi</option>
+                                            </select>
                                         </div>
                                         <div class="col-md-1 col-xs-1">
                                             <button class="btn btn-danger" ng-click="removePurchase(entity, purchase)">X</button>
