@@ -6,21 +6,18 @@ var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ng-bs3-datepi
 app.controller('inventoryCtrl',
 ['$scope','inventoryService', function ($scope, service) {
     controllerTemplate($scope, service);
+
+    $scope.page = "inventory";
+
+
     $scope.display = function(entity){
-        var display= entity.name + " -" + "Stock(" + entity.stock + "/" + entity.quantity + ")-price(" + entity.price +")"
+        var display= entity.name + " -" + "Stock(" + entity.stock + "/" + entity.quantity + ") - price(" + entity.price +"$) - Avg Cost(" + entity.avgCost.toFixed(2) + "$)";
         return display;
     }
 
     $scope.disableDelete = function (entity) {
         return entity.consumed !=null && entity.consumed > 0;
     }
-
-    $scope.query = function(entity){
-        if(!$scope.filter) return true;
-        var regExp = new RegExp($scope.filter, 'gi');
-        return regExp.test(entity.name);
-    };
-
 
     $scope.getQuantity = function (entity) {
         var quantity = 0;

@@ -1,6 +1,21 @@
 'use strict';
 
 var controllerTemplate = function ($scope, service) {
+
+    $scope.pages = [
+        {name: 'inventory', url: '/inventory/inventory.html', display: 'Inventory'},
+        {name: 'order', url: '/order/order.html', display: 'Order'},
+        {name: 'delivery', url: '/order/delivery.html', display: 'Delivery'},
+        {name: 'orderHistory', url: '/order/orderHistory.html', display: 'Order History'},
+        {name: 'reportInventory', url: '/inventory/inventoryReport.html', display: 'Report-Inventory'}
+    ];
+
+    $scope.query = function(entity){
+        if(!$scope.filter) return true;
+        var regExp = new RegExp($scope.filter, 'gi');
+        return regExp.test(entity.name);
+    };
+
     $scope.isNew = function (e) {
         return e != null && e.id == null;
     }

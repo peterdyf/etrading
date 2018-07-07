@@ -4,6 +4,9 @@ var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker
 
 app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
+
+    $scope.page = "order";
+
     $scope.inventories = [];
     controllerTemplate($scope, orderService);
 
@@ -177,12 +180,6 @@ app.controller('orderCtrl',
     $scope.displayInventory = function (inventory) {
         return "price: " + inventory.price + " stock: " + inventory.stock;
     }
-
-    $scope.query = function(entity){
-        if(!$scope.filter) return true;
-        var regExp = new RegExp($scope.filter, 'gi');
-        return regExp.test(entity.customer);
-    };
 
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';
 

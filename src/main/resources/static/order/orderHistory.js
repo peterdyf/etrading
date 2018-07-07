@@ -4,6 +4,9 @@ var app = angular.module('orderHistory', ['ngAnimate', 'ngSanitize', 'ui.bootstr
 
 app.controller('orderHistoryCtrl',
 ['$scope','orderHistoryService','inventoryService', function ($scope, orderHistoryService, inventoryService) {
+
+    $scope.page = "orderHistory";
+
     $scope.inventories = [];
     controllerTemplate($scope, orderHistoryService);
 

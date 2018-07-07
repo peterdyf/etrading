@@ -4,6 +4,9 @@ var app = angular.module('delivery', ['ngSanitize', 'ng-bs3-datepicker', 'ngAnim
 
 app.controller('deliveryCtrl',
 ['$scope','deliveryService','inventoryService', function ($scope, deliveryService, inventoryService) {
+
+    $scope.page = "delivery";
+
     $scope.inventories = [];
     controllerTemplate($scope, deliveryService);
 

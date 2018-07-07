@@ -23,6 +23,9 @@ public class Inventory extends BaseEntity {
     @Formula("(select sum(p.quantity) from purchase p where p.inventory_id = id)")
     private Integer quantity;
 
+    @Formula("(select sum(p.quantity * p.cost) / sum(p.quantity) from purchase p where p.inventory_id = id)")
+    private BigDecimal avgCost;
+
     public int getStock() {
         return consumed == null ? quantity : quantity - consumed;
     }
@@ -66,5 +69,13 @@ public class Inventory extends BaseEntity {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public BigDecimal getAvgCost() {
+        return avgCost;
+    }
+
+    public void setAvgCost(BigDecimal avgCost) {
+        this.avgCost = avgCost;
     }
 }

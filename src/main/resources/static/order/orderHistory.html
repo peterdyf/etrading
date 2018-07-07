@@ -24,13 +24,10 @@
     <script src="orderHistory.js"></script>
 </head>
 <body>
-<ul class="nav nav-pills">
-    <li role="presentation"><a href="/inventory/inventory.html">Inventory</a></li>
-    <li role="presentation"><a href="/order/order.html">Order</a></li>
-    <li role="presentation"><a href="/order/delivery.html">Delivery</a></li>
-    <li role="presentation" class="active"><a href="/order/orderHistory.html">Order History</a></li>
-</ul>
 <div ng-controller="orderHistoryCtrl" ng-init="refresh()">
+    <ul class="nav nav-pills">
+        <li ng-repeat="p in pages" role="presentation" ng-class="{'active': page == p.name}"><a href="{{p.url}}">{{p.display}}</a></li>
+    </ul>
     <div id="message" class="alert alert-success" ng-show="showMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{message}}</div>
     <div id="errorMessage" class="alert alert-danger" ng-show="showErrorMessage"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{errorMessage}}</div>
 
