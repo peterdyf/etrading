@@ -184,8 +184,6 @@ app.controller('orderCtrl',
         return regExp.test(entity.customer);
     };
 
-    $scope.sources = ['Facebook','Instagram','WhatsApp'];
-    $scope.paymentMethods = ['HSBC - Kiwi','BOC - Kiwi','Payme - Kiwi','Payme - Jessie'];
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';
 
     $scope.refreshInventory();

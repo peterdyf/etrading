@@ -16,6 +16,9 @@ app.controller('deliveryCtrl',
     });
 
     $scope.validate = function (entity) {
+        if(entity.deliveryDrawee == null){
+                return false;
+        }
         if(entity.deliveryDate == null){
             return false;
         }

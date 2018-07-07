@@ -17,6 +17,8 @@ public class Purchase extends BaseEntity {
 
     private int quantity;
 
+    private String drawee;
+
     public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
@@ -47,5 +49,13 @@ public class Purchase extends BaseEntity {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getDrawee() {
+        return drawee;
+    }
+
+    public void setDrawee(String drawee) {
+        this.drawee = drawee;
     }
 }
