@@ -12,14 +12,9 @@ app.controller('orderCtrl',
 
     controllerTemplate($scope, orderService);
 
-    sfService.getAll().then(function success(response) {
-        var result = response.data._embedded;
-        var arr = result[Object.keys(result)[0]];
-        $scope.sfAddresses = arr.map(function(item) {
-            return item['value'];
-        });
-     });
-
+    sfService.search().then(function success(response) {
+        $scope.sfAddresses = response.data;
+    });
 
     $scope.refreshInventory = function (){
         inventoryService.getAll().then(function success(response) {
@@ -229,6 +224,12 @@ function parsePhone(content){
 
 app.service('orderService', serviceTemplate("/orders", "/search/findByStatusOrderByCreateTimeDesc?status=PREPARING" ));
 app.service('inventoryService', serviceTemplate("/inventories"));
-app.service('sfService', serviceTemplate("/sfAddresses"));
-
+app.service('sfService', ['$http', function($http) {
+     this.search = function(){
+         return $http({
+             method : 'GET',
+             url : '/sfAddresses/fromSF'
+         });
+     }
+ } ]);
 

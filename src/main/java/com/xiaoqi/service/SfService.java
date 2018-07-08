@@ -1,27 +1,30 @@
 package com.xiaoqi.service;
 
-import com.xiaoqi.entity.SfAddress;
-import com.xiaoqi.repository.SfAddressRepository;
+import com.xiaoqi.config.CachingConfig;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class SfService {
 
-    @Autowired
-    private SfAddressRepository repository;
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public static Stream<String> read(){
+    @Cacheable(CachingConfig.SF)
+    public List<String> read() {
+
+        log.info("Search Address from SF");
+
         List<String> urls = Arrays.asList(
                 "http://www.sf-express.com/hk/tc/dynamic_function/S.F.Network/SF_service_center_address/",
                 "http://www.sf-express.com/hk/tc/dynamic_function/S.F.Network/SF_store_address/",
@@ -59,7 +62,7 @@ public class SfService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }).collect(Collectors.toList());
     }
 
     private static String getString(Element valueEle) {
@@ -69,11 +72,5 @@ public class SfService {
             }
             return getString((Element) node);
         }).collect(Collectors.joining());
-    }
-
-    public void update() {
-        repository.deleteAll();
-        List<SfAddress> newSf = SfService.read().map(SfAddress::new).collect(Collectors.toList());
-        repository.saveAll(newSf);
     }
 }
