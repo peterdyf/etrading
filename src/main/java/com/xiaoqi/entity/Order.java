@@ -27,9 +27,11 @@ public class Order extends BaseEntity {
 
     private Integer discount;
 
+    private Integer shippingFeeInBill;
+
     private String calculator;
 
-    private Integer shippingFee;
+    private Integer shippingFeeActual;
 
     private LocalDate deliveryDate;
 
@@ -103,6 +105,22 @@ public class Order extends BaseEntity {
         this.paymentDate = paymentDate;
     }
 
+    public Integer getShippingFeeInBill() {
+        return shippingFeeInBill;
+    }
+
+    public void setShippingFeeInBill(Integer shippingFeeInBill) {
+        this.shippingFeeInBill = shippingFeeInBill;
+    }
+
+    public Integer getShippingFeeActual() {
+        return shippingFeeActual;
+    }
+
+    public void setShippingFeeActual(Integer shippingFeeActual) {
+        this.shippingFeeActual = shippingFeeActual;
+    }
+
     public Integer getTotalBilling() {
         return totalBilling;
     }
@@ -144,13 +162,6 @@ public class Order extends BaseEntity {
         this.status = status;
     }
 
-    public Integer getShippingFee() {
-        return shippingFee;
-    }
-
-    public void setShippingFee(Integer shippingFee) {
-        this.shippingFee = shippingFee;
-    }
 
     public LocalDate getDeliveryDate() {
         return deliveryDate;

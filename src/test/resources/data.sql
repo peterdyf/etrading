@@ -25,6 +25,6 @@ values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'customer3', 'address 3', '3333333
 INSERT INTO order_item (create_time, update_time, inventory_id, quantity, price, order_id, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'i1', 1, 100, 'o3', 'item31' );
 INSERT INTO order_item (create_time, update_time, inventory_id, quantity, price, order_id, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'i2', 3, 10, 'o3', 'item32' );
 
-INSERT INTO orders (create_time, update_time, customer, address, tel, content, source, payment_method, payment_date, discount, total_billing, calculator, shipping_fee, delivery_date, delivery_drawee, waybill_number, status, id)
+INSERT INTO orders (create_time, update_time, customer, address, tel, content, source, payment_method, payment_date, discount, total_billing, calculator, shipping_fee_actual, delivery_date, delivery_drawee, waybill_number, status, id)
 values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'customer4', 'address 4', '44444444',STRINGDECODE('customer4\n10001000\naddress 4'), 'WhatsApp','Payme - Jessie',CURRENT_TIMESTAMP, 3, 297, STRINGDECODE('(Inventory1) $100 * 3\n = $300 - $3\n= $297'), 25, CURRENT_TIMESTAMP, 'Kiwi', '02321344222', 'COMPLETED','o4' );
 INSERT INTO order_item (create_time, update_time, inventory_id, quantity, price, order_id, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'i1', 3, 100, 'o4', 'item42' );

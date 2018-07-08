@@ -148,6 +148,12 @@ app.controller('orderCtrl',
             }
         }
 
+        var shippingFeeInBill = entity.shippingFeeInBill;
+
+        if(shippingFeeInBill !=null && shippingFeeInBill > 0){
+            total = total + discount;
+        }
+
         var discount = entity.discount;
 
         if(discount !=null && discount > 0){
@@ -178,15 +184,23 @@ app.controller('orderCtrl',
             }
         }
 
-        var discount = entity.discount;
-
         calculatorStr = calculatorStr + "\n= $" + total;
+
+        var shippingFeeInBill = entity.shippingFeeInBill;
+
+        if(shippingFeeInBill !=null && shippingFeeInBill > 0){
+            total = total + shippingFeeInBill;
+            calculatorStr = calculatorStr + " + (Shipping Fee) $" + shippingFeeInBill + "\n= $" + total;
+        }
+
+        var discount = entity.discount;
 
         if(discount !=null && discount > 0){
             total = total - discount;
-            calculatorStr = calculatorStr + " - $" + discount + "\n= $" + total;
-
+            calculatorStr = calculatorStr + " - (discount) $" + discount + "\n= $" + total;
         }
+
+
 
         return calculatorStr;
     }

@@ -26,7 +26,7 @@ app.controller('deliveryCtrl',
         if(entity.deliveryDate == null){
             return false;
         }
-        if(entity.shippingFee == null){
+        if(entity.shippingFeeActual == null){
             return false;
         }
         if(entity.waybillNumber == null){
