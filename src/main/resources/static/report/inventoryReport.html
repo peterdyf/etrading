@@ -20,6 +20,11 @@
     <script src="/lib/datepicker/ng-bs3-datepicker.js"></script>
     <script src="/lib/confirmation/ui-bootstrap-position.js"></script>
     <script src="/lib/angular-ui-grid/ui-grid.min.js"></script>
+    <script src="/lib/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/lib/pdfmake/build/vfs_fonts.js"></script>
+    <script src="/lib/lodash/dist/lodash.min.js"></script>
+    <script src="/lib/jszip/dist/jszip.min.js"></script>
+    <script src="/lib/excel-builder-js/dist/excel-builder.dist.js"></script>
     <script src="/common.js"></script>
     <script src="inventoryReport.js"></script>
 </head>
@@ -36,15 +41,15 @@
     <div class="panel panel-default">
         <div class="form-group">
             <div class="form-group row col-md-12 col-xs-12">
-                <div class="col-md-2 col-xs-5">
+                <div class="col-md-2 col-xs-12">
                     <div class="input-group">
                         <span class="input-group-addon">From</span>
                         <ng-bs3-datepicker ng-model="from" language="en" date-format="YYYY-MM-DD"/>
                     </div>
                 </div>
-                <div class="col-md-2 col-xs-5">
+                <div class="col-md-2 col-xs-12">
                     <div class="input-group">
-                        <span class="input-group-addon">To</span>
+                        <span class="input-group-addon">To  &nbsp;&nbsp;&nbsp;&nbsp;</span>
                         <ng-bs3-datepicker ng-model="to" language="en" date-format="YYYY-MM-DD"/>
                     </div>
                 </div>
@@ -66,7 +71,7 @@
         <div class="form-group">
             <div class="form-group row">
                 <div class="col-md-10 col-xs-12">
-                    <div id="inventoryGrid" ui-grid="gridOptions" class="grid"></div>
+                    <div id="inventoryGrid" ui-grid="gridOptions" class="grid" ui-grid-exporter ui-grid-move-columns ui-grid-resize-columns> </div>
                 </div>
             </div>
         </div>
