@@ -3,16 +3,28 @@
 var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap',  'mwl.confirm', 'ngHighlight', 'angular-elastic']);
 
 app.controller('orderCtrl',
-['$scope','orderService','inventoryService', function ($scope, orderService, inventoryService) {
+['$scope','orderService','inventoryService', 'sfService' , function ($scope, orderService, inventoryService, sfService) {
 
     $scope.page = "order";
 
     $scope.inventories = [];
+    $scope.sfAddress ={};
+
     controllerTemplate($scope, orderService);
+
+    sfService.getAll().then(function success(response) {
+        var result = response.data._embedded;
+        var arr = result[Object.keys(result)[0]];
+        $scope.sfAddresses = arr.map(function(item) {
+            return item['value'];
+        });
+     });
+
 
     $scope.refreshInventory = function (){
         inventoryService.getAll().then(function success(response) {
-            var arr = response.data._embedded['entities'];
+            var result = response.data._embedded;
+            var arr = result[Object.keys(result)[0]];
             $scope.inventories = arr.reduce(function(map, obj) {
                 map[obj.id] = obj;
                 return map;
@@ -203,6 +215,6 @@ function parsePhone(content){
 
 app.service('orderService', serviceTemplate("/orders", "/search/findByStatusOrderByCreateTimeDesc?status=PREPARING" ));
 app.service('inventoryService', serviceTemplate("/inventories"));
-
+app.service('sfService', serviceTemplate("/sfAddresses"));
 
 

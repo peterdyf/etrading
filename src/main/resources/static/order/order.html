@@ -73,6 +73,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-10 col-xs-12 form-group">
+                                                <div class="input-group" theme="selectize">
+                                                    <span class="input-group-addon">SF</span>
+                                                    <ui-select ng-model="sfAddress.value" >
+                                                        <ui-select-match placeholder="Select an SF Network...">{{$select.selected}}</ui-select-match>
+                                                        <ui-select-choices repeat="addr in sfAddresses | filter: $select.search | limitTo: 20">
+                                                            <div ng-bind-html="addr | highlight: $select.search"></div>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                    <span class="input-group-addon btn btn-primary" ng-click="entity.address = sfAddress.value">Parse</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="form-group row">
                                         <div class="col-md-4 col-xs-12 form-group">

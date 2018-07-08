@@ -13,17 +13,21 @@ app.controller('orderHistoryCtrl',
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';
 
     inventoryService.getAll().then(function success(response) {
-        $scope.inventories = response.data._embedded['entities'];
+        var result = response.data._embedded;
+        $scope.inventories = result[Object.keys(result)[0]];
     });
 
     $scope.displayInventory = function (inventoryId) {
-       var inventory = $scope.inventories.filter(function( obj ) {
+        if(!$scope.inventories){
+            return null;
+        }
+        var inventory = $scope.inventories.filter(function( obj ) {
          return obj.id == inventoryId;
-       })[0];
-       if(inventory){
+        })[0];
+        if(inventory){
             return inventory.name;
-       }
-       return null;
+        }
+        return null;
    }
 
     $scope.revert = function (entity) {

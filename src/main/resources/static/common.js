@@ -8,7 +8,8 @@ var controllerTemplate = function ($scope, service) {
         {name: 'delivery', url: '/order/delivery.html', display: 'Delivery'},
         {name: 'orderHistory', url: '/order/orderHistory.html', display: 'Order History'},
         {name: 'reportInventory', url: '/report/inventoryReport.html', display: 'Report-Inventory'},
-        {name: 'reportSummary', url: '/report/summaryReport.html', display: 'Report-Summary'}
+        {name: 'reportSummary', url: '/report/summaryReport.html', display: 'Report-Summary'},
+        {name: 'sf', url: '/sf/sf.html', display: 'SF address'}
     ];
 
     $scope.query = function(entity){
@@ -85,7 +86,8 @@ var controllerTemplate = function ($scope, service) {
 
     $scope.refresh = function () {
         service.getAll().then(function success(response) {
-            $scope.entities = response.data._embedded['entities'];
+            var result = response.data._embedded;
+            $scope.entities = result[Object.keys(result)[0]];
         },
         function error (response) {
             $scope.setErrorMessage('Error getting!');

@@ -11,7 +11,8 @@ app.controller('deliveryCtrl',
     controllerTemplate($scope, deliveryService);
 
     inventoryService.getAll().then(function success(response) {
-        var arr = response.data._embedded['entities'];
+        var result = response.data._embedded;
+        var arr = result[Object.keys(result)[0]];
         $scope.inventories = arr.reduce(function(map, obj) {
             map[obj.id] = obj;
             return map;
