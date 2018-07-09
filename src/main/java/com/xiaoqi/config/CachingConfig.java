@@ -28,6 +28,5 @@ public class CachingConfig {
     @CacheEvict(allEntries = true, value = {SF})
     @Scheduled(fixedDelay = 60 * 60 * 1000, initialDelay = 500)
     public void reportCacheEvict() {
-        log.info("Flush Cache");
     }
 }
