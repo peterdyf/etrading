@@ -1,7 +1,5 @@
 package com.xiaoqi.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.EnableCaching;
@@ -15,8 +13,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableCaching
 @EnableScheduling
 public class CachingConfig {
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public static final String SF = "SF";
 
