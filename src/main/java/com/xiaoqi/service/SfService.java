@@ -34,7 +34,7 @@ public class SfService {
 
         return urls.stream().flatMap(url -> {
             try {
-                Document doc = Jsoup.connect(url).timeout(5000).get();
+                Document doc = Jsoup.connect(url).timeout(10000).get();
                 return doc.select("tr").stream().map(tr -> tr.select("td")).filter(tds -> Arrays.asList(4, 5).contains(tds.size())).filter(tds -> {
                     String code;
                     if (tds.size() == 4) {
