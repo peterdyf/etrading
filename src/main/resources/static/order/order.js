@@ -146,7 +146,7 @@ app.controller('orderCtrl',
         var shippingFeeInBill = entity.shippingFeeInBill;
 
         if(shippingFeeInBill !=null && shippingFeeInBill > 0){
-            total = total + discount;
+            total = total + shippingFeeInBill;
         }
 
         var discount = entity.discount;

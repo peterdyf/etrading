@@ -32,25 +32,6 @@ app.controller('inventoryCtrl',
         return quantity;
     }
 
-    $scope.getCost = function (entity) {
-        var sum = 0;
-        if(entity && entity.purchases){
-            for(var i in entity.purchases){
-                var purchase = entity.purchases[i];
-                if(purchase.quantity){
-                    sum = sum + purchase.quantity * purchase.cost;
-                }
-            }
-        }
-
-        var qty = $scope.getQuantity(entity);
-
-        if(qty==0){
-            return null;
-        }
-        return (sum / qty).toFixed(2);
-    }
-
     $scope.newPurchase = function (entity) {
         if(!entity.purchases){
             entity.purchases = [];

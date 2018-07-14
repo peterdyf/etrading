@@ -73,24 +73,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="col-md-12 col-xs-12">
-                                        <div class="form-group row">
-                                            <div class="col-md-10 col-xs-12 form-group">
-                                                <div class="input-group" theme="selectize">
-                                                    <span class="input-group-addon">SF</span>
-                                                    <ui-select ng-model="sfAddress.value" >
-                                                        <ui-select-match placeholder="Select an SF Network...">{{$select.selected}}</ui-select-match>
-                                                        <ui-select-choices repeat="addr in sfAddresses | filter: $select.search | limitTo: 20">
-                                                            <div ng-bind-html="addr | highlight: $select.search"></div>
-                                                        </ui-select-choices>
-                                                    </ui-select>
-                                                    <span class="input-group-addon btn btn-primary" ng-click="entity.address = sfAddress.value">Parse</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="form-group row">
                                         <div class="col-md-4 col-xs-12 form-group">
@@ -107,12 +89,30 @@
                                         </div>
                                         <div class="col-md-4 col-xs-12 form-group">
                                             <div class="input-group" theme="selectize">
-                                                <span class="input-group-addon">Source&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <span class="input-group-addon">Platform&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                                 <select class="form-control"  ng-model="entity.source">
                                                     <option value="Facebook">Facebook</option>
                                                     <option value="Instagram">Instagram</option>
                                                     <option value="WhatsApp">WhatsApp</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-10 col-xs-12 form-group">
+                                                <div class="input-group" theme="selectize">
+                                                    <span class="input-group-addon">SF</span>
+                                                    <ui-select ng-model="sfAddress.value" >
+                                                        <ui-select-match placeholder="Select an SF Network...">{{$select.selected}}</ui-select-match>
+                                                        <ui-select-choices repeat="addr in sfAddresses | filter: $select.search | limitTo: 20">
+                                                            <div ng-bind-html="addr | highlight: $select.search"></div>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                    <span class="input-group-addon btn btn-primary" ng-click="entity.address = sfAddress.value">Parse</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -147,42 +147,12 @@
                                                     <ng-bs3-datepicker ng-model="entity.paymentDate" language="en" date-format="YYYY-MM-DD"/>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 col-xs-12 form-group">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                    <text class="form-control">{{entity.totalBilling}}</text>
-                                                    <span class="input-group-addon">$</span>
-                                                </div>
-                                            </div>
+
 
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="form-group row">
-                                        <div class="col-md-3 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Discount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                <input type="number" class="form-control" ng-model="entity.discount"/>
-                                                <span class="input-group-addon">$</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Shipping Fee</span>
-                                                <input type="number" class="form-control" ng-model="entity.shippingFeeInBill"/>
-                                                <span class="input-group-addon">$</span>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-md-6 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Calc.</span>
-                                                <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="form-group row">
                                     <div class="col-md-6 col-xs-4">
                                         <label class="control-label"> Items ({{entity.items.length}})</label>
@@ -208,7 +178,35 @@
                                     </div>
                                 </div>
 
+
+
                                 <div class="col-xs-12" style="height:25px;"></div>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <div class="col-md-3 col-xs-12 form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Discount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="number" class="form-control" ng-model="entity.discount"/>
+                                                <span class="input-group-addon">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-xs-12 form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Shipping Fee</span>
+                                                <input type="number" class="form-control" ng-model="entity.shippingFeeInBill"/>
+                                                <span class="input-group-addon">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-xs-12 form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <input type="number" class="form-control" ng-model="entity.totalBilling" readonly/>
+                                                <span class="input-group-addon">$</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="form-group">
                                     <div class="form-group row col-md-12 col-xs-12 col-md-offset-1 col-xs-offset-0">
@@ -222,6 +220,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="form-group row">
+                                        <div class="col-md-6 col-xs-12 form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Calc.</span>
+                                                <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </uib-accordion>
                     </div>

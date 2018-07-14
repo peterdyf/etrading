@@ -14,8 +14,8 @@ public interface ReportInventoryRepository extends CrudRepository<Inventory, Str
 
     @Query(value = "select i.name AS name, \n" +
             "sum(t.quantity) AS sellQty,\n" +
-            "sum(p.cost) AS totalPurchaseCost,\n" +
-            "sum(p.quantity) AS totalPurchaseQuantity,\n" +
+            "i.cost AS unitCost,\n" +
+            "i.cost * sum(p.quantity) AS totalCost,\n" +
             "sum(t.price) AS totalIncome\n" +
             "from inventory i \n" +
             "join purchase p on i.id = p.inventory_id \n" +
@@ -28,27 +28,11 @@ public interface ReportInventoryRepository extends CrudRepository<Inventory, Str
 
         String getName();
 
+        BigDecimal getUnitCost();
+
         Integer getSellQty();
 
-        Integer getTotalPurchaseQuantity();
-
-        BigDecimal getTotalPurchaseCost();
-
-        default BigDecimal getTotalCost() {
-            BigDecimal unitCost = getUnitCost();
-            if (unitCost != null) {
-                return unitCost.multiply(BigDecimal.valueOf(getSellQty()));
-            }
-            return null;
-        }
-
-        default BigDecimal getUnitCost() {
-            Integer qty = getTotalPurchaseQuantity();
-            if (qty != null && qty > 0) {
-                return getTotalPurchaseCost().divide(BigDecimal.valueOf(qty), 2, RoundingMode.HALF_UP);
-            }
-            return null;
-        }
+        BigDecimal getTotalCost();
 
         BigDecimal getTotalIncome();
 

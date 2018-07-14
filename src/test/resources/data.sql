@@ -1,15 +1,15 @@
-INSERT INTO inventory (create_time, update_time, name, price, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory1', 100 , 'i1' );
-INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kiwi', 'i1', 5, 25, 'purchase11' );
-INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Jessie','i1', 10, 27.5, 'purchase12' );
+INSERT INTO inventory (create_time, update_time, name, price, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory1', 100, 20, 'i1' );
+INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kiwi', 'i1', 5, 'purchase11' );
+INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Jessie','i1', 10, 'purchase12' );
 
-INSERT INTO inventory (create_time, update_time, name, price, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory2', 10, 'i2' );
-INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kiwi', 'i2', 3, 2, 'purchase21' );
+INSERT INTO inventory (create_time, update_time, name, price, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory2', 10, 3, 'i2' );
+INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kiwi', 'i2', 3, 'purchase21' );
 
-INSERT INTO inventory (create_time, update_time, name, price, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory3', 3, 'i3' );
-INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Jessie', 'i3', 10, 1, 'purchase31' );
+INSERT INTO inventory (create_time, update_time, name, price, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory3', 3, 1.5, 'i3' );
+INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Jessie', 'i3', 10, 'purchase31' );
 
-INSERT INTO inventory (create_time, update_time, name, price, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory4', 3, 'i4' );
-INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kiwi','i4', 20, 2, 'purchase41' );
+INSERT INTO inventory (create_time, update_time, name, price, cost, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Inventory4', 3, 1.5, 'i4' );
+INSERT INTO purchase (create_time, update_time, purchase_date, drawee, inventory_id, quantity, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Kiwi','i4', 20, 'purchase41' );
 
 
 INSERT INTO orders (create_time, update_time, customer, address, tel, content, source, payment_method, payment_date, discount, total_billing, calculator, status, id)

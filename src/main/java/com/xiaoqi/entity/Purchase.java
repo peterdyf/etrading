@@ -13,8 +13,6 @@ public class Purchase extends BaseEntity {
     @Column(updatable = false)
     private String inventoryId;
 
-    private BigDecimal cost;
-
     private int quantity;
 
     private String drawee;
@@ -33,14 +31,6 @@ public class Purchase extends BaseEntity {
 
     public void setInventoryId(String inventoryId) {
         this.inventoryId = inventoryId;
-    }
-
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
     }
 
     public int getQuantity() {
