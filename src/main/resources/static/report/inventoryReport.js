@@ -31,7 +31,7 @@ app.controller('reportCtrl',
         enableColumnResizing: true,
         exporterMenuCsv: false,
         exporterPdfHeader: function () {
-            return { text: $scope.from + "~" + $scope.to, style: 'headerStyle' };
+            return { text: $scope.from + "~" + $scope.to +"___ FX Rate ( RMB -> HKD ):" + $scope.fxRate, style: 'headerStyle' };
         },
         exporterMenuSelectedData: false,
         exporterMenuVisibleData: false,
@@ -58,6 +58,7 @@ app.controller('reportCtrl',
         },
         exporterExcelHeader: function (grid, workbook, sheet, docDefinition) {
             sheet.data.push([{ value: $scope.from + ' ~ ' + $scope.to , metadata: {style: docDefinition.styles['bold'].id}}]);
+            sheet.data.push([{ value: "FX Rate ( RMB -> HKD ):" + $scope.fxRate , metadata: {style: docDefinition.styles['bold'].id}}]);
         }
     };
 
