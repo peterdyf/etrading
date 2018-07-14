@@ -15,7 +15,7 @@ public interface ReportInventoryRepository extends CrudRepository<Inventory, Str
     @Query(value = "select i.name AS name, \n" +
             "sum(t.quantity) AS sellQty,\n" +
             "i.cost AS unitCost,\n" +
-            "i.cost * sum(p.quantity) AS totalCost,\n" +
+            "i.cost * sum(t.quantity) AS totalCost,\n" +
             "sum(t.price) AS totalIncome\n" +
             "from inventory i \n" +
             "join purchase p on i.id = p.inventory_id \n" +
