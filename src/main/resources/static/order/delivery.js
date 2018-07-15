@@ -55,8 +55,8 @@ app.controller('deliveryCtrl',
 }]
 );
 
-app.service('deliveryService', serviceTemplate("/orders", "/search/findByStatusOrderByCreateTimeDesc?status=PENDING_DELIVERY" ));
-app.service('inventoryService', serviceTemplate("/inventories"));
+app.service('deliveryService', serviceTemplate("/orders", "/search/findByStatus?status=PENDING_DELIVERY" ));
+app.service('inventoryService', serviceTemplate("/inventories","/search/getAll"));
 
 
 

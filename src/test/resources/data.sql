@@ -17,7 +17,7 @@ values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'customer1', 'address 1', '1111111
 INSERT INTO orders (create_time, update_time, customer, address, tel, content, source, payment_method, payment_date, discount, total_billing, calculator, status, id)
 values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'customer2', 'address 2', '22222222',STRINGDECODE('customer2\n22222222\naddress 2'), 'WhatsApp','Payme - Jessie',CURRENT_TIMESTAMP, null, null, null, 'PREPARING','o2' );
 INSERT INTO order_item (create_time, update_time, inventory_id, quantity, price, order_id, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'i1', 1, 99, 'o1', 'item11' );
-INSERT INTO order_item (create_time, update_time, inventory_id, quantity, price, order_id, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'i2', 3, 3, 'o1', 'item12' );
+INSERT INTO order_item (create_time, update_time, inventory_id, quantity, price, order_id, id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'i2', 3, 10, 'o1', 'item12' );
 
 
 INSERT INTO orders (create_time, update_time, customer, address, tel, content, source, payment_method, payment_date, discount, total_billing, calculator, status, id)

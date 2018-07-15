@@ -1,14 +1,6 @@
 'use strict';
 
 var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ng-bs3-datepicker', 'ui.bootstrap', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.exporter', 'ui.grid.selection', 'ui.grid.moveColumns']);
-
-app.filter('calculatePL', function () {
-  return function (input, cost, income, fxRate) {
-    return (input[income] - input[cost] * fxRate).toFixed(2);
-  };
-});
-
-
 app.controller('reportCtrl',
 ['$scope','reportService', 'uiGridConstants', function ($scope, service, uiGridConstants) {
     controllerTemplate($scope, service);
@@ -21,8 +13,8 @@ app.controller('reportCtrl',
         { field: 'totalIncome', displayName: 'Total Income ($)', aggregationType: uiGridConstants.aggregationTypes.sum},
         { field: 'unitCost', displayName: 'Unit Cost (¥)'},
         { field: 'totalCost', displayName: 'Total Cost (¥)', aggregationType: uiGridConstants.aggregationTypes.sum},
-        { field: uiGridConstants.ENTITY_BINDING, displayName:'Unit P/L ($)', cellFilter: 'calculatePL: "unitCost": "unitIncome": grid.appScope.fxRate'},
-        { field: uiGridConstants.ENTITY_BINDING, displayName:'Total P/L ($)', cellFilter: 'calculatePL: "totalCost": "totalIncome": grid.appScope.fxRate', aggregationType: uiGridConstants.aggregationTypes.sum}
+        { field: 'unitPL', displayName: 'Unit P/L ($)'},
+        { field: 'totalPL', displayName: 'Total P/L ($)', aggregationType: uiGridConstants.aggregationTypes.sum}
     ];
 
     $scope.gridOptions = {
@@ -61,8 +53,23 @@ app.controller('reportCtrl',
         }
     };
 
-    $scope.$watch('entities', function() {
-        $scope.gridOptions.data = $scope.entities;
+    $scope.$watchGroup(['entities', 'fxRate'], function() {
+        var data = $scope.entities;
+        var fxRate = $scope.fxRate;
+        var calculatePL = function (income, cost){
+            if(!fxRate){
+                return 0;
+            }
+            return (income - cost * fxRate).toFixed(2);
+        }
+        if(data){
+            for(var i in data){
+                data[i].unitPL = calculatePL(data[i].unitIncome, data[i].unitCost);
+                data[i].totalPL = calculatePL(data[i].totalIncome, data[i].totalCost);
+            }
+            $scope.gridOptions.data = data;
+        }
+        $scope.gridOptions.data = data;
     });
 
     $scope.$watchGroup(['from', 'to'], function() {

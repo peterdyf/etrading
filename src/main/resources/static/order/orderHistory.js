@@ -14,16 +14,18 @@ app.controller('orderHistoryCtrl',
 
     inventoryService.getAll().then(function success(response) {
         var result = response.data._embedded;
-        $scope.inventories = result[Object.keys(result)[0]];
+        var arr = result[Object.keys(result)[0]];
+        $scope.inventories = arr.reduce(function(map, obj) {
+            map[obj.id] = obj;
+            return map;
+        }, {});
     });
 
     $scope.displayInventory = function (inventoryId) {
         if(!$scope.inventories){
             return null;
         }
-        var inventory = $scope.inventories.filter(function( obj ) {
-         return obj.id == inventoryId;
-        })[0];
+        var inventory = $scope.inventories[inventoryId];
         if(inventory){
             return inventory.name;
         }
@@ -51,8 +53,8 @@ app.controller('orderHistoryCtrl',
 }]
 );
 
-app.service('orderHistoryService', serviceTemplate("/orders", "/search/findByStatusOrderByCreateTimeDesc?status=COMPLETED" ));
-app.service('inventoryService', serviceTemplate("/inventories"));
+app.service('orderHistoryService', serviceTemplate("/orders", "/search/findByStatus?status=COMPLETED" ));
+app.service('inventoryService', serviceTemplate("/inventories","/search/getAll"));
 
 
 

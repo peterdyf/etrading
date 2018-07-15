@@ -18,6 +18,7 @@
     <script src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="/lib/datepicker/ng-bs3-datepicker.js"></script>
+    <script src="/lib/angular-ui-grid/ui-grid.min.js"></script>
     <script src="/common.js"></script>
     <script src="summaryReport.js"></script>
 </head>
@@ -61,45 +62,12 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-md-10 col-xs-12 ">
-            <div class="row">
-                <div class="col-md-3 col-xs-5">
-                    <div class="input-group">
-                        <span class="input-group-addon">Order Quantity</span>
-                        <text class="form-control">{{entity.orderQuantity}}</text>
-                    </div>
+        <div class="form-group">
+            <div class="form-group row">
+                <div class="col-md-10 col-xs-12">
+                    <div id="summaryGrid" ui-grid="gridOptions" class="grid" ui-grid-expandable ui-grid-move-columns ui-grid-resize-columns> </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3 col-xs-5">
-                    <div class="input-group">
-                        <span class="input-group-addon">Income &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</span>
-                        <text class="form-control">{{entity.income}}</text>
-                        <span class="input-group-addon">$</span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 col-xs-5">
-                    <div class="input-group">
-                        <span class="input-group-addon">Cost &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;</span>
-                        <text class="form-control">{{entity.cost}}</text>
-                        <span class="input-group-addon">¥</span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="col-md-3 col-xs-5">
-                    <div class="input-group">
-                        <span class="input-group-addon">Profit/Loss &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</span>
-                        <text class="form-control">{{getPL()}}</text>
-                        <span class="input-group-addon">$</span>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
     </div>
 </div>

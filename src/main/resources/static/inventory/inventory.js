@@ -46,5 +46,5 @@ app.controller('inventoryCtrl',
 }]
 );
 
-app.service('inventoryService', serviceTemplate("/inventories"));
+app.service('inventoryService', serviceTemplate("/inventories","/search/getAll"));
 

@@ -16,11 +16,10 @@ public interface ReportInventoryRepository extends CrudRepository<Inventory, Str
             "sum(t.quantity) AS sellQty,\n" +
             "i.cost AS unitCost,\n" +
             "i.cost * sum(t.quantity) AS totalCost,\n" +
-            "sum(t.price) AS totalIncome\n" +
+            "sum(t.price * t.quantity) AS totalIncome\n" +
             "from inventory i \n" +
-            "join purchase p on i.id = p.inventory_id \n" +
             "join order_item t on t.inventory_id = i.id\n" +
-            "join orders o on o.id = t.order_id where o.payment_date >= :from and o.payment_date < :to \n" +
+            "join orders o on o.id = t.order_id where o.payment_date >= :from and o.payment_date <= :to \n" +
             "group by i.id", nativeQuery = true)
     List<InventoryReportVO> report(@Param("from") LocalDate from, @Param("to") LocalDate to);
 

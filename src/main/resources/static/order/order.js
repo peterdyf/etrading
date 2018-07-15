@@ -222,8 +222,8 @@ function parsePhone(content){
 }
 
 
-app.service('orderService', serviceTemplate("/orders", "/search/findByStatusOrderByCreateTimeDesc?status=PREPARING" ));
-app.service('inventoryService', serviceTemplate("/inventories"));
+app.service('orderService', serviceTemplate("/orders", "/search/findByStatus?status=PREPARING" ));
+app.service('inventoryService', serviceTemplate("/inventories","/search/getAll"));
 app.service('sfService', ['$http', function($http) {
      this.search = function(){
          return $http({

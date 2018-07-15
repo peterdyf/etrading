@@ -1,40 +1,116 @@
 'use strict';
 
-var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ng-bs3-datepicker', 'ui.bootstrap']);
-
-app.filter('calculatePL', function () {
-  return function (input, cost, income, scope) {
-    return (input[income] - input[cost] * scope.fxRate).toFixed(2);
-  };
-});
-
+var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ng-bs3-datepicker', 'ui.bootstrap', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.expandable']);
 
 app.controller('reportCtrl',
-['$scope','reportService', function ($scope, service) {
+['$scope','reportService', 'uiGridConstants', 'inventoryService', function ($scope, service, uiGridConstants, inventoryService) {
     controllerTemplate($scope, service);
     $scope.fxRate = 0.85;
     $scope.page = "reportSummary";
+    $scope.columns = [
+        { field: 'paymentDate', width:100},
+        { field: 'source', displayName: 'Platform', width:100},
+        { field: 'customer', width:150},
+        { field: 'tel', displayName: 'Phone', width:100},
+        { field: 'address', width:300},
+        { field: 'shippingFeeInBill', displayName: 'Shipping Fee in Bill($)', width:100},
+        { field: 'discount', displayName: 'Discount ($)', width:100},
+        { field: 'paymentMethod', width:125},
+        { field: 'waybillNumber', width:150},
+        { field: 'deliveryDrawee', displayName: 'Delivery By', width:75},
+        { field: 'totalBilling', displayName: 'Total Income($)', width:100, aggregationType: uiGridConstants.aggregationTypes.sum},
+        { field: 'shippingFeeActual', displayName: 'Shipping Fee Actually ($)', width:100, aggregationType: uiGridConstants.aggregationTypes.sum},
+        { field: 'totalCostUsd', displayName: 'Total Inventory Cost ($)', width:125, aggregationType: uiGridConstants.aggregationTypes.sum},
+        { field: 'pl', displayName: 'P/L ($)', width:125, aggregationType: uiGridConstants.aggregationTypes.sum}
+    ];
+
+    $scope.subColumns = [
+        { field: 'inventoryName'},
+        { field: 'quantity', displayName: 'Qty'},
+        { field: 'price', displayName: 'Price ($)'},
+        { field: 'totalCost', displayName: 'Total Cost (¥)'},
+        { field: 'totalCostUsd', displayName: 'Total Cost ($)'}
+    ];
+
+    $scope.gridOptions = {
+        enableSorting: true,
+        enableColumnResizing: true,
+        appScopeProvider: $scope,
+        showColumnFooter: true,
+        enableGridMenu: true,
+        columnDefs: $scope.columns,
+        expandableRowTemplate: '<div ui-grid="row.entity.subGridOptions" style="height:150px;"></div>',
+        expandableRowScope: {
+          subGridVariable: 'subGridScopeVariable'
+        },
+        onRegisterApi: function(gridApi) {
+            $scope.gridApi = gridApi;
+        }
+    };
+
+    $scope.$watchGroup(['entities', 'fxRate'], function() {
+        var data = $scope.entities;
+        var fxRate = $scope.fxRate;
+        if(data){
+            for(var i in data){
+                data[i].subGridOptions = {
+                      columnDefs: $scope.subColumns,
+                      data: data[i].items,
+                      appScopeProvider: $scope,
+                      disableRowExpandable: data[i].items.length==0
+                };
+
+                var totalCost=0;
+
+                for (var j in data[i].items){
+                    var item = data[i].items[j];
+                    var inventory = $scope.inventories[item.inventoryId];
+                    item.inventoryName = inventory.name;
+                    item.cost = inventory.cost;
+                    item.totalCost = inventory.cost * item.quantity;
+                    totalCost = totalCost + item.totalCost;
+                    if(fxRate){
+                        item.totalCostUsd = (item.totalCost * fxRate).toFixed(2);
+                    }
+                }
+                data[i].totalCost = totalCost;
+                if(fxRate){
+                    data[i].totalCostUsd = (data[i].totalCost * fxRate).toFixed(2);
+
+                    var shippingFeeActual = 0;
+                    if(data[i].shippingFeeActual){
+                        shippingFeeActual = data[i].shippingFeeActual;
+                    }
+                    data[i].pl = (data[i].totalBilling - data[i].totalCost * fxRate - shippingFeeActual).toFixed(2);
+                }
+            }
+            $scope.gridOptions.data = data;
+        }
+    });
 
     $scope.search = function (from, to) {
         service.search(from, to).then(function success(response) {
-            $scope.entity = response.data;
+            $scope.entities = response.data;
         },
         function error (response) {
             $scope.setErrorMessage('Error getting!');
         });
     }
 
-    $scope.getPL = function(){
-        if($scope.entity){
-            var income = $scope.entity.income;
-            var cost = $scope.entity.cost;
-            var fxRate = $scope.fxRate;
-            if(income && cost && fxRate){
-                return (income-cost*fxRate).toFixed(2);
-            }
-        }
-        return 'NA';
-    }
+    $scope.from = new Date().toISOString().slice(0, 10);
+    $scope.to = new Date().toISOString().slice(0, 10);
+
+    inventoryService.getAll().then(function success(response) {
+        var result = response.data._embedded;
+        var arr = result[Object.keys(result)[0]];
+        $scope.inventories = arr.reduce(function(map, obj) {
+            map[obj.id] = obj;
+            return map;
+        }, {});
+
+
+
+    });
 
 }]
 );
@@ -47,4 +123,6 @@ app.service('reportService', ['$http', function($http) {
          });
      }
  } ]);
+
+app.service('inventoryService', serviceTemplate("/inventories","/search/getAll"));
 
