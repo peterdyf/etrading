@@ -52,7 +52,10 @@ app.controller('reportCtrl',
         var data = $scope.entities;
         var fxRate = $scope.fxRate;
         if(data){
+            var seq = 0;
             for(var i in data){
+                seq = seq + 1;
+                data[i].seq = seq;
                 data[i].subGridOptions = {
                       columnDefs: $scope.subColumns,
                       data: data[i].items,
@@ -68,6 +71,7 @@ app.controller('reportCtrl',
                     item.inventoryName = inventory.name;
                     item.cost = inventory.cost;
                     item.totalCost = inventory.cost * item.quantity;
+                    item.totalIncome = inventory.price * item.quantity;
                     totalCost = totalCost + item.totalCost;
                     if(fxRate){
                         item.totalCostUsd = (item.totalCost * fxRate).toFixed(2);
@@ -97,6 +101,41 @@ app.controller('reportCtrl',
         });
     }
 
+    $scope.export = function () {
+        var data = {
+            from: $scope.from,
+            to: $scope.to,
+            orders:$scope.entities,
+            fxRate:$scope.fxRate
+        }
+
+        service.export(data).then(function success(result) {
+           var headers = result.headers
+           var contentType = headers['content-type'];
+
+           var linkElement = document.createElement('a');
+           try {
+               var blob = new Blob([result.data], { type: contentType });
+               var url = window.URL.createObjectURL(blob);
+
+               linkElement.setAttribute('href', url);
+               linkElement.setAttribute("download", 'SummaryReport(' + $scope.from + '~' + $scope.to + ').xlsx');
+
+               var clickEvent = new MouseEvent("click", {
+                   "view": window,
+                   "bubbles": true,
+                   "cancelable": false
+               });
+               linkElement.dispatchEvent(clickEvent);
+           } catch (ex) {
+               console.log(ex);
+           }
+        },
+        function error (response) {
+            $scope.setErrorMessage('Error export!');
+        });
+    }
+
     $scope.from = new Date().toISOString().slice(0, 10);
     $scope.to = new Date().toISOString().slice(0, 10);
 
@@ -107,21 +146,26 @@ app.controller('reportCtrl',
             map[obj.id] = obj;
             return map;
         }, {});
-
-
-
     });
 
 }]
 );
 
 app.service('reportService', ['$http', function($http) {
-     this.search = function(from, to){
-         return $http({
-             method : 'GET',
-             url : '/report/summary?from='+from +'&to='+to
-         });
-     }
+    this.search = function(from, to){
+        return $http({
+            method : 'GET',
+            url : '/report/summary?from='+from +'&to='+to
+        });
+    }
+    this.export = function(data){
+        return $http({
+            method : 'POST',
+            url : '/report/exportSummary',
+            data: data,
+            responseType: 'arraybuffer'
+        });
+    }
  } ]);
 
 app.service('inventoryService', serviceTemplate("/inventories","/search/getAll"));

@@ -84,8 +84,11 @@ app.controller('reportCtrl',
         function error (response) {
             $scope.setErrorMessage('Error getting!');
         });
-
     }
+
+    $scope.from = new Date().toISOString().slice(0, 10);
+    $scope.to = new Date().toISOString().slice(0, 10);
+
 
 }]
 );

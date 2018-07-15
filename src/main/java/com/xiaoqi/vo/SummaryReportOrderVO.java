@@ -1,16 +1,12 @@
-package com.xiaoqi.entity;
+package com.xiaoqi.vo;
 
-import com.xiaoqi.entity.type.OrderStatus;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Table(name = "ORDERS")
-public class Order extends BaseEntity {
+public class SummaryReportOrderVO {
+
+    private String seq;
 
     private String customer;
 
@@ -30,8 +26,6 @@ public class Order extends BaseEntity {
 
     private BigDecimal shippingFeeInBill;
 
-    private String calculator;
-
     private BigDecimal shippingFeeActual;
 
     private LocalDate deliveryDate;
@@ -40,15 +34,21 @@ public class Order extends BaseEntity {
 
     private String waybillNumber;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private BigDecimal totalCost;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "orderId")
-    private List<OrderItem> items;
+    private BigDecimal totalCostUsd;
 
-    @Size(max = 65536)
-    private String content;
+    private BigDecimal pl;
+
+    private List<SummaryReportOrderItemVO> items;
+
+    public String getSeq() {
+        return seq;
+    }
+
+    public void setSeq(String seq) {
+        this.seq = seq;
+    }
 
     public String getCustomer() {
         return customer;
@@ -72,14 +72,6 @@ public class Order extends BaseEntity {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public String getSource() {
@@ -106,6 +98,22 @@ public class Order extends BaseEntity {
         this.paymentDate = paymentDate;
     }
 
+    public BigDecimal getTotalBilling() {
+        return totalBilling;
+    }
+
+    public void setTotalBilling(BigDecimal totalBilling) {
+        this.totalBilling = totalBilling;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
     public BigDecimal getShippingFeeInBill() {
         return shippingFeeInBill;
     }
@@ -121,48 +129,6 @@ public class Order extends BaseEntity {
     public void setShippingFeeActual(BigDecimal shippingFeeActual) {
         this.shippingFeeActual = shippingFeeActual;
     }
-
-    public BigDecimal getTotalBilling() {
-        return totalBilling;
-    }
-
-    public void setTotalBilling(BigDecimal totalBilling) {
-        this.totalBilling = totalBilling;
-    }
-
-    public String getCalculator() {
-        return calculator;
-    }
-
-    public void setCalculator(String calculator) {
-        this.calculator = calculator;
-    }
-
-    public BigDecimal getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
-    }
-
-    public List<OrderItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<OrderItem> items) {
-        items.forEach(item -> item.setOrderId(this.getId()));
-        this.items = items;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
 
     public LocalDate getDeliveryDate() {
         return deliveryDate;
@@ -186,5 +152,37 @@ public class Order extends BaseEntity {
 
     public void setWaybillNumber(String waybillNumber) {
         this.waybillNumber = waybillNumber;
+    }
+
+    public BigDecimal getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public BigDecimal getTotalCostUsd() {
+        return totalCostUsd;
+    }
+
+    public void setTotalCostUsd(BigDecimal totalCostUsd) {
+        this.totalCostUsd = totalCostUsd;
+    }
+
+    public BigDecimal getPl() {
+        return pl;
+    }
+
+    public void setPl(BigDecimal pl) {
+        this.pl = pl;
+    }
+
+    public List<SummaryReportOrderItemVO> getItems() {
+        return items;
+    }
+
+    public void setItems(List<SummaryReportOrderItemVO> items) {
+        this.items = items;
     }
 }
