@@ -112,7 +112,7 @@ public class ReportSummaryController {
     }
 
     private void createItemsDetails(SummaryReportVO vo, Excel excel) {
-        Excel.Sheet sheet = excel.createSheet("Items");
+        Excel.Sheet sheet = excel.createSheet("Details");
         sheet.writeHeader(Arrays.asList("Range:", vo.getFrom(), vo.getTo()));
         sheet.writeHeader(Arrays.asList("FxRate:", vo.getFxRate()));
         sheet.writeHeader(Arrays.asList());
@@ -131,7 +131,7 @@ public class ReportSummaryController {
                 "Inventory",
                 "Quantity",
                 "Price ($)",
-                "Total Price ($)",
+                "Total Income ($)",
                 "Cost (¥)",
                 "Total Cost (¥)",
                 "Total Cost ($)"
@@ -144,13 +144,12 @@ public class ReportSummaryController {
         BigDecimal costUsd = BigDecimal.valueOf(0);
 
         for (SummaryReportOrderVO order : vo.getOrders()) {
+            excel.changeBackgroundColor();
             for (SummaryReportOrderItemVO item : order.getItems()) {
-
                 quantity = quantity + item.getQuantity();
                 totalIncome = add(totalIncome, item.getTotalIncome());
                 cost = add(cost, item.getTotalCost());
                 costUsd = add(costUsd, item.getTotalCostUsd());
-
                 sheet.write(Arrays.asList(
                         order.getSeq(),
                         order.getPaymentDate(),

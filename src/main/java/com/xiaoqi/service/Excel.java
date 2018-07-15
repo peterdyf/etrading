@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Excel {
 
-    public class Sheet{
+    public class Sheet {
         final org.apache.poi.ss.usermodel.Sheet sheet;
         final AtomicInteger rowNum = new AtomicInteger();
 
@@ -31,7 +31,7 @@ public class Excel {
         public void write(List<? extends Object> values) {
             Row row = sheet.createRow(rowNum.getAndIncrement());
             final AtomicInteger colNum = new AtomicInteger();
-            values.forEach(v -> setValue(row, colNum, v, style));
+            values.forEach(v -> setValue(row, colNum, v, currentStyle));
         }
 
         public void writeHeader(List<? extends Object> values) {
@@ -43,18 +43,34 @@ public class Excel {
 
     final Workbook workbook = new XSSFWorkbook();
     final CellStyle boldstyle;
-    final CellStyle style;
+    final CellStyle style1;
+    final CellStyle style2;
+    CellStyle currentStyle;
+
     {
         final Font boldFont = workbook.createFont();
         boldFont.setFontName("Calibri");
         boldFont.setBold(true);
         boldstyle = workbook.createCellStyle();
         boldstyle.setFont(boldFont);
+        boldstyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        boldstyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         final Font font = workbook.createFont();
         font.setFontName("Calibri");
-        style = workbook.createCellStyle();
-        style.setFont(font);
+        style1 = workbook.createCellStyle();
+        style1.setFont(font);
+
+        style2 = workbook.createCellStyle();
+        style2.setFont(font);
+        style2.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        style2.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        currentStyle = style1;
+    }
+
+    public void changeBackgroundColor() {
+        currentStyle = currentStyle == style1 ? style2 : style1;
     }
 
     public Sheet createSheet(String name) {
