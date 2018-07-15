@@ -16,23 +16,22 @@ app.controller('reportCtrl',
     $scope.page = "reportInventory";
     $scope.columns = [
         { field: 'name'},
-        { field: 'sellQty', displayName: 'Sell Qty'},
+        { field: 'sellQty', displayName: 'Sell Qty', aggregationType: uiGridConstants.aggregationTypes.sum},
         { field: 'unitIncome', displayName: 'Unit Income ($)'},
-        { field: 'totalIncome', displayName: 'Total Income ($)'},
+        { field: 'totalIncome', displayName: 'Total Income ($)', aggregationType: uiGridConstants.aggregationTypes.sum},
         { field: 'unitCost', displayName: 'Unit Cost (¥)'},
-        { field: 'totalCost', displayName: 'Total Cost (¥)'},
+        { field: 'totalCost', displayName: 'Total Cost (¥)', aggregationType: uiGridConstants.aggregationTypes.sum},
         { field: uiGridConstants.ENTITY_BINDING, displayName:'Unit P/L ($)', cellFilter: 'calculatePL: "unitCost": "unitIncome": grid.appScope.fxRate'},
-        { field: uiGridConstants.ENTITY_BINDING, displayName:'Total P/L ($)', cellFilter: 'calculatePL: "totalCost": "totalIncome": grid.appScope.fxRate'}
+        { field: uiGridConstants.ENTITY_BINDING, displayName:'Total P/L ($)', cellFilter: 'calculatePL: "totalCost": "totalIncome": grid.appScope.fxRate', aggregationType: uiGridConstants.aggregationTypes.sum}
     ];
 
     $scope.gridOptions = {
         exporterMenuCsv: false,
+        exporterMenuPdf: false,
         enableSorting: true,
+        showColumnFooter: true,
         enableColumnResizing: true,
         exporterMenuCsv: false,
-        exporterPdfHeader: function () {
-            return { text: $scope.from + "~" + $scope.to +"___ FX Rate ( RMB -> HKD ):" + $scope.fxRate, style: 'headerStyle' };
-        },
         exporterMenuSelectedData: false,
         exporterMenuVisibleData: false,
         exporterColumnScaleFactor: 9,
@@ -68,7 +67,6 @@ app.controller('reportCtrl',
 
     $scope.$watchGroup(['from', 'to'], function() {
         $scope.gridOptions.exporterExcelFilename = 'InventoryReport(' + $scope.from + '~' + $scope.to + ').xlsx';
-        $scope.gridOptions.exporterPdfFilename = 'InventoryReport(' + $scope.from + '~' + $scope.to + ').pdf';
         $scope.gridOptions.exporterExcelSheetName = $scope.from + '~' + $scope.to;
     });
 
