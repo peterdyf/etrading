@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('delivery', ['ngSanitize', 'ng-bs3-datepicker', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight','angular-elastic']);
+var app = angular.module('delivery', ['ngSanitize', 'ng-bs3-datepicker', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui.bootstrap.validation', 'ui.validate', 'mwl.confirm', 'ngHighlight','angular-elastic']);
 
 app.controller('deliveryCtrl',
 ['$scope','deliveryService','inventoryService', function ($scope, deliveryService, inventoryService) {
@@ -19,36 +19,14 @@ app.controller('deliveryCtrl',
         }, {});
     });
 
-    $scope.validate = function (entity) {
-        if(entity.deliveryDrawee == null){
-                return false;
-        }
-        if(entity.deliveryDate == null){
-            return false;
-        }
-        if(entity.shippingFeeActual == null){
-            return false;
-        }
-        if(entity.waybillNumber == null){
-            return false;
-        }
-        return true;
-    }
-
     $scope.revert = function (entity) {
-       entity.status = 'PREPARING';
-       $scope.save(entity, null, "Order reverted");
+        entity.status = 'PREPARING';
+        $scope.save(entity, null, "Order reverted");
     }
 
     $scope.complete = function (entity) {
-        if($scope.validate(entity)){
-            entity.status = 'COMPLETED';
-            $scope.save(entity, null, "Order completed and move to History");
-        }
-    }
-
-    $scope.disableComplete = function (entity) {
-        return !$scope.validate(entity);
+        entity.status = 'COMPLETED';
+        $scope.save(entity, null, "Order completed and move to History");
     }
 
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';

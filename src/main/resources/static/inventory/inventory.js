@@ -2,7 +2,7 @@
 
 
 
-var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ng-bs3-datepicker', 'ui.bootstrap', 'mwl.confirm', 'ngHighlight']);
+var app = angular.module('inventory', ['ngAnimate', 'ngSanitize', 'ng-bs3-datepicker', 'ui.bootstrap', 'ui.bootstrap.validation', 'ui.validate', 'mwl.confirm', 'ngHighlight']);
 app.controller('inventoryCtrl',
 ['$scope','inventoryService', function ($scope, service) {
     controllerTemplate($scope, service);

@@ -2,7 +2,7 @@
 <html ng-app="order">
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Order</title>
 
@@ -26,6 +26,8 @@
     <script src="/lib/confirmation/angular-bootstrap-confirm.min.js"></script>
     <script src="/lib/ng-highlight/ng-highlight.min.js"></script>
     <script src="/lib/angular-elastic/angular-elastic.js"></script>
+    <script src="/lib/angular-ui-validate/dist/validate.min.js"></script>
+    <script src="/lib/angular-bootstrap-form-validation/form-validation.js"></script>
     <script src="/common.js"></script>
     <script src="order.js"></script>
 </head>
@@ -53,189 +55,202 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="form-group row">
                     <div class="col-md-10 col-xs-12">
                         <uib-accordion close-others="true">
-                            <div uib-accordion-group class="panel-default" ng-init="status.open = isNew(entity)" is-open="status.open" ng-repeat="entity in entities | filter: query| orderBy:'updateTime':true">
+                            <div uib-accordion-group class="panel-default" ng-init="status.open = isNew(entity)" is-open="status.open"
+                                 ng-repeat="entity in entities | filter: query| orderBy:'updateTime':true">
                                 <uib-accordion-heading>
                                     <div highlight="filter">{{entity.createTime + ' - ' + entity.customer + ' - ' + entity.tel}}</div>
                                 </uib-accordion-heading>
-                                <div>
+                                <form name="entityForm" novalidate>
+                                    <div>
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-10 col-xs-12 form-group">
+                                                    <div class="input-group">
+                                                        <textarea elastic rows="3" class="form-control" ng-model="entity.content"></textarea>
+                                                        <span class="input-group-addon btn btn-primary" ng-click="parse(entity)">Parse</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="form-group row">
-                                            <div class="col-md-10 col-xs-12 form-group">
+                                            <div class="col-md-4 col-xs-12 form-group" ui-validation-show-errors>
                                                 <div class="input-group">
-                                                    <textarea elastic rows="3" class="form-control" ng-model="entity.content"></textarea>
-                                                    <span class="input-group-addon btn btn-primary" ng-click="parse(entity)">Parse</span>
+                                                    <span class="input-group-addon">Customer</span>
+                                                    <input type="text" class="form-control" name="customer" ng-model="entity.customer" required/>
                                                 </div>
+                                                <ui-validation-error-messages/>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="form-group row">
-                                        <div class="col-md-4 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Customer</span>
-                                                <input type="text" class="form-control" ng-model="entity.customer"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Telephone</span>
-                                                <input type="text" class="form-control" ng-model="entity.tel"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-xs-12 form-group">
-                                            <div class="input-group" theme="selectize">
-                                                <span class="input-group-addon">Platform&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                <select class="form-control"  ng-model="entity.source">
-                                                    <option value="Facebook">Facebook</option>
-                                                    <option value="Instagram">Instagram</option>
-                                                    <option value="WhatsApp">WhatsApp</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="col-md-12 col-xs-12">
-                                        <div class="form-group row">
-                                            <div class="col-md-10 col-xs-12 form-group">
-                                                <div class="input-group" theme="selectize">
-                                                    <span class="input-group-addon">SF</span>
-                                                    <ui-select ng-model="sfAddress.value" >
-                                                        <ui-select-match placeholder="Select an SF Network...">{{$select.selected}}</ui-select-match>
-                                                        <ui-select-choices repeat="addr in sfAddresses | filter: $select.search | limitTo: 20">
-                                                            <div ng-bind-html="addr | highlight: $select.search"></div>
-                                                        </ui-select-choices>
-                                                    </ui-select>
-                                                    <span class="input-group-addon btn btn-primary" ng-click="entity.address = sfAddress.value">Parse</span>
+                                            <div class="col-md-4 col-xs-12 form-group" ui-validation-show-errors>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Telephone</span>
+                                                    <input type="text" class="form-control" name="tel" ng-model="entity.tel" required/>
                                                 </div>
+                                                <ui-validation-error-messages/>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="form-group row">
-                                        <div class="col-md-10 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Address&nbsp;&nbsp;</span>
-                                                <textarea elastic rows="1" class="form-control" ng-model="entity.address"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="col-md-12 col-xs-12">
-                                        <div class="form-group row">
-                                            <div class="col-md-6 col-xs-12 form-group">
+                                            <div class="col-md-4 col-xs-12 form-group" ui-validation-show-errors>
                                                 <div class="input-group" theme="selectize">
-                                                    <span class="input-group-addon">Method</span>
-                                                    <select class="form-control"  ng-model="entity.paymentMethod">
-                                                        <option value="HSBC - Kiwi">HSBC - Kiwi</option>
-                                                        <option value="BOC - Kiwi">BOC - Kiwi</option>
-                                                        <option value="Payme - Kiwi">Payme - Kiwi</option>
-                                                        <option value="Payme - Jessie">Payme - Jessie</option>
+                                                    <span class="input-group-addon">Platform&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    <select class="form-control" name="source" ng-model="entity.source" required>
+                                                        <option value="Facebook">Facebook</option>
+                                                        <option value="Instagram">Instagram</option>
+                                                        <option value="WhatsApp">WhatsApp</option>
                                                     </select>
                                                 </div>
+                                                <ui-validation-error-messages/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-10 col-xs-12 form-group">
+                                                    <div class="input-group" theme="selectize">
+                                                        <span class="input-group-addon">SF</span>
+                                                        <ui-select ng-model="sfAddress.value">
+                                                            <ui-select-match placeholder="Select an SF Network...">{{$select.selected}}</ui-select-match>
+                                                            <ui-select-choices repeat="addr in sfAddresses | filter: $select.search | limitTo: 20">
+                                                                <div ng-bind-html="addr | highlight: $select.search"></div>
+                                                            </ui-select-choices>
+                                                        </ui-select>
+                                                        <span class="input-group-addon btn btn-primary" ng-click="entity.address = sfAddress.value">Parse</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-10 col-xs-12 form-group" ui-validation-show-errors>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Address&nbsp;&nbsp;</span>
+                                                    <textarea elastic rows="1" class="form-control" name="address" ng-model="entity.address" required></textarea>
+                                                </div>
+                                                <ui-validation-error-messages/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-6 col-xs-12 form-group" ui-validation-show-errors>
+                                                    <div class="input-group" theme="selectize">
+                                                        <span class="input-group-addon">Method</span>
+                                                        <select class="form-control" name="paymentMethod" ng-model="entity.paymentMethod" required>
+                                                            <option value="HSBC - Kiwi">HSBC - Kiwi</option>
+                                                            <option value="BOC - Kiwi">BOC - Kiwi</option>
+                                                            <option value="Payme - Kiwi">Payme - Kiwi</option>
+                                                            <option value="Payme - Jessie">Payme - Jessie</option>
+                                                        </select>
+                                                    </div>
+                                                    <ui-validation-error-messages/>
+                                                </div>
+                                                <div class="col-md-3 col-xs-12 form-group" ui-validation-show-errors>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">Payment Dt.</span>
+                                                        <ng-bs3-datepicker name="paymentDate" ng-model="entity.paymentDate" language="en" date-format="YYYY-MM-DD" required/>
+                                                    </div>
+                                                    <ui-validation-error-messages/>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-6 col-xs-4">
+                                            <label class="control-label"> Items ({{entity.items.length}})</label>
+                                            <button class="btn btn-success" ng-click="newItem(entity)">+</button>
+                                        </div>
+                                    </div>
+
+                                    <div ng-repeat="item in entity.items | orderBy:'createTime'">
+                                        <div class="no-gutter row " ng-init="bindItemPrice(item)">
+                                            <ui-select class="col-md-4 col-xs-7 col-md-offset-1 col-xs-offset-0" ng-model="item.inventoryId" ng-change="bindItemPrice(item)" theme="selectize" required>
+                                                <ui-select-match placeholder="Select an inventory...">{{$select.selected.value.name + " (" + $select.selected.value.price+ "$)"}}</ui-select-match>
+                                                <ui-select-choices repeat="inventory.value.id as (key, inventory) in inventories | filter: $select.search">
+                                                    <div ng-bind-html="inventory.value.name | highlight: $select.search"></div>
+                                                    <small ng-class="{'warning': inventory.value.stock < 3}" ng-bind-html="displayInventory(inventory.value) | highlight: $select.search"></small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <div class="col-md-2 col-xs-4">
+                                                <h-number value="item.quantity" min="0" max="99" step="1" change="onChanged()" required/>
+                                            </div>
+                                            <div class="col-md-1 col-xs-1">
+                                                <button class="btn btn-danger" ng-click="removeItem(entity, item)">X</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xs-12" style="height:25px;"></div>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-3 col-xs-12 form-group" ui-validation-show-errors>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Discount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    <input type="number" name="discount" class="form-control" ng-model="entity.discount" required/>
+                                                    <span class="input-group-addon">$</span>
+                                                </div>
+                                                <ui-validation-error-messages/>
+                                            </div>
+                                            <div class="col-md-3 col-xs-12 form-group" ui-validation-show-errors>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Shipping Fee</span>
+                                                    <input type="number" name="shippingFeeInBill" class="form-control" ng-model="entity.shippingFeeInBill" required/>
+                                                    <span class="input-group-addon">$</span>
+                                                </div>
+                                                <ui-validation-error-messages/>
                                             </div>
                                             <div class="col-md-3 col-xs-12 form-group">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">Payment Dt.</span>
-                                                    <ng-bs3-datepicker ng-model="entity.paymentDate" language="en" date-format="YYYY-MM-DD"/>
+                                                    <span class="input-group-addon">Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    <input type="number" name="total" class="form-control" ng-model="entity.totalBilling" readonly/>
+                                                    <span class="input-group-addon">$</span>
+                                                </div>
+                                                <ui-validation-error-messages/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="form-group row col-md-12 col-xs-12 col-md-offset-1 col-xs-offset-0">
+                                            <div class="btn-group">
+                                                <button class="btn btn-success" ng-click="validateAndSave(entity)" ng-disabled="entityForm.$invalid">Save</button>
+                                                <button class="btn btn-warning" mwl-confirm on-confirm="readyToDelivery(entity, entityForm.$valid)" ng-disabled="entityForm.$invalid"
+                                                        ng-model="checkModel.right">
+                                                    Delivery
+                                                </button>
+                                                <button class="btn btn-danger" mwl-confirm on-confirm="remove(entity)">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-6 col-xs-12 form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Calc.</span>
+                                                    <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
                                                 </div>
                                             </div>
-
-
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-md-6 col-xs-4">
-                                        <label class="control-label"> Items ({{entity.items.length}})</label>
-                                        <button class="btn btn-success" ng-click="newItem(entity)">+</button>
-                                    </div>
-                                </div>
-
-                                <div ng-repeat="item in entity.items | orderBy:'createTime'">
-                                    <div class="no-gutter row " ng-init="bindItemPrice(item)">
-                                        <ui-select class="col-md-4 col-xs-7 col-md-offset-1 col-xs-offset-0" ng-model="item.inventoryId" ng-change="bindItemPrice(item)" theme="selectize">
-                                            <ui-select-match placeholder="Select an inventory...">{{$select.selected.value.name + " (" + $select.selected.value.price+ "$)"}}</ui-select-match>
-                                            <ui-select-choices repeat="inventory.value.id as (key, inventory) in inventories | filter: $select.search">
-                                                <div ng-bind-html="inventory.value.name | highlight: $select.search"></div>
-                                                <small ng-class="{'warning': inventory.value.stock < 3}" ng-bind-html="displayInventory(inventory.value) | highlight: $select.search"></small>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                        <div class="col-md-2 col-xs-4">
-                                            <h-number value="item.quantity" min="0" max="99" step="1" change="onChanged()"/>
-                                        </div>
-                                        <div class="col-md-1 col-xs-1">
-                                            <button class="btn btn-danger" ng-click="removeItem(entity, item)">X</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-xs-12" style="height:25px;"></div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="form-group row">
-                                        <div class="col-md-3 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Discount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                <input type="number" class="form-control" ng-model="entity.discount"/>
-                                                <span class="input-group-addon">$</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Shipping Fee</span>
-                                                <input type="number" class="form-control" ng-model="entity.shippingFeeInBill"/>
-                                                <span class="input-group-addon">$</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                <input type="number" class="form-control" ng-model="entity.totalBilling" readonly/>
-                                                <span class="input-group-addon">$</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <div class="form-group row col-md-12 col-xs-12 col-md-offset-1 col-xs-offset-0">
-                                        <div class="btn-group">
-                                            <button class="btn btn-warning" ng-click="calculate(entity)">Cal.</button>
-                                            <button class="btn btn-success" ng-click="validateAndSave(entity)" ng-disabled="disableSave(entity)">Save</button>
-                                            <button class="btn btn-warning" mwl-confirm on-confirm="readyToDelivery(entity)" ng-disabled="disableDelivery(entity)" ng-model="checkModel.right">
-                                                Delivery
-                                            </button>
-                                            <button class="btn btn-danger" mwl-confirm on-confirm="remove(entity)">Delete</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="form-group row">
-                                        <div class="col-md-6 col-xs-12 form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Calc.</span>
-                                                <textarea rows="1" elastic class="form-control" ng-model="entity.calculator" readonly></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </form>
 
                             </div>
                         </uib-accordion>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

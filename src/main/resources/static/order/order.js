@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('order', ['ui.select', 'ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap',  'mwl.confirm', 'ngHighlight', 'angular-elastic']);
+var app = angular.module('order', ['ui.select','ngSanitize', 'ng-bs3-datepicker', 'ngNumberPicker','ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui.bootstrap.validation', 'ui.validate',  'mwl.confirm', 'ngHighlight', 'angular-elastic']);
 
 app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', 'sfService' , function ($scope, orderService, inventoryService, sfService) {
@@ -48,61 +48,20 @@ app.controller('orderCtrl',
         }
     }
 
-    $scope.validateCalc = function (entity) {
-        return $scope.getCaculator(entity) == entity.calculator;
-    }
-
-    $scope.disableSave = function (entity) {
-        return entity.items!=null && entity.items.length>1 && !$scope.validateCalc(entity);
-    }
-
-
-
     $scope.validateAndSave = function (entity) {
-        if(entity.items==null || entity.items.length==0 || $scope.validateCalc(entity)){
-            if(!entity.status){
-                entity.status = 'PREPARING'
-            }
-            $scope.save(entity, function (){
-                $scope.refreshInventory();
-            });
+        if(!entity.status){
+            entity.status = 'PREPARING'
         }
-    }
-
-    $scope.validateDelivery = function (entity) {
-
-        if(!entity.totalBilling){
-            return false;
-        }
-        if(!entity.customer){
-            return false;
-        }
-        if(!entity.tel){
-            return false;
-        }
-        if(!entity.address){
-            return false;
-        }
-        if(!entity.paymentDate){
-            return false;
-        }
-        if(!$scope.validateCalc(entity)){
-            return false;
-        }
-        return true;
-    }
-
-    $scope.disableDelivery = function (entity) {
-        return !$scope.validateDelivery(entity);
+        $scope.save(entity, function (){
+            $scope.refreshInventory();
+        });
     }
 
     $scope.readyToDelivery = function (entity) {
-        if($scope.validateDelivery(entity)){
-            entity.status = 'PENDING_DELIVERY';
-            $scope.save(entity, function (){
-                $scope.refreshInventory();
-            }, "Order moved to Delivery");
-        }
+        entity.status = 'PENDING_DELIVERY';
+        $scope.save(entity, function (){
+            $scope.refreshInventory();
+        }, "Order moved to Delivery");
     }
 
     $scope.newItem = function (entity) {
@@ -124,11 +83,6 @@ app.controller('orderCtrl',
                 item.price = inventory.price;
             }
         }
-    }
-
-    $scope.calculate = function (entity){
-        entity.totalBilling = $scope.getTotal(entity);
-        entity.calculator = $scope.getCaculator(entity);
     }
 
     $scope.getTotal = function (entity){
@@ -207,6 +161,15 @@ app.controller('orderCtrl',
     $scope.dateOptions = '{format: "YYYY-MM-DD"}';
 
     $scope.refreshInventory();
+
+    $scope.$watchGroup(['entities'], function() {
+        for(var i = 0; i < $scope.entities.length; i++ ){
+            $scope.$watch('entities[' + i + ']', function (entity) {
+                entity.calculator =  $scope.getCaculator(entity);
+                entity.totalBilling = $scope.getTotal(entity);
+            }, true);
+        }
+    });
 
 }]
 );

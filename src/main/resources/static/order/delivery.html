@@ -22,6 +22,8 @@
     <script src="/lib/confirmation/angular-bootstrap-confirm.min.js"></script>
     <script src="/lib/ng-highlight/ng-highlight.min.js"></script>
     <script src="/lib/angular-elastic/angular-elastic.js"></script>
+    <script src="/lib/angular-ui-validate/dist/validate.min.js"></script>
+    <script src="/lib/angular-bootstrap-form-validation/form-validation.js"></script>
     <script src="/common.js"></script>
     <script src="delivery.js"></script>
 </head>
@@ -54,6 +56,7 @@
                             <uib-accordion-heading>
                                 <div highlight="filter">{{entity.customer + ' - ' + entity.tel}}</div>
                             </uib-accordion-heading>
+                            <form name="entityForm" novalidate>
                             <div class="col-md-10 col-xs-12">
                                 <div class="row">
                                     <div class="col-md-6 col-xs-12 form-group">
@@ -97,43 +100,48 @@
                                 </table>
                             </div>
 
-                            <div class="col-md-3 col-xs-12 form-group">
+                            <div class="col-md-3 col-xs-12 form-group" ui-validation-show-errors>
                                 <div class="input-group">
                                     <span class="input-group-addon">Waybill No.&nbsp;&nbsp;&nbsp;</span>
-                                    <input type="text" class="form-control" ng-model="entity.waybillNumber"/>
+                                    <input type="text" class="form-control" name="waybillNumber" ng-model="entity.waybillNumber" required ng-minlength="12" ng-maxlength="12"/>
                                 </div>
+                                <ui-validation-error-messages/>
                             </div>
-                            <div class="col-md-3 col-xs-12 form-group">
+                            <div class="col-md-3 col-xs-12 form-group" ui-validation-show-errors>
                                 <div class="input-group">
                                     <span class="input-group-addon">Shipping Fee</span>
-                                    <input type="number" class="form-control" ng-model="entity.shippingFeeActual"/>
+                                    <input type="number" class="form-control" name="shippingFeeActual" ng-model="entity.shippingFeeActual" required/>
                                     <span class="input-group-addon btn btn-primary" ng-click="entity.shippingFeeActual=15">15</span>
                                     <span class="input-group-addon btn btn-primary" ng-click="entity.shippingFeeActual=22">22</span>
                                 </div>
+                                <ui-validation-error-messages/>
                             </div>
-                            <div class="col-md-3 col-xs-12 form-group">
+                            <div class="col-md-3 col-xs-12 form-group" ui-validation-show-errors>
                                 <div class="input-group">
                                     <span class="input-group-addon">Delivery Date</span>
-                                    <ng-bs3-datepicker ng-model="entity.deliveryDate" language="en" date-format="YYYY-MM-DD"/>
+                                    <ng-bs3-datepicker name="deliveryDate" ng-model="entity.deliveryDate" language="en" date-format="YYYY-MM-DD" required/>
                                 </div>
+                                <ui-validation-error-messages/>
                             </div>
-                            <div class="col-md-2 col-xs-12 form-group">
+                            <div class="col-md-2 col-xs-12 form-group" ui-validation-show-errors>
                                 <div class="input-group">
                                     <span class="input-group-addon">Pay by</span>
-                                    <select class="form-control" ng-model="entity.deliveryDrawee">
+                                    <select class="form-control" name="deliveryDrawee" ng-model="entity.deliveryDrawee" required>
                                         <option value="Jessie">Jessie</option>
                                         <option value="Kiwi">Kiwi</option>
                                     </select>
                                 </div>
+                                <ui-validation-error-messages/>
                             </div>
                             <div class="form-group row col-md-12 col-xs-12">
                                 <div class="col-md-2 col-xs-5 col-md-offset-1 col-xs-offset-1">
                                     <button class="btn btn-danger" mwl-confirm on-confirm="revert(entity)">Revert</button>
                                 </div>
                                 <div class="col-md-1 col-xs-5">
-                                    <button class="btn btn-success" mwl-confirm on-confirm="complete(entity)" ng-disabled="disableComplete(entity)">Done</button>
+                                    <button class="btn btn-success" mwl-confirm on-confirm="complete(entity)" ng-disabled="entityForm.$invalid">Done</button>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </uib-accordion>
                 </div>
