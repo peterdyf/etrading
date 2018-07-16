@@ -30,11 +30,11 @@ app.controller('orderCtrl',
     $scope.parse = function (entity) {
         if (entity != null && entity.content != null) {
             var content = entity.content;
-            if((content.match(/\n/g) || []).length == 2){
+            if((content.match(/\n/g) || []).length >= 2){
                 var lines = content.split("\n");
-                entity.customer = lines[0];
-                entity.tel = lines[1];
-                entity.address = lines[2];
+                entity.customer = lines[0].replace(/^.+\:/,'').replace(/^.+\：/,'');
+                entity.tel = lines[1].replace(/\D/g,'');
+                entity.address = lines[2].replace(/^.+\:/,'').replace(/^.+\：/,'');
             }
             else{
                 var tel = parsePhone(content);
