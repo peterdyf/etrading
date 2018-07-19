@@ -2,6 +2,8 @@
 
 var controllerTemplate = function ($scope, service) {
 
+    $scope.entities=[];
+
     $scope.pages = [
         {name: 'inventory', url: '/inventory/inventory.html', display: 'Inventory'},
         {name: 'order', url: '/order/order.html', display: 'Order'},

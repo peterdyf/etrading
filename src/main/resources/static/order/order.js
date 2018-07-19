@@ -6,8 +6,8 @@ app.controller('orderCtrl',
 ['$scope','orderService','inventoryService', 'sfService' , function ($scope, orderService, inventoryService, sfService) {
 
     $scope.page = "order";
-
-    $scope.inventories = [];
+    $scope.inventories = {};
+    $scope.sfAddresses =[];
     $scope.sfAddress ={};
 
     controllerTemplate($scope, orderService);
@@ -35,6 +35,13 @@ app.controller('orderCtrl',
                 entity.customer = lines[0].replace(/^.+\:/,'').replace(/^.+\：/,'');
                 entity.tel = lines[1].replace(/\D/g,'');
                 entity.address = lines[2].replace(/^.+\:/,'').replace(/^.+\：/,'');
+                var addresses = $scope.sfAddresses.filter(function (add) {
+                    return add.indexOf(entity.address) >= 0;
+                })
+                if(addresses.length==1){
+                    entity.address=addresses[0];
+                    $scope.sfAddress.value=addresses[0];
+                }
             }
             else{
                 var tel = parsePhone(content);
@@ -162,12 +169,14 @@ app.controller('orderCtrl',
 
     $scope.refreshInventory();
 
-    $scope.$watchGroup(['entities'], function() {
-        for(var i = 0; i < $scope.entities.length; i++ ){
-            $scope.$watch('entities[' + i + ']', function (entity) {
-                entity.calculator =  $scope.getCaculator(entity);
-                entity.totalBilling = $scope.getTotal(entity);
-            }, true);
+    $scope.$watchGroup(['entities', 'inventories'], function() {
+        if($scope.entities.length>0 && Object.keys($scope.inventories).length>0){
+            for(var i = 0; i < $scope.entities.length; i++ ){
+                $scope.$watch('entities[' + i + ']', function (entity) {
+                    entity.calculator =  $scope.getCaculator(entity);
+                    entity.totalBilling = $scope.getTotal(entity);
+                }, true);
+            }
         }
     });
 
