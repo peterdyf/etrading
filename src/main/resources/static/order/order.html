@@ -197,6 +197,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Discount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                                     <input type="number" name="discount" class="form-control" ng-model="entity.discount" required/>
+                                                    <span class="input-group-addon btn btn-primary" ng-click="entity.discount=0">0</span>
                                                     <span class="input-group-addon">$</span>
                                                 </div>
                                                 <ui-validation-error-messages/>
@@ -205,6 +206,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Shipping Fee</span>
                                                     <input type="number" name="shippingFeeInBill" class="form-control" ng-model="entity.shippingFeeInBill" required/>
+                                                    <span class="input-group-addon btn btn-primary" ng-click="entity.shippingFeeInBill=0">0</span>
                                                     <span class="input-group-addon">$</span>
                                                 </div>
                                                 <ui-validation-error-messages/>
